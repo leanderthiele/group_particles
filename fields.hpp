@@ -12,6 +12,9 @@ enum class FieldTypes { GrpFld, PrtFld };
 template<FieldTypes field_type_, typename... Fields>
 struct FieldCollection
 {//{{{
+    // this is only a type, no instances of it can be created
+    FieldCollection () = delete;
+
     static constexpr const size_t Nfields   = sizeof...(Fields);
     static constexpr const char  *names[]   = { Fields::name ... };
     static constexpr const size_t sizes[]   = { Fields::size ... };
@@ -20,6 +23,10 @@ struct FieldCollection
 
     // store this information so we can use it to check order
     static constexpr const FieldTypes field_type = field_type_;
+
+    static_assert( Nfields,
+                   "empty field collection not allowed, need at least the "
+                   "coordinate field" );
 
     // check that all fields belong here, i.e. are Particle or Group fields
     static constexpr bool all_valid (std::initializer_list<FieldTypes> types)

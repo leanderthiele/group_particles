@@ -13,7 +13,7 @@
 
 template<typename GroupFields, typename ParticleFields>
 void
-Workspace::grp_loop (Callback &callback)
+Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
 {
     // the file name for the current chunk will be written here
     std::string fname;
@@ -36,10 +36,10 @@ Workspace::grp_loop (Callback &callback)
         if (!Ngrp_this_file) continue;
 
         // allocate storage
-        realloc_tmp_grp_storage(Ngrp_this_file);
+        realloc_tmp_storage<GroupFields>(Ngrp_this_file, tmp_grp_properties);
 
         // read the file data
-        read_fields<FieldTypes::GrpFld, GroupFields>(callback, fptr, Ngrp, tmp_grp_properties);
+        read_fields<FieldTypes::GrpFld, GroupFields>(callback, fptr, Ngrp_this_file, tmp_grp_properties);
 
         // now loop over groups to see which ones belong into permanent storage
         for (size_t grp_idx=0; grp_idx != Ngrp_this_file; ++grp_idx)
@@ -67,8 +67,14 @@ Workspace::grp_loop (Callback &callback)
                 // advance the counter
                 ++Ngrp;
             }
-        }
-    }
+        }// for grp_idx
+    }// for chunk_idx
+
+    // save memory by shrinking the temporary buffers
+    realloc_tmp_storage<GroupFields>(1, tmp_grp_properties);
+
+    // save memory by reallocating the perhaps too large buffers
+    shrink_grp_storage();
 }
 
 

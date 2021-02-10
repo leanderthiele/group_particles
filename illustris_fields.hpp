@@ -8,6 +8,7 @@
 #define FIELD(name_, dim_, value_type_, type_, coord_)                \
     struct name_                                                      \
     {                                                                 \
+        name_ () = delete;                                            \
         static constexpr const char name[] = #name_;                  \
         static constexpr const size_t size = sizeof(value_type_);     \
         static constexpr const size_t dim  = dim_;                    \

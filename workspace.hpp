@@ -19,10 +19,12 @@ class Workspace
 
     // temporary buffers
     void *tmp_grp_properties[GroupFields::Nfields];
+    void *tmp_prt_properties[ParticleFields::Nfields];
 
     void realloc_grp_storage (size_t new_size);
 
-    void realloc_tmp_grp_storage (size_t new_size);
+    template<typename Fields>
+    void realloc_tmp_storage (size_t new_size, void **buf);
 
     // we can also use this function for the initial malloc
     void realloc_grp_storage_if_necessary ();
