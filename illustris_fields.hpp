@@ -9,6 +9,8 @@
     struct name_                                                      \
     {                                                                 \
         static constexpr const char name[] = #name_;                  \
+        static constexpr const size_t size = sizeof(value_type_);     \
+        static constexpr const size_t dim  = dim_;                    \
         static constexpr const size_t stride = dim_                   \
                                                * sizeof(value_type_); \
         static constexpr const FieldTypes type = type_;               \

@@ -6,6 +6,7 @@
 
 #include "fields.hpp"
 #include "illustris_fields.hpp"
+#include "callback.hpp"
 
 // Main function to be used in the interface
 // 
@@ -14,14 +15,9 @@
 // function where to find the simulation data.
 //
 // 
-template<uint8_t PartType, typename GroupFields, typename ParticleFields>
+template<typename GroupFields, typename ParticleFields>
 void
-halo_particles (const std::string &halo_catalog,
-                const std::string &particle_catalog,
-                std::function<bool(void **)> halo_selector,
-                std::function<float(void **)> halo_radius,
-                std::function<bool(void **, void **)> particle_selector,
-                std::function<void(void **, void **)> particle_action)
+halo_particles (Callback &callback)
 {
     template_checks<GrpFields, ParticleFields>();
 }

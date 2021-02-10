@@ -14,6 +14,8 @@ struct FieldCollection
 {//{{{
     static constexpr const size_t Nfields   = sizeof...(Fields);
     static constexpr const char  *names[]   = { Fields::name ... };
+    static constexpr const size_t sizes[]   = { Fields::size ... };
+    static constexpr const size_t dims[]    = { Fields::dims ... };
     static constexpr const size_t strides[] = { Fields::stride ... };
 
     // store this information so we can use it to check order
