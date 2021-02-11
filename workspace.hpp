@@ -31,6 +31,9 @@ class Workspace
 
     void shrink_grp_storage ();
 
+    // everything we need to sort particles
+    class Sorting;
+
 public :
     void grp_loop (Callback &callback);
     void prt_loop (Callback &callback);
