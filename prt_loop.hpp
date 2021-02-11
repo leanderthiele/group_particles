@@ -2,6 +2,7 @@
 #define PRT_LOOP_HPP
 
 #include <cmath>
+#include <cstdio>
 
 #include "callback.hpp"
 #include "fields.hpp"
@@ -13,6 +14,10 @@ template<typename GroupFields, typename ParticleFields>
 void
 Workspace<GroupFields,ParticleFields>::prt_loop (Callback &callback)
 {
+    #ifndef NDEBUG
+    std::fprintf(stderr, "Started Workspace::prt_loop ...\n");
+    #endif // NDEBUG
+
     // the file name for the current chunk will be written here
     std::string fname;
 
@@ -25,8 +30,8 @@ Workspace<GroupFields,ParticleFields>::prt_loop (Callback &callback)
     void *this_grp_properties[GroupFields::Nfields];
 
     // for convenience
-    float *this_prt_coords;
-    float *this_grp_coords;
+    typename GroupFields::coord_t *this_grp_coords;
+    typename ParticleFields::coord_t *this_prt_coords;
 
     // loop until the callback function returns false
     for (size_t chunk_idx=0; callback.prt_chunk(chunk_idx, fname); ++chunk_idx)
@@ -38,7 +43,7 @@ Workspace<GroupFields,ParticleFields>::prt_loop (Callback &callback)
         callback.read_prt_meta(chunk_idx, fptr, Bsize_this_file, Nprt_this_file);
 
         if (chunk_idx==0)
-            Bsize == Bsize_this_file;
+            Bsize = Bsize_this_file;
         else
             assert(std::fabs(Bsize/Bsize_this_file - 1.0F) < 1e-5F);
 
@@ -54,28 +59,30 @@ Workspace<GroupFields,ParticleFields>::prt_loop (Callback &callback)
         for (size_t prt_idx=0; prt_idx != Nprt_this_file; ++prt_idx)
         {
             for (size_t ii=0; ii != ParticleFields::Nfields; ++ii)
-                this_prt_properties[ii] = tmp_prt_properties[ii]
+                this_prt_properties[ii] = (char *)tmp_prt_properties[ii]
                                           + prt_idx * ParticleFields::strides[ii];
-            this_prt_coords = tmp_prt_properties[0]
-                              + prt_idx * ParticleFields::strides[0];
+            this_prt_coords = (typename ParticleFields::coord_t *)
+                              ((char *)tmp_prt_properties[0]
+                               + prt_idx * ParticleFields::strides[0]);
 
             // now loop over groups
             for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx)
             {
                 for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
-                    this_grp_properties[ii] = grp_properties[ii]
+                    this_grp_properties[ii] = (char *)grp_properties[ii]
                                               + grp_idx * GroupFields::strides[ii];
-                this_grp_coords = grp_properties[0]
-                                  + grp_idx * GroupFields::strides[0];
+                this_grp_coords = (typename GroupFields::coord_t *)
+                                  ((char *)grp_properties[0]
+                                   + grp_idx * GroupFields::strides[0]);
 
                 // figure out the distance between group and particle,
                 // remembering periodic boundary conditions
-                #define PERIODIC (dist)                   \
-                    (dist > 0.5F * Bsize) ? dist-Bsize    \
-                    : (dist < -0.5F * Bsize) ? dist+Bsize \
+                #define PERIODIC(dist)                          \
+                    ((dist) > 0.5F * Bsize) ? ((dist)-Bsize)    \
+                    : ((dist) < -0.5F * Bsize) ? ((dist)+Bsize) \
                     : dist
-                #define DIST (dir)                              \
-                    this_prt_coords[dir] - this_grp_coords[dir]
+                #define DIST(dir)                                 \
+                    (this_prt_coords[dir] - this_grp_coords[dir])
                 float R = std::hypot(PERIODIC(DIST(0)),
                                      PERIODIC(DIST(1)),
                                      PERIODIC(DIST(2)) );
@@ -85,13 +92,18 @@ Workspace<GroupFields,ParticleFields>::prt_loop (Callback &callback)
                 // check if this particle belongs to the group
                 if (R > grp_radii[grp_idx]
                     || !callback.prt_select(this_grp_properties,
-                                            this_prt_properties))
+                                            this_prt_properties, R))
                     continue;
 
                 // particle belongs to group: do the user-defined thing with it
-                callback.prt_action(grp_idx, this_grp_properties, this_prt_properties);
+                callback.prt_action(grp_idx, this_grp_properties, this_prt_properties, R);
             }// for grp_idx
         }// for prt_idx
+
+        #ifndef NDEBUG
+        std::fprintf(stderr, "In Workspace::prt_loop : did %lu chunks.\n", chunk_idx+1UL);
+        #endif // NDEBUG
+
     }// for chunk_idx
 
     // save memory by shrinking the temporary particle storage

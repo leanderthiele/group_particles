@@ -31,11 +31,13 @@ Workspace<GroupFields,ParticleFields>::~Workspace ()
         if (tmp_grp_properties[ii])
             std::free(tmp_grp_properties[ii]);
     }
+
     for (size_t ii=0; ii != ParticleFields::Nfields; ++ii)
         if (tmp_prt_properties[ii])
             std::free(tmp_prt_properties[ii]);
+
     if (grp_radii)
-        std::free(grp_radii[ii]);
+        std::free(grp_radii);
 }// }}}
 
 template<typename GroupFields, typename ParticleFields>

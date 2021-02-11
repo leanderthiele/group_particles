@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <cstring>
+#include <cstdio>
 
 #include "H5Cpp.h"
 
@@ -15,6 +16,10 @@ template<typename GroupFields, typename ParticleFields>
 void
 Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
 {
+    #ifndef NDEBUG
+    std::fprintf(stderr, "Started Workspace::grp_loop ...\n");
+    #endif // NDEBUG
+
     // the file name for the current chunk will be written here
     std::string fname;
 
@@ -45,7 +50,8 @@ Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
         for (size_t grp_idx=0; grp_idx != Ngrp_this_file; ++grp_idx)
         {
             for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
-                this_grp_properties[ii] = tmp_grp_properties[ii]
+                // we make use of the fact that a char is one byte wide
+                this_grp_properties[ii] = (char *)(tmp_grp_properties[ii])
                                           + grp_idx * GroupFields::strides[ii];
             
             if (callback.grp_select(this_grp_properties))
@@ -60,7 +66,7 @@ Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
 
                 // copy properties into permanent storage
                 for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
-                    std::memcpy(grp_properties[ii] + Ngrp * GroupFields::strides[ii],
+                    std::memcpy((char *)(grp_properties[ii]) + Ngrp * GroupFields::strides[ii],
                                 tmp_grp_properties[ii],
                                 GroupFields::strides[ii]);
                 
@@ -68,6 +74,10 @@ Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
                 ++Ngrp;
             }
         }// for grp_idx
+
+        #ifndef NDEBUG
+        std::fprintf(stderr, "In Workspace::grp_loop : did %lu chunks.\n", chunk_idx+1UL);
+        #endif // NDEBUG
     }// for chunk_idx
 
     // save memory by shrinking the temporary buffers
@@ -75,6 +85,10 @@ Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
 
     // save memory by reallocating the perhaps too large buffers
     shrink_grp_storage();
+
+    #ifndef NDEBUG
+    std::fprintf(stderr, "Ended Workspace::grp_loop, %lu groups loaded.\n", Ngrp);
+    #endif // NDEBUG
 }
 
 

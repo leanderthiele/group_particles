@@ -1,9 +1,11 @@
 #ifndef READ_FIELDS_HPP
 #define READ_FIELDS_HPP
 
+#include <cassert>
 #include <memory>
 #include <string>
 #include <cstdlib>
+#include <cstdio>
 
 #include "fields.hpp"
 #include "callback.hpp"
@@ -20,7 +22,6 @@ read_field (std::shared_ptr<H5::H5File> fptr, const std::string &name,
 
     hsize_t dim_lengths[16];
     auto Ndims   = dspace.getSimpleExtentDims(dim_lengths);
-    auto Npoints = dspace.getSimpleExtentNpoints();
     auto Dtype   = dset.getDataType();
 
     // some easy consistency checks
@@ -42,7 +43,7 @@ read_fields (const Callback &callback,
 {
     // where to find our data sets in the hdf5 file
     std::string name_prefix;
-    if constexpr (field_type == FieldTypes::GrpField)
+    if constexpr (field_type == FieldTypes::GrpFld)
         name_prefix = callback.grp_name();
     else
         name_prefix = callback.prt_name();
@@ -55,7 +56,7 @@ read_fields (const Callback &callback,
 
         // read from disk
         read_field(fptr, name_prefix + Fields::names[ii],
-                   Fields::sizes[ii], Nitems, Fields::dim[ii],
+                   Fields::sizes[ii], Nitems, Fields::dims[ii],
                    data[ii]);
     }
 }
