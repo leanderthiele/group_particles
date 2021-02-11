@@ -14,7 +14,7 @@
 
 template<typename GroupFields, typename ParticleFields>
 void
-Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
+Workspace<GroupFields,ParticleFields>::grp_loop ()
 {
     #ifndef NDEBUG
     std::fprintf(stderr, "Started Workspace::grp_loop ...\n");
@@ -23,12 +23,6 @@ Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
     // the file name for the current chunk will be written here
     std::string fname;
 
-    // the number of groups in this file
-    size_t Ngrp_this_file;
-
-    // a temporary array to store pointers to group properties
-    void *this_grp_properties[GroupFields::Nfields];
-
     // loop until the callback function returns false
     for (size_t chunk_idx=0; callback.grp_chunk(chunk_idx, fname); ++chunk_idx)
     {
@@ -36,6 +30,7 @@ Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
         auto fptr = std::make_shared<H5::H5File>(fname, H5F_ACC_RDONLY);
 
         // read metadata
+        size_t Ngrp_this_file;
         callback.read_grp_meta(chunk_idx, fptr, Ngrp_this_file);
 
         if (!Ngrp_this_file) continue;
@@ -49,10 +44,9 @@ Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
         // now loop over groups to see which ones belong into permanent storage
         for (size_t grp_idx=0; grp_idx != Ngrp_this_file; ++grp_idx)
         {
-            for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
-                // we make use of the fact that a char is one byte wide
-                this_grp_properties[ii] = (char *)(tmp_grp_properties[ii])
-                                          + grp_idx * GroupFields::strides[ii];
+            void *this_grp_properties[GroupFields::Nfields];
+            collect_properties<GroupFields>(this_grp_properties,
+                                            tmp_grp_properties, grp_idx);
             
             if (callback.grp_select(this_grp_properties))
             {
@@ -67,7 +61,7 @@ Workspace<GroupFields,ParticleFields>::grp_loop (Callback &callback)
                 // copy properties into permanent storage
                 for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
                     std::memcpy((char *)(grp_properties[ii]) + Ngrp * GroupFields::strides[ii],
-                                tmp_grp_properties[ii],
+                                this_grp_properties[ii],
                                 GroupFields::strides[ii]);
                 
                 // advance the counter

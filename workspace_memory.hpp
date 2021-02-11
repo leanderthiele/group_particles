@@ -9,7 +9,8 @@
 
 
 template<typename GroupFields, typename ParticleFields>
-Workspace<GroupFields,ParticleFields>::Workspace ()
+Workspace<GroupFields,ParticleFields>::Workspace (Callback &callback_) :
+    callback(callback_)
 {// {{{
     for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
     {
@@ -79,6 +80,16 @@ void Workspace<GroupFields,ParticleFields>::shrink_grp_storage ()
 {// {{{
     alloced_grp = Ngrp + 1UL;
     realloc_grp_storage(alloced_grp);
+}// }}}
+
+template<typename GroupFields, typename ParticleFields>
+template<typename T>
+inline void
+Workspace<GroupFields,ParticleFields>::collect_properties
+    (void **dest, void **src, size_t idx)
+{// {{{
+    for (size_t ii=0; ii != T::Nfields; ++ii)
+        dest[ii] = (char *)(src[ii]) + idx * T::strides[ii];
 }// }}}
 
 

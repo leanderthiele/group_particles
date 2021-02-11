@@ -7,10 +7,11 @@
 #include <algorithm>
 #include <cstring>
 #include <cassert>
+#include <cmath>
 
 template<typename GroupFields, typename ParticleFields>
 class Workspace<GroupFields,ParticleFields>::Sorting
-{
+{// {{{
     typename ParticleFields::coord_t Bsize;
     const size_t Nprt;
 
@@ -22,7 +23,7 @@ class Workspace<GroupFields,ParticleFields>::Sorting
     std::vector<std::pair<size_t, size_t>> prt_indices;
 
     // stores where particles belonging to a specific cell are in the array
-    // special value : Nprt+1 (no particles in cell)
+    // special value : Nprt (no particles in cell)
     size_t offsets[Ncells_tot+1UL];
 
     // this is given by constructor, no memory allocation necessary
@@ -34,8 +35,26 @@ class Workspace<GroupFields,ParticleFields>::Sorting
     void reorder_prt_properties ();
     void compute_offsets ();
 
+    class Geometry
+    {
+        // these two helper functions bring the geometric setup into a canonical form
+        static void mod_translations (const typename GroupFields::coord_t grp_coord[GroupFields::dims[0]],
+                                      typename GroupFields::coord_t cub_coord[GroupFields::dims[0]],
+                                      typename GroupFields::coord_t periodicity);
+        static void mod_reflections (typename GroupFields::coord_t cub_coord[GroupFields::dims[0]]);
+    public :
+        // assumes that the parameters passed have units such that the cube sidelength is unity
+        // The cub_coord array will be modified!
+        static bool sph_cub_intersect (const typename GroupFields::coord_t grp_coord[GroupFields::dims[0]],
+                                       typename GroupFields::coord_t cub_coord[GroupFields::dims[0]],
+                                       typename GroupFields::coord_t grp_R,
+                                       typename GroupFields::coord_t periodicity);
+        Geometry () = delete;
+    };
+
 public :
     Sorting (size_t Nprt_, typename ParticleFields::coord_t Bsize_, void **tmp_prt_properties_);
+    Sorting () = delete;
     ~Sorting ();
 
     // store the sorted properties here (instance must allocate memory for this!)
@@ -44,9 +63,10 @@ public :
 
     // user can use this function to find the indices of all particles that may
     // belong to a given group
-    void prt_idx_ranges (typename GroupFields::coord_t grp_coord[3], float R,
-                         std::vector<std::pair<size_t, size_t>> &out) const;
-};
+    std::vector<std::pair<size_t, size_t>> prt_idx_ranges
+        (const typename GroupFields::coord_t grp_coord[GroupFields::dims[0]],
+         const typename GroupFields::coord_t R) const;
+};// }}}
 
 // ----- Implementation -----
 
@@ -76,10 +96,12 @@ Workspace<GroupFields,ParticleFields>::Sorting::~Sorting ()
 }// }}}
 
 template<typename GroupFields, typename ParticleFields>
+void
 Workspace<GroupFields,ParticleFields>::Sorting::compute_prt_indices ()
 {// {{{
     prt_indices.reserve(Nprt);
-    typename ParticleFields::coord_t *prt_coord = tmp_prt_properties[0];
+    typename ParticleFields::coord_t *prt_coord
+        = (typename ParticleFields::coord_t *)tmp_prt_properties[0];
 
     #define GRID(x, dir) ((size_t)(x[dir] / acell))
 
@@ -92,6 +114,7 @@ Workspace<GroupFields,ParticleFields>::Sorting::compute_prt_indices ()
 }// }}}
 
 template<typename GroupFields, typename ParticleFields>
+void
 Workspace<GroupFields,ParticleFields>::Sorting::sort_prt_indices ()
 {// {{{
     std::sort(prt_indices.begin(), prt_indices.end(),
@@ -101,6 +124,7 @@ Workspace<GroupFields,ParticleFields>::Sorting::sort_prt_indices ()
 }// }}}
 
 template<typename GroupFields, typename ParticleFields>
+void
 Workspace<GroupFields,ParticleFields>::Sorting::reorder_prt_properties ()
 {// {{{
     assert(prt_indices.size() == Nprt);
@@ -117,9 +141,125 @@ Workspace<GroupFields,ParticleFields>::Sorting::reorder_prt_properties ()
 }// }}}
 
 template<typename GroupFields, typename ParticleFields>
+void
 Workspace<GroupFields,ParticleFields>::Sorting::compute_offsets ()
-{
+{// {{{
+    for (size_t ii=0; ii != Ncells_tot; ++ii)
+    {
+        offsets[ii] = Nprt;
 
-}
+        // find the index where the last cell started,
+        // taking into account possibly empty cells
+        // Note that the loop will not be executed at ii=0
+        // and be careful with unsigned integer arithmetic
+        size_t jj = 0UL;
+        for (size_t kk=ii-1UL; kk < Ncells_tot; --kk)
+            if (offsets[kk] < Nprt)
+            {
+                jj = offsets[kk];
+                break;
+            }
+
+        for (; jj != Nprt; ++jj)
+            if (prt_indices[jj].second == ii)
+            {
+                offsets[ii] = jj;
+                break;
+            }
+    }
+
+    offsets[Ncells_tot] = Nprt;
+}// }}}
+
+template<typename GroupFields, typename ParticleFields>
+std::vector<std::pair<size_t, size_t>>
+Workspace<GroupFields,ParticleFields>::Sorting::prt_idx_ranges
+    (const typename GroupFields::coord_t grp_coord[GroupFields::dims[0]],
+     typename GroupFields::coord_t R) const
+{// {{{
+    std::vector<std::pair<size_t, size_t>> out;
+
+    typename GroupFields::coord_t grp_coord_normalized[GroupFields::dims[0]];
+    for (size_t ii=0; ii != GroupFields::dims[0]; ++ii)
+        grp_coord_normalized[ii] = grp_coord[ii] / acell;
+
+    const typename GroupFields::coord_t R_normalized = R / acell;
+
+    // loop over all cells -- there's a more efficient way of doing this,
+    //                        by some preselection based on R,
+    //                        but this is fast enough
+    for (size_t ii=0; ii != Ncells_tot; ++ii)
+    {
+        typename GroupFields::coord_t cub_coord[]
+            = { ii / (Ncells_side*Ncells_side),
+                (ii/Ncells_side) % Ncells_side,
+                ii % Ncells_side };
+
+        if (// check if group has overlap with this cell
+            Geometry::sph_cub_intersect(grp_coord_normalized, cub_coord,
+                                        R_normalized,
+                                        (typename GroupFields::coord_t)Bsize)
+            // check if this cell has any particles
+            && offsets[ii] < Nprt)
+        {
+            std::pair<size_t, size_t> idx_range { offsets[ii], Nprt };
+
+            // find the last one -- taking possibly empty cells that follow into account!
+            for (size_t jj=ii+1UL; jj != Ncells_tot; ++jj)
+                if (offsets[jj] < Nprt)
+                {
+                    idx_range.second = offsets[jj];
+                    break;
+                }
+            
+            out.push_back(idx_range);
+        }
+    }
+
+    return out;
+}// }}}
+
+template<typename GroupFields, typename ParticleFields>
+inline bool
+Workspace<GroupFields,ParticleFields>::Sorting::Geometry::sph_cub_intersect
+    (const typename GroupFields::coord_t grp_coord[GroupFields::dims[0]],
+     typename GroupFields::coord_t cub_coord[GroupFields::dims[0]],
+     typename GroupFields::coord_t grp_R,
+     typename GroupFields::coord_t periodicity)
+{// {{{
+    mod_translations(grp_coord, cub_coord, periodicity);
+    mod_reflections(cub_coord);
+
+    return std::hypot(std::max((typename GroupFields::coord_t)0.0, cub_coord[0]),
+                      std::max((typename GroupFields::coord_t)0.0, cub_coord[1]),
+                      std::max((typename GroupFields::coord_t)0.0, cub_coord[2]) ) < grp_R;
+}// }}}
+
+template<typename GroupFields, typename ParticleFields>
+inline void
+Workspace<GroupFields,ParticleFields>::Sorting::Geometry::mod_translations
+    (const typename GroupFields::coord_t grp_coord[GroupFields::dims[0]],
+     typename GroupFields::coord_t cub_coord[GroupFields::dims[0]],
+     typename GroupFields::coord_t periodicity)
+{// {{{
+    for (size_t ii=0; ii != GroupFields::dims[0]; ++ii)
+    {
+        cub_coord[ii] -= grp_coord[ii];
+        if (cub_coord[ii] > 0.5 * periodicity)
+            cub_coord[ii] -= periodicity;
+        else if (cub_coord[ii] < -0.5 * periodicity)
+            cub_coord[ii] += periodicity;
+    }
+}// }}}
+
+template<typename GroupFields, typename ParticleFields>
+inline void
+Workspace<GroupFields,ParticleFields>::Sorting::Geometry::mod_reflections
+    (typename GroupFields::coord_t cub_coord[GroupFields::dims[0]])
+{// {{{
+    for (size_t ii=0; ii != GroupFields::dims[0]; ++ii)
+        if (cub_coord[ii] < -0.5)
+            cub_coord[ii] = - ( cub_coord[ii] + 1.0 );
+}// }}}
 
 #endif // WORKSPACE_SORTING_HPP

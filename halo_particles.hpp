@@ -11,6 +11,7 @@
 #include "read_fields.hpp"
 #include "workspace.hpp"
 #include "workspace_memory.hpp"
+#include "workspace_sorting.hpp"
 #include "grp_loop.hpp"
 #include "prt_loop.hpp"
 
@@ -27,11 +28,11 @@ halo_particles (Callback &callback)
 {
     template_checks<GroupFields, ParticleFields>();
 
-    Workspace<GroupFields,ParticleFields> ws;
+    Workspace<GroupFields,ParticleFields> ws { callback };
 
-    ws.grp_loop(callback);
+    ws.grp_loop();
 
-    ws.prt_loop(callback);
+    ws.prt_loop();
 }
 
 #endif // HALO_PARTICLES_HPP
