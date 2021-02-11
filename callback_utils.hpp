@@ -37,7 +37,7 @@ namespace chunk_fmt
             #endif
         }
         bool grp_chunk (size_t chunk_idx, std::string &fname) const override
-        { fname = grp_fname; return (bool)(chunk_idx); }
+        { fname = grp_fname; return !chunk_idx; }
     };
 
     class SinglePrt : virtual public Callback
@@ -52,7 +52,7 @@ namespace chunk_fmt
             #endif
         }
         bool prt_chunk (size_t chunk_idx, std::string &fname) const override
-        { fname = prt_fname; return (bool)(chunk_idx); }
+        { fname = prt_fname; return !chunk_idx; }
     };
 
     class MultiGrp : virtual public Callback
