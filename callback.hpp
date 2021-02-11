@@ -56,15 +56,16 @@ struct Callback
 
     // returns whether a particle should be considered for the halo passed.
     // Only particles falling within grp_radius will be passed here.
-    virtual bool prt_select (void **grp_properties, void **prt_properties) const = 0;
+    virtual bool prt_select (void **grp_properties, void **prt_properties, float R) const = 0;
 
     // this function will be called for all particles for which prt_select
     // returns true.
     // It will not be called in order of particles encountered
     // and should thus be thread safe.
     // grp_idx corresponds to the order in which groups were passed to grp_action.
+    // R is the radius from the group center (as defined by the user)
     // It is not marked as const since it probably stores some data in the child class.
-    virtual void prt_action (size_t grp_idx, void **grp_properties, void **prt_properties) = 0;
+    virtual void prt_action (size_t grp_idx, void **grp_properties, void **prt_properties, float R) = 0;
 };
 
 #endif // CALLBACK_HPP

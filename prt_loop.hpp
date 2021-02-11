@@ -92,8 +92,10 @@ Workspace<GroupFields,ParticleFields>::prt_loop (Callback &callback)
                 callback.prt_action(grp_idx, this_grp_properties, this_prt_properties);
             }// for grp_idx
         }// for prt_idx
-        
     }// for chunk_idx
+
+    // save memory by shrinking the temporary particle storage
+    realloc_tmp_storage<ParticleFields>(1, tmp_prt_properties);
 }
 
 #endif // PRT_LOOP_HPP
