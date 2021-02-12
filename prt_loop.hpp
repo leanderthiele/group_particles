@@ -122,8 +122,7 @@ Workspace<GroupFields,ParticleFields>::prt_loop_sorted (size_t Nprt_this_file)
     Sorting prt_sort (Nprt_this_file, Bsize, tmp_prt_properties);
 
     #ifndef NDEBUG
-    TIME_PT(t2);
-    TIME_MSG(t1, t2, "initialization of Sorting instance (Nprt=%lu)", Nprt_this_file);
+    TIME_MSG(t1, "initialization of Sorting instance (Nprt=%lu)", Nprt_this_file);
     #endif // NDEBUG
 
     // loop over groups
