@@ -21,8 +21,8 @@ read_field (std::shared_ptr<H5::H5File> fptr, const std::string &name,
     auto dspace = dset.getSpace();
 
     hsize_t dim_lengths[16];
-    auto Ndims   = dspace.getSimpleExtentDims(dim_lengths);
-    auto Dtype   = dset.getDataType();
+    auto Ndims  = dspace.getSimpleExtentDims(dim_lengths);
+    auto Dtype  = dset.getDataType();
 
     // some easy consistency checks
     assert(Dtype.getSize() == element_size);
@@ -50,17 +50,10 @@ read_fields (const Callback &callback,
 
     // loop over the fields
     for (size_t ii=0; ii != Fields::Nfields; ++ii)
-    {
-        // allocate storage TODO get rid of this
-        // FIXME are we sure we need this malloc here???
-        //       Isn't it already allocated???
-        data[ii] = std::malloc(Nitems * Fields::strides[ii]);
-
         // read from disk
         read_field(fptr, name_prefix + Fields::names[ii],
                    Fields::sizes[ii], Nitems, Fields::dims[ii],
                    data[ii]);
-    }
 }
 
 #endif // READ_FIELDS_HPP
