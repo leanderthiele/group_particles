@@ -7,6 +7,7 @@
 namespace Y_Delta
 {
     constexpr const size_t PartType = 0; // gas
+
     typedef GrpFields<IllustrisFields::GroupPos,
                       IllustrisFields::GroupMass,
                       IllustrisFields::Group_R_Crit200> GrpF;
@@ -14,6 +15,9 @@ namespace Y_Delta
                       IllustrisFields::Masses,
                       IllustrisFields::InternalEnergy,
                       IllustrisFields::ElectronAbundance> PrtF;
+
+    typedef double grp_Y_t;
+    typedef double grp_M_t;
 } // namespace Y_Delta
 
 struct Y_Delta_Callback :
@@ -23,21 +27,21 @@ struct Y_Delta_Callback :
     public CallbackUtils::select::GrpMassLowCutoff< Y_Delta::GrpF::idx<IllustrisFields::GroupMass> >,
     public CallbackUtils::select::PrtAll,
     public CallbackUtils::radius::Simple< Y_Delta::GrpF::idx<IllustrisFields::Group_R_Crit200> >,
-    public CallbackUtils::actions::StoreHomogeneous<float>,
-    public CallbackUtils::actions::StoreGrpProperties<float>
+    public CallbackUtils::actions::StoreHomogeneous<Y_Delta::grp_Y_t>,
+    public CallbackUtils::actions::StoreGrpProperties<Y_Delta::grp_M_t>
 {// {{{
     Y_Delta_Callback () :
         CallbackUtils::chunk_fmt::Multi { fgrp, grp_max_idx,
                                           fprt, prt_max_idx },
         CallbackUtils::select::GrpMassLowCutoff< Y_Delta::GrpF::idx<IllustrisFields::GroupMass> > { Mmin },
         CallbackUtils::radius::Simple< Y_Delta::GrpF::idx<IllustrisFields::Group_R_Crit200> > { Rscale },
-        CallbackUtils::actions::StoreHomogeneous<float> { &grp_Y },
-        CallbackUtils::actions::StoreGrpProperties<float> { &grp_masses }
+        CallbackUtils::actions::StoreHomogeneous<Y_Delta::grp_Y_t> { &grp_Y },
+        CallbackUtils::actions::StoreGrpProperties<Y_Delta::grp_M_t> { &grp_M }
     { }
 
     // data (public so user can do something with them once they are assembled)
-    std::vector<float> grp_masses;
-    std::vector<float> grp_Y;
+    std::vector<Y_Delta::grp_Y_t> grp_M;
+    std::vector<Y_Delta::grp_M_t> grp_Y;
 
 private :
     // for calculation of electron pressure

@@ -9,14 +9,6 @@ namespace IllustrisFields
 {
 
 // Particle fields
-// -- Note that the Coordinates field is double for some reason,
-//    at the moment the code can't deal with this
-//    The problem is that while we have CenterOfMass for gas particles,
-//    only Coordinates (which are double) are available for DM particles.
-//    FIXME
-//    Probably need to use if constexpr.
-//    The only problem really is how to do calculations with the numbers,
-//    but if constexpr should do the trick
 FIELD(CenterOfMass, 3, float, FieldTypes::PrtFld, true);
 FIELD(Coordinates, 3, double, FieldTypes::PrtFld, true);
 FIELD(Density, 1, float, FieldTypes::PrtFld, false);
