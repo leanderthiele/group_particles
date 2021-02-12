@@ -108,7 +108,7 @@ private :
 };// }}}
 
 template<typename T>
-void vec_to_f (const std::vector<T> &v, const std::string &s)
+void vec_to_f (const std::vector<T> &v, const char *s)
 {
     std::FILE *f = std::fopen(s, "wb");
     std::fwrite(v.data(), sizeof(T), v.size(), f);
