@@ -111,7 +111,7 @@ template<typename T>
 void vec_to_f (const std::vector<T> &v, const std::string &s)
 {
     std::FILE *f = std::fopen(s, "wb");
-    std::fwrite(v.data(), sizeof T, v.size(), f);
+    std::fwrite(v.data(), sizeof(T), v.size(), f);
     std::fclose(f);
 }
 
