@@ -4,11 +4,11 @@
 #include "callback.hpp"
 #include "fields.hpp"
 
-template<typename GroupFields, typename ParticleFields>
+template<typename AFields>
 class Workspace
 {
     // where to find the user's functions
-    Callback &callback;
+    Callback<AFields> &callback;
 
     // metadata we need to store permanently
     float Bsize;
@@ -17,16 +17,17 @@ class Workspace
     // (acoording to user-defined selection and radius calculation)
     size_t Ngrp = 0UL;
     size_t alloced_grp = 0UL;
-    void *grp_properties[GroupFields::Nfields];
+    void *grp_properties[AFields::GroupFields::Nfields];
     float *grp_radii;
 
     // temporary buffers
-    void *tmp_grp_properties[GroupFields::Nfields];
-    void *tmp_prt_properties[ParticleFields::Nfields];
+    void *tmp_grp_properties[AFields::GroupFields::Nfields];
+    void *tmp_prt_properties[AFields::ParticleFields::Nfields];
 
     void realloc_grp_storage (size_t new_size);
 
-    template<typename Fields>
+    // T is one of GroupFields, ParticleFields
+    template<typename T>
     void realloc_tmp_storage (size_t new_size, void **buf);
 
     // we can also use this function for the initial malloc
@@ -52,8 +53,8 @@ class Workspace
     
     // computes the distance between a particle and a group,
     // taking into account periodic boundary conditions
-    float prt_grp_dist (typename GroupFields::coord_t *grp_coord,
-                        typename ParticleFields::coord_t *prt_coord);
+    float prt_grp_dist (typename AFields::GroupFields::coord_t *grp_coord,
+                        typename AFields::ParticleFields::coord_t *prt_coord);
 
     // the simple loop over all particles
     void prt_loop_naive (size_t Nprt_this_file);
@@ -66,7 +67,7 @@ public :
     void grp_loop ();
     void prt_loop ();
 
-    Workspace (Callback &callback_);
+    Workspace (Callback<AFields> &callback_);
 
     ~Workspace ();
 

@@ -15,46 +15,50 @@ namespace Y_Delta
                       IllustrisFields::Masses,
                       IllustrisFields::InternalEnergy,
                       IllustrisFields::ElectronAbundance> PrtF;
+    typedef AllFields<GrpF, PrtF> AF;
 
     typedef double grp_Y_t;
     typedef double grp_M_t;
+
+    typedef CallbackUtils::chunk_fmt::Multi<AF>
+        chunking;
+    typedef CallbackUtils::illustris::Conventional<AF, PartType>
+        file_format;
+    typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::GroupMass>
+        grp_select;
+    typedef CallbackUtils::select::PrtAll<AF>
+        prt_select;
+    typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
+        grp_radius;
+    typedef CallbackUtils::actions::StoreGrpProperties<AF, grp_M_t>
+        grp_action;
+    typedef CallbackUtils::actions::StoreHomogeneous<AF, grp_Y_t>
+        prt_action;
 } // namespace Y_Delta
 
 struct Y_Delta_Callback :
-    virtual public Callback,
-    public CallbackUtils::chunk_fmt::Multi,
-    public CallbackUtils::illustris::Conventional
-                < Y_Delta::PartType >,
-    public CallbackUtils::select::GrpMassLowCutoff
-                < Y_Delta::GrpF::idx<IllustrisFields::GroupMass> >,
-    public CallbackUtils::select::PrtAll,
-    public CallbackUtils::radius::Simple
-                < Y_Delta::GrpF::idx<IllustrisFields::Group_R_Crit200> >,
-    public CallbackUtils::actions::StoreHomogeneous
-                <Y_Delta::grp_Y_t>,
-    public CallbackUtils::actions::StoreGrpProperties
-                <Y_Delta::grp_M_t>
+    virtual public Callback<Y_Delta::AF>,
+    public Y_Delta::chunking, public Y_Delta::file_format,
+    public Y_Delta::grp_select, public Y_Delta::prt_select,
+    public Y_Delta::grp_radius,
+    public Y_Delta::grp_action, public Y_Delta::prt_action
 {// {{{
     Y_Delta_Callback () :
-        CallbackUtils::chunk_fmt::Multi
+        Y_Delta::chunking
                 { fgrp, grp_max_idx, fprt, prt_max_idx },
-        CallbackUtils::select::GrpMassLowCutoff
-            < Y_Delta::GrpF::idx<IllustrisFields::GroupMass> >
+        Y_Delta::grp_select
                 { Mmin },
-        CallbackUtils::radius::Simple
-            < Y_Delta::GrpF::idx<IllustrisFields::Group_R_Crit200> >
+        Y_Delta::grp_radius
                 { Rscale },
-        CallbackUtils::actions::StoreHomogeneous
-            <Y_Delta::grp_Y_t>
-                { &grp_Y },
-        CallbackUtils::actions::StoreGrpProperties
-            <Y_Delta::grp_M_t>
-                { &grp_M }
+        Y_Delta::grp_action
+                { &grp_M },
+        Y_Delta::prt_action
+                { &grp_Y }
     { }
 
     // data (public so user can do something with them once they are assembled)
-    std::vector<Y_Delta::grp_Y_t> grp_M;
-    std::vector<Y_Delta::grp_M_t> grp_Y;
+    std::vector<Y_Delta::grp_M_t> grp_M;
+    std::vector<Y_Delta::grp_Y_t> grp_Y;
 
 private :
     // for calculation of electron pressure
@@ -82,12 +86,9 @@ private :
                                  void **grp_properties,
                                  void **prt_properties, float R) const override
     {
-        Y_Delta::grp_Y_t m = *(IllustrisFields::Masses::value_type *)
-                                (prt_properties[ Y_Delta::PrtF::idx<IllustrisFields::Masses> ]);
-        Y_Delta::grp_Y_t e = *(IllustrisFields::InternalEnergy::value_type *)
-                                (prt_properties[ Y_Delta::PrtF::idx<IllustrisFields::InternalEnergy> ]);
-        Y_Delta::grp_Y_t x = *(IllustrisFields::ElectronAbundance::value_type *)
-                                (prt_properties[ Y_Delta::PrtF::idx<IllustrisFields::ElectronAbundance> ]);
+        auto m = get_property<IllustrisFields::Masses>(prt_properties);
+        auto e = get_property<IllustrisFields::InternalEnergy>(prt_properties);
+        auto x = get_property<IllustrisFields::ElectronAbundance>(prt_properties);
         
         return 2.0F * (1.0F+XH) / (1.0F+3.0F*XH+4.0F*XH*x)
                * (gamma-1.0F) * m * e;
@@ -102,8 +103,7 @@ private :
     // we want to store the group masses
     Y_Delta::grp_M_t grp_reduce (void **grp_properties) const override
     {
-        return *(IllustrisFields::GroupMass::value_type *)
-                    (grp_properties[ Y_Delta::GrpF::idx<IllustrisFields::GroupMass> ]);
+        return get_property<IllustrisFields::GroupMass>(grp_properties);
     }
 };// }}}
 
@@ -119,7 +119,7 @@ int main ()
 {
     Y_Delta_Callback y;
     
-    halo_particles<Y_Delta::GrpF, Y_Delta::PrtF> ( y );
+    halo_particles<> ( y );
 
     // save data to files
     vec_to_f<>(y.grp_M, "grp_M.bin");

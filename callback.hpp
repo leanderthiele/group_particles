@@ -6,9 +6,15 @@
 
 #include "H5Cpp.h"
 
+#include "fields.hpp"
+
 // base class for all user-defined call-back functions
 // User should inherit from this class and override the
 // member functions
+//
+// AFields is a composite type constructed using the AllFields
+// template from a GrpFields and a PrtFields type
+template<typename AFields>
 struct Callback
 {
     // these functions write the chunk file name corresponding
@@ -66,6 +72,37 @@ struct Callback
     // R is the radius from the group center (as defined by the user)
     // It is not marked as const since it probably stores some data in the child class.
     virtual void prt_action (size_t grp_idx, void **grp_properties, void **prt_properties, float R) = 0;
+
+protected :
+    // Returns the property of type T in the input argument.
+    // If T is a 1dimensional quantity, a scalar of the appropriate type will be returned.
+    // Otherwise, a pointer will be returned.
+    template<typename T>
+    static auto get_property (void **properties)
+    {
+        constexpr size_t idx = get_property_idx<T>();
+        
+        return get_property_helper<T, idx>(properties);
+    }
+
+private :
+    template<typename T, size_t idx>
+    static auto get_property_helper (void **properties)
+    {
+        if constexpr (T::dim == 1)
+            return (typename T::value_type) *(typename T::value_type *)properties[idx];
+        else
+            return (typename T::value_type *)properties[idx];
+    }
+
+    template<typename T>
+    static constexpr size_t get_property_idx ()
+    {
+        if constexpr (T::type == FieldTypes::GrpFld)
+            return AFields::GroupFields::template idx<T>;
+        else
+            return AFields::ParticleFields::template idx<T>;
+    }
 };
 
 #endif // CALLBACK_HPP

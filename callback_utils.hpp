@@ -18,6 +18,7 @@
 #include "H5Cpp.h"
 
 #include "callback.hpp"
+#include "fields.hpp"
 
 namespace CallbackUtils
 {
@@ -25,7 +26,8 @@ namespace CallbackUtils
 // Some common ways to have chunks organized
 namespace chunk_fmt
 {// {{{
-    class SingleGrp : virtual public Callback
+    template<typename AFields>
+    class SingleGrp : virtual public Callback<AFields>
     {
         const std::string grp_fname;
     public :
@@ -40,7 +42,8 @@ namespace chunk_fmt
         { fname = grp_fname; return !chunk_idx; }
     };
 
-    class SinglePrt : virtual public Callback
+    template<typename AFields>
+    class SinglePrt : virtual public Callback<AFields>
     {
         const std::string prt_fname;
     public :
@@ -55,7 +58,8 @@ namespace chunk_fmt
         { fname = prt_fname; return !chunk_idx; }
     };
 
-    class MultiGrp : virtual public Callback
+    template<typename AFields>
+    class MultiGrp : virtual public Callback<AFields>
     {
         const std::string grp_fname;
         const size_t max_idx;
@@ -72,7 +76,8 @@ namespace chunk_fmt
           fname = std::string(buf); return chunk_idx <= max_idx; }
     };
 
-    class MultiPrt : virtual public Callback
+    template<typename AFields>
+    class MultiPrt : virtual public Callback<AFields>
     {
         const std::string prt_fname;
         const size_t max_idx;
@@ -89,26 +94,28 @@ namespace chunk_fmt
           fname = std::string(buf); return chunk_idx <= max_idx; }
     };
 
-    struct Single : virtual public Callback, public SingleGrp, public SinglePrt
+    template<typename AFields>
+    struct Single : virtual public Callback<AFields>, public SingleGrp<AFields>, public SinglePrt<AFields>
     {
         Single (const std::string &grp_fname,
                 const std::string &prt_fname) :
-            SingleGrp(grp_fname), SinglePrt(prt_fname) { }
+            SingleGrp<AFields>(grp_fname), SinglePrt<AFields>(prt_fname) { }
     };
 
-    struct Multi : virtual public Callback, public MultiGrp, public MultiPrt
+    template<typename AFields>
+    struct Multi : virtual public Callback<AFields>, public MultiGrp<AFields>, public MultiPrt<AFields>
     {
         Multi (const std::string &grp_fname, size_t grp_max_idx,
                const std::string &prt_fname, size_t prt_max_idx) :
-            MultiGrp(grp_fname, grp_max_idx), MultiPrt(prt_fname, prt_max_idx) { }
+            MultiGrp<AFields>(grp_fname, grp_max_idx), MultiPrt<AFields>(prt_fname, prt_max_idx) { }
     };
 } // namespace chunk_fmt }}}
 
 // Some helpers for the Illustris file format
 namespace illustris
 {// {{{
-    template<uint8_t PartType>
-    struct Naming : virtual public Callback
+    template<typename AFields, uint8_t PartType>
+    struct Naming : virtual public Callback<AFields>
     {
     public :
         std::string grp_name () const override
@@ -117,8 +124,8 @@ namespace illustris
         { return "PartType"+std::to_string(PartType)+"/"; }
     };
 
-    template<uint8_t PartType>
-    class Meta : virtual public Callback
+    template<typename AFields, uint8_t PartType>
+    class Meta : virtual public Callback<AFields>
     {
         template<typename TH5, typename Trequ>
         Trequ read_scalar_attr (H5::Group &header, const std::string &name) const
@@ -166,45 +173,51 @@ namespace illustris
         }
     };
 
-    template<uint8_t PartType>
-    struct Conventional : virtual public Callback, public Naming<PartType>, public Meta<PartType>
+    template<typename AFields, uint8_t PartType>
+    struct Conventional : virtual public Callback<AFields>,
+                          public Naming<AFields, PartType>, public Meta<AFields, PartType>
     { };
 }// namespace illustris }}}
 
 // Some common cases for the selection functions
 namespace select
 {// {{{
-    template<size_t Midx, typename TMass=float>
-    class GrpMassWindow : virtual public Callback
+    template<typename AFields, typename MassField>
+    class GrpMassWindow : virtual public Callback<AFields>
     {
-        TMass Mmin, Mmax;
+        typename MassField::value_type Mmin, Mmax;
     public :
-        GrpMassWindow (TMass Mmin_, TMass Mmax_) :
+        GrpMassWindow (typename MassField::value_type Mmin_, typename MassField::value_type Mmax_) :
             Mmin(Mmin_), Mmax(Mmax_)
         {
             #ifndef NDEBUG
-            std::fprintf(stderr, "Initialized CallbackUtils::select::GrpMassWindow with Mmin=%f and Mmax=%f.\n", Mmin, Mmax);
+            std::fprintf(stderr, "Initialized CallbackUtils::select::GrpMassWindow with "
+                                 "Mmin=%f and Mmax=%f.\n", Mmin, Mmax);
             #endif
         }
         bool grp_select (void **grp_properties) const override
-        { TMass M = *(TMass *)(grp_properties[Midx]); return M>Mmin && M<Mmax; }
+        {
+            auto M = Callback<AFields>::template get_property<MassField>(grp_properties);
+            return M>Mmin && M<Mmax;
+        }
     };
     
-    template<size_t Midx, typename TMass=float>
-    struct GrpMassLowCutoff : virtual public Callback, public GrpMassWindow<Midx,TMass>
+    template<typename AFields, typename MassField>
+    struct GrpMassLowCutoff : virtual public Callback<AFields>, public GrpMassWindow<AFields, MassField>
     {
-        GrpMassLowCutoff (TMass Mmin) :
-            GrpMassWindow<Midx,TMass>(Mmin, std::numeric_limits<TMass>::max()) { }
+        GrpMassLowCutoff (typename MassField::value_type Mmin) :
+            GrpMassWindow<AFields,MassField>(Mmin, std::numeric_limits<typename MassField::value_type>::max()) { }
     };
     
-    template<size_t Midx, typename TMass=float>
-    struct GrpMassHighCutoff : virtual public Callback, public GrpMassWindow<Midx,TMass>
+    template<typename AFields, typename MassField>
+    struct GrpMassHighCutoff : virtual public Callback<AFields>, public GrpMassWindow<AFields,MassField>
     {
-        GrpMassHighCutoff (TMass Mmax) :
-            GrpMassWindow<Midx,TMass>(std::numeric_limits<TMass>::min(), Mmax) { }
+        GrpMassHighCutoff (typename MassField::value_type Mmax) :
+            GrpMassWindow<AFields,MassField>(std::numeric_limits<typename MassField::value_type>::min(), Mmax) { }
     };
 
-    struct PrtAll : virtual public Callback
+    template<typename AFields>
+    struct PrtAll : virtual public Callback<AFields>
     {
         bool prt_select (void **grp_properties, void **prt_properties, float R) const override
         { return true; }
@@ -214,25 +227,26 @@ namespace select
 // Some common cases for the radius function
 namespace radius
 {// {{{
-    template<size_t Ridx, typename TR=float>
-    class Simple : virtual public Callback
+    template<typename AFields, typename RField>
+    class Simple : virtual public Callback<AFields>
     {
-        TR scaling;
+        typename RField::value_type scaling;
     public :
-        Simple (TR scaling_) : scaling(scaling_)
+        Simple (typename RField::value_type scaling_) : scaling(scaling_)
         {
             #ifndef NDEBUG
             std::fprintf(stderr, "Initialized CallbackUtils::radius::Simple with scaling=%f.\n", scaling);
             #endif
         }
         float grp_radius (void **grp_properties) const override
-        { return scaling * *(TR *)(grp_properties[Ridx]); }
+        { return scaling * Callback<AFields>::template get_property<RField>(grp_properties); }
     };
 }// namespace radius }}}
 
 namespace actions
 {// {{{
-    class MultiGrpAction : virtual public Callback
+    template<typename AFields>
+    class MultiGrpAction : virtual public Callback<AFields>
     {
     protected :
         std::vector<std::pair<void *,std::function<void(void *, void **)>>> grp_actions;
@@ -241,8 +255,8 @@ namespace actions
         { for (auto fct : grp_actions) fct.second(fct.first, grp_properties); }
     };
 
-    template<typename Tdata, typename Tfromprt=Tdata>
-    class StoreHomogeneous : virtual public Callback, virtual public MultiGrpAction
+    template<typename AFields, typename Tdata, typename Tfromprt=Tdata>
+    class StoreHomogeneous : virtual public Callback<AFields>, virtual public MultiGrpAction<AFields>
     {
         std::vector<Tdata> *data;
         static void enlarge_data (void *obj, void **grp_properties)
@@ -258,7 +272,7 @@ namespace actions
     public :
         StoreHomogeneous (std::vector<Tdata> *data_) :
             data(data_)
-        { MultiGrpAction::grp_actions.push_back(std::make_pair(this, enlarge_data)); }
+        { MultiGrpAction<AFields>::grp_actions.push_back(std::make_pair(this, enlarge_data)); }
         void prt_action (size_t grp_idx, void **grp_properties, void **prt_properties, float R) override
         {
             auto prt_item = prt_reduce(grp_idx, grp_properties, prt_properties, R);
@@ -266,8 +280,8 @@ namespace actions
         }
     };
 
-    template<typename Tdata>
-    class StoreGrpProperties : virtual public Callback, virtual public MultiGrpAction
+    template<typename AFields, typename Tdata>
+    class StoreGrpProperties : virtual public Callback<AFields>, virtual public MultiGrpAction<AFields>
     {
         std::vector<Tdata> *data;
         static void append_data (void *obj, void **grp_properties)
@@ -280,7 +294,7 @@ namespace actions
     public :
         StoreGrpProperties (std::vector<Tdata> *data_) :
             data(data_)
-        { MultiGrpAction::grp_actions.push_back(std::make_pair(this, append_data)); }
+        { MultiGrpAction<AFields>::grp_actions.push_back(std::make_pair(this, append_data)); }
     };
 
 }// namespace actions }}}

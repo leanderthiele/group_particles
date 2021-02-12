@@ -12,9 +12,9 @@
 #include "read_fields.hpp"
 #include "callback.hpp"
 
-template<typename GroupFields, typename ParticleFields>
+template<typename AFields>
 void
-Workspace<GroupFields,ParticleFields>::grp_loop ()
+Workspace<AFields>::grp_loop ()
 {
     #ifndef NDEBUG
     std::fprintf(stderr, "Started Workspace::grp_loop ...\n");
@@ -36,17 +36,17 @@ Workspace<GroupFields,ParticleFields>::grp_loop ()
         if (!Ngrp_this_file) continue;
 
         // allocate storage
-        realloc_tmp_storage<GroupFields>(Ngrp_this_file, tmp_grp_properties);
+        realloc_tmp_storage<typename AFields::GroupFields>(Ngrp_this_file, tmp_grp_properties);
 
         // read the file data
-        read_fields<FieldTypes::GrpFld, GroupFields>(callback, fptr, Ngrp_this_file, tmp_grp_properties);
+        read_fields<AFields, typename AFields::GroupFields>(callback, fptr, Ngrp_this_file, tmp_grp_properties);
 
         // now loop over groups to see which ones belong into permanent storage
         for (size_t grp_idx=0; grp_idx != Ngrp_this_file; ++grp_idx)
         {
-            void *this_grp_properties[GroupFields::Nfields];
-            collect_properties<GroupFields>(this_grp_properties,
-                                            tmp_grp_properties, grp_idx);
+            void *this_grp_properties[AFields::GroupFields::Nfields];
+            collect_properties<typename AFields::GroupFields>(this_grp_properties,
+                                                              tmp_grp_properties, grp_idx);
             
             if (callback.grp_select(this_grp_properties))
             {
@@ -59,10 +59,10 @@ Workspace<GroupFields,ParticleFields>::grp_loop ()
                 grp_radii[Ngrp] = callback.grp_radius(tmp_grp_properties);
 
                 // copy properties into permanent storage
-                for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
-                    std::memcpy((char *)(grp_properties[ii]) + Ngrp * GroupFields::strides[ii],
+                for (size_t ii=0; ii != AFields::GroupFields::Nfields; ++ii)
+                    std::memcpy((char *)(grp_properties[ii]) + Ngrp * AFields::GroupFields::strides[ii],
                                 this_grp_properties[ii],
-                                GroupFields::strides[ii]);
+                                AFields::GroupFields::strides[ii]);
                 
                 // advance the counter
                 ++Ngrp;
@@ -75,7 +75,7 @@ Workspace<GroupFields,ParticleFields>::grp_loop ()
     }// for chunk_idx
 
     // save memory by shrinking the temporary buffers
-    realloc_tmp_storage<GroupFields>(1, tmp_grp_properties);
+    realloc_tmp_storage<typename AFields::GroupFields>(1, tmp_grp_properties);
 
     // save memory by reallocating the perhaps too large buffers
     shrink_grp_storage();

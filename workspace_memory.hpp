@@ -8,24 +8,24 @@
 #include "workspace.hpp"
 
 
-template<typename GroupFields, typename ParticleFields>
-Workspace<GroupFields,ParticleFields>::Workspace (Callback &callback_) :
+template<typename AFields>
+Workspace<AFields>::Workspace (Callback<AFields> &callback_) :
     callback(callback_)
 {// {{{
-    for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
+    for (size_t ii=0; ii != AFields::GroupFields::Nfields; ++ii)
     {
         tmp_grp_properties[ii] = nullptr;
         grp_properties[ii] = nullptr;
     }
-    for (size_t ii=0; ii != ParticleFields::Nfields; ++ii)
+    for (size_t ii=0; ii != AFields::ParticleFields::Nfields; ++ii)
         tmp_prt_properties[ii] = nullptr;
     grp_radii = nullptr;
 }// }}}
 
-template<typename GroupFields, typename ParticleFields>
-Workspace<GroupFields,ParticleFields>::~Workspace ()
+template<typename AFields>
+Workspace<AFields>::~Workspace ()
 {// {{{
-    for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
+    for (size_t ii=0; ii != AFields::GroupFields::Nfields; ++ii)
     {
         if (grp_properties[ii])
             std::free(grp_properties[ii]);
@@ -33,7 +33,7 @@ Workspace<GroupFields,ParticleFields>::~Workspace ()
             std::free(tmp_grp_properties[ii]);
     }
 
-    for (size_t ii=0; ii != ParticleFields::Nfields; ++ii)
+    for (size_t ii=0; ii != AFields::ParticleFields::Nfields; ++ii)
         if (tmp_prt_properties[ii])
             std::free(tmp_prt_properties[ii]);
 
@@ -41,29 +41,29 @@ Workspace<GroupFields,ParticleFields>::~Workspace ()
         std::free(grp_radii);
 }// }}}
 
-template<typename GroupFields, typename ParticleFields>
-void Workspace<GroupFields,ParticleFields>::realloc_grp_storage (size_t new_size)
+template<typename AFields>
+void Workspace<AFields>::realloc_grp_storage (size_t new_size)
 {// {{{
-    for (size_t ii=0; ii != GroupFields::Nfields; ++ii)
+    for (size_t ii=0; ii != AFields::GroupFields::Nfields; ++ii)
         grp_properties[ii] = std::realloc(grp_properties[ii],
-                                          new_size * GroupFields::strides[ii]);
+                                          new_size * AFields::GroupFields::strides[ii]);
 
     grp_radii = (float *)std::realloc(grp_radii, new_size * sizeof(float));
 }// }}}
 
-template<typename GroupFields, typename ParticleFields>
-template<typename Fields>
-void Workspace<GroupFields,ParticleFields>::realloc_tmp_storage (size_t new_size, void **buf)
+template<typename AFields>
+template<typename T>
+void Workspace<AFields>::realloc_tmp_storage (size_t new_size, void **buf)
 {// {{{
-    for (size_t ii=0; ii != Fields::Nfields; ++ii)
+    for (size_t ii=0; ii != T::Nfields; ++ii)
     {
         if (buf[ii]) std::free(buf[ii]);
-        buf[ii] = std::malloc(new_size * Fields::strides[ii]);
+        buf[ii] = std::malloc(new_size * T::strides[ii]);
     }
 }// }}}
 
-template<typename GroupFields, typename ParticleFields>
-void Workspace<GroupFields,ParticleFields>::realloc_grp_storage_if_necessary ()
+template<typename AFields>
+void Workspace<AFields>::realloc_grp_storage_if_necessary ()
 {// {{{
     // check if alloc is necessary
     if (Ngrp < alloced_grp)
@@ -75,17 +75,17 @@ void Workspace<GroupFields,ParticleFields>::realloc_grp_storage_if_necessary ()
     realloc_grp_storage(alloced_grp);
 }// }}}
 
-template<typename GroupFields, typename ParticleFields>
-void Workspace<GroupFields,ParticleFields>::shrink_grp_storage ()
+template<typename AFields>
+void Workspace<AFields>::shrink_grp_storage ()
 {// {{{
     alloced_grp = Ngrp + 1UL;
     realloc_grp_storage(alloced_grp);
 }// }}}
 
-template<typename GroupFields, typename ParticleFields>
+template<typename AFields>
 template<typename T>
 inline void
-Workspace<GroupFields,ParticleFields>::collect_properties
+Workspace<AFields>::collect_properties
     (void **dest, void **src, size_t idx)
 {// {{{
     for (size_t ii=0; ii != T::Nfields; ++ii)

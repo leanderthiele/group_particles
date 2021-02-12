@@ -36,24 +36,25 @@ read_field (std::shared_ptr<H5::H5File> fptr, const std::string &name,
 
 // it is assumed that data is already of the correct size
 // and the individual pointers are already allocated
-template<FieldTypes field_type, typename Fields>
+// T is one of GroupFields, ParticleFields
+template<typename AFields, typename T>
 void
-read_fields (const Callback &callback,
+read_fields (const Callback<AFields> &callback,
              std::shared_ptr<H5::H5File> fptr, size_t Nitems, void **data)
-{
+{// {{{
     // where to find our data sets in the hdf5 file
     std::string name_prefix;
-    if constexpr (field_type == FieldTypes::GrpFld)
+    if constexpr (T::field_type == FieldTypes::GrpFld)
         name_prefix = callback.grp_name();
     else
         name_prefix = callback.prt_name();
 
     // loop over the fields
-    for (size_t ii=0; ii != Fields::Nfields; ++ii)
+    for (size_t ii=0; ii != T::Nfields; ++ii)
         // read from disk
-        read_field(fptr, name_prefix + Fields::names[ii],
-                   Fields::sizes[ii], Nitems, Fields::dims[ii],
+        read_field(fptr, name_prefix + T::names[ii],
+                   T::sizes[ii], Nitems, T::dims[ii],
                    data[ii]);
-}
+}// }}}
 
 #endif // READ_FIELDS_HPP

@@ -66,7 +66,7 @@ class FieldCollection
     }// }}}
 
     template<typename to_find, typename first_field, typename... other_fields>
-    static constexpr size_t find_idx (size_t idx_of_first)
+    static constexpr size_t find_idx (size_t idx_of_first = 0UL)
     {// {{{
         if constexpr (std::is_same_v<to_find, first_field>)
             return idx_of_first;
@@ -101,8 +101,8 @@ public :
 
     // helper for the user so they don't have to remember in which order
     // they passed the fields
-    template<typename type>
-    static constexpr size_t idx = find_idx<type, Fields...>(0UL);
+    template<typename T>
+    static constexpr size_t idx = find_idx<T, Fields...>();
 
     static_assert( Nfields,
                    "empty field collection not allowed, need at least the "
@@ -135,9 +135,9 @@ struct AllFields
     typedef GroupFields_    GroupFields;
     typedef ParticleFields_ ParticleFields;
 
-    static_assert( GroupFields::type == FieldTypes::GrpFld,
+    static_assert( GroupFields::field_type == FieldTypes::GrpFld,
                    "First template parameter for AllFields must be a GrpFields type" );
-    static_assert( ParticleFields::type == FieldTypes::PrtFld,
+    static_assert( ParticleFields::field_type == FieldTypes::PrtFld,
                    "Second template parameter for AllFields must be a PrtFields type" );
 
     static void print_field_info ()

@@ -16,19 +16,15 @@
 #include "prt_loop.hpp"
 
 // Main function to be used in the interface
-// 
-//
-// halo_catalog and particle_catalog should be regular expressions telling the
-// function where to find the simulation data.
-//
-// 
-template<typename GroupFields, typename ParticleFields>
+template<typename AFields>
 void
-halo_particles (Callback &callback)
+halo_particles (Callback<AFields> &callback)
 {
-    template_checks<GroupFields, ParticleFields>();
+    #ifndef NDEBUG
+    AFields::print_field_info();
+    #endif // NDEBUG
 
-    Workspace<GroupFields,ParticleFields> ws { callback };
+    Workspace<AFields> ws { callback };
 
     ws.grp_loop();
 
