@@ -10,6 +10,7 @@
 #include "workspace.hpp"
 #include "workspace_memory.hpp"
 #include "workspace_sorting.hpp"
+#include "timing.hpp"
 
 template<typename GroupFields, typename ParticleFields>
 void
@@ -25,6 +26,10 @@ Workspace<GroupFields,ParticleFields>::prt_loop ()
     // loop until the callback function returns false
     for (size_t chunk_idx=0; callback.prt_chunk(chunk_idx, fname); ++chunk_idx)
     {
+        #ifndef NDEBUG
+        TIME_PT(t1);
+        #endif // NDEBUG
+
         // open the hdf5 file
         auto fptr = std::make_shared<H5::H5File>(fname, H5F_ACC_RDONLY);
 
@@ -41,18 +46,39 @@ Workspace<GroupFields,ParticleFields>::prt_loop ()
         if (!Nprt_this_file) continue;
 
         // allocate storage
+        #ifndef NDEBUG
+        TIME_PT(t2);
+        #endif // NDEBUG
         realloc_tmp_storage<ParticleFields>(Nprt_this_file, tmp_prt_properties);
+        #ifndef NDEBUG
+        TIME_MSG(t2, "prt_loop memory allocation for particle chunk data");
+        #endif // NDEBUG
 
         // read the file data
+        #ifndef NDEBUG
+        TIME_PT(t3);
+        #endif // NDEBUG
         read_fields<FieldTypes::PrtFld, ParticleFields>(callback, fptr, Nprt_this_file, tmp_prt_properties);
+        #ifndef NDEBUG
+        TIME_MSG(t3, "prt_loop read_fields for particle chunk data");
+        #endif // NDEBUG
 
         // run the loop
+        #ifndef NDEBUG
+        TIME_PT(t4);
+        #endif // NDEBUG
         prt_loop_sorted(Nprt_this_file);
+        #ifndef NDEBUG
+        TIME_MSG(t4, "prt_loop->prt_loop_sorted");
+        #endif // NDEBUG
+
+        #ifndef NDEBUG
+        TIME_MSG(t1, "chunk %lu in Workspace::prt_loop", chunk_idx+1UL);
+        #endif // NDEBUG
 
         #ifndef NDEBUG
         std::fprintf(stderr, "In Workspace::prt_loop : did %lu chunks.\n", chunk_idx+1UL);
         #endif // NDEBUG
-
     }// for chunk_idx
 
     // save memory by shrinking the temporary particle storage
@@ -89,7 +115,16 @@ Workspace<GroupFields,ParticleFields>::prt_loop_sorted (size_t Nprt_this_file)
 {// {{{
     // create a Sorting instance, constructing it will perform the main work
     // associated with this object
+    #ifndef NDEBUG
+    TIME_PT(t1);
+    #endif // NDEBUG
+
     Sorting prt_sort (Nprt_this_file, Bsize, tmp_prt_properties);
+
+    #ifndef NDEBUG
+    TIME_PT(t2);
+    TIME_MSG(t1, t2, "initialization of Sorting instance (Nprt=%lu)", Nprt_this_file);
+    #endif // NDEBUG
 
     // loop over groups
     for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx)

@@ -9,6 +9,8 @@
 #include <cassert>
 #include <cmath>
 
+#include "timing.hpp"
+
 template<typename GroupFields, typename ParticleFields>
 class Workspace<GroupFields,ParticleFields>::Sorting
 {// {{{
@@ -75,17 +77,50 @@ Workspace<GroupFields,ParticleFields>::Sorting::Sorting (size_t Nprt_,
                                                          typename ParticleFields::coord_t Bsize_,
                                                          void **tmp_prt_properties_) :
     Nprt { Nprt_ }, Bsize { Bsize_ }, tmp_prt_properties { tmp_prt_properties_},
-    acell { Bsize_ / Ncells_side }
+    acell { Bsize_ / Ncells_side },
+    prt_indices { }
 {// {{{
+    #ifndef NDEBUG
+    TIME_PT(t1);
+    #endif // NDEBUG
     compute_prt_indices();
-    sort_prt_indices();
+    #ifndef NDEBUG
+    TIME_MSG(t1,"Sorting::compute_prt_indices");
+    #endif // NDEBUG
 
+    #ifndef NDEBUG
+    TIME_PT(t2);
+    #endif // NDEBUG
+    sort_prt_indices();
+    #ifndef NDEBUG
+    TIME_MSG(t2, "Sorting::sort_prt_indices");
+    #endif // NDEBUG
+
+    #ifndef NDEBUG
+    TIME_PT(t3);
+    #endif // NDEBUG
     // allocate memory where we can store the sorted particle properties
     for (size_t ii=0; ii != ParticleFields::Nfields; ++ii)
         tmp_prt_properties_sorted[ii] = std::malloc(Nprt * ParticleFields::strides[ii]);
+    #ifndef NDEBUG
+    TIME_MSG(t3, "Sorting memory allocation");
+    #endif // NDEBUG
 
+    #ifndef NDEBUG
+    TIME_PT(t4);
+    #endif // NDEBUG
     reorder_prt_properties();
+    #ifndef NDEBUG
+    TIME_MSG(t4, "Sorting::reorder_prt_properties");
+    #endif // NDEBUG
+
+    #ifndef NDEBUG
+    TIME_PT(t5);
+    #endif // NDEBUG
     compute_offsets();
+    #ifndef NDEBUG
+    TIME_MSG(t5, "Sorting::compute_offsets");
+    #endif
 }// }}}
 
 template<typename GroupFields, typename ParticleFields>
