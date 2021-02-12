@@ -29,7 +29,7 @@ class Workspace<GroupFields,ParticleFields>::Sorting
     size_t offsets[Ncells_tot+1UL];
 
     // this is given by constructor, no memory allocation necessary
-    void *tmp_prt_properties[ParticleFields::Nfields];
+    void **tmp_prt_properties;
 
     // stuff that happens during construction
     void compute_prt_indices ();
@@ -76,10 +76,11 @@ template<typename GroupFields, typename ParticleFields>
 Workspace<GroupFields,ParticleFields>::Sorting::Sorting (size_t Nprt_,
                                                          typename ParticleFields::coord_t Bsize_,
                                                          void **tmp_prt_properties_) :
-    Nprt { Nprt_ }, Bsize { Bsize_ }, tmp_prt_properties { tmp_prt_properties_},
+    Nprt { Nprt_ }, Bsize { Bsize_ }, tmp_prt_properties { tmp_prt_properties_ },
     acell { Bsize_ / Ncells_side },
     prt_indices { }
 {// {{{
+
     #ifndef NDEBUG
     TIME_PT(t1);
     #endif // NDEBUG
