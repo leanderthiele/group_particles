@@ -52,6 +52,8 @@ read_fields (const Callback &callback,
     for (size_t ii=0; ii != Fields::Nfields; ++ii)
     {
         // allocate storage TODO get rid of this
+        // FIXME are we sure we need this malloc here???
+        //       Isn't it already allocated???
         data[ii] = std::malloc(Nitems * Fields::strides[ii]);
 
         // read from disk
