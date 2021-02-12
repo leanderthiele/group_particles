@@ -180,31 +180,16 @@ template<typename GroupFields, typename ParticleFields>
 void
 Workspace<GroupFields,ParticleFields>::Sorting::compute_offsets ()
 {// {{{
-    for (size_t ii=0; ii != Ncells_tot; ++ii)
-    {
+    // initialize all offsets to default value
+    for (size_t ii=0; ii != Ncells_tot+1UL; ++ii)
         offsets[ii] = Nprt;
 
-        // find the index where the last cell started,
-        // taking into account possibly empty cells
-        // Note that the loop will not be executed at ii=0
-        // and be careful with unsigned integer arithmetic
-        size_t jj = 0UL;
-        for (size_t kk=ii-1UL; kk < Ncells_tot; --kk)
-            if (offsets[kk] < Nprt)
-            {
-                jj = offsets[kk];
-                break;
-            }
+    offsets[prt_indices[0].second] = 0UL;
 
-        for (; jj != Nprt; ++jj)
-            if (prt_indices[jj].second == ii)
-            {
-                offsets[ii] = jj;
-                break;
-            }
-    }
-
-    offsets[Ncells_tot] = Nprt;
+    for (size_t jj=1UL; jj != Nprt; ++jj)
+        if (prt_indices[jj].second != prt_indices[jj-1UL].second)
+            // we have found the beginning of a new cell
+            offsets[prt_indices[jj].second] = jj;
 }// }}}
 
 template<typename GroupFields, typename ParticleFields>
