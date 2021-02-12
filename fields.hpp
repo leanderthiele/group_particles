@@ -129,31 +129,33 @@ template<typename... Fields>
 struct PrtFields : FieldCollection<FieldTypes::PrtFld, Fields...>
 { };
 
-#ifndef NDEBUG
-template<typename Fields>
-void print_templ_arg_info_fct (const char *FieldsName)
+template<typename GroupFields_, typename ParticleFields_>
+struct AllFields
 {
-    std::fprintf(stderr, "In the FieldsCollection %s are contained :\n", FieldsName);
-    for (size_t ii=0; ii != Fields::Nfields; ++ii)
-        std::fprintf(stderr, "\t[%2lu] %-20s   stride : %2lu byte\n",
-                             ii, Fields::names[ii], Fields::strides[ii]);
-}
-#define print_templ_arg_info(name) print_templ_arg_info_fct<name>(#name)
-#endif // NDEBUG
+    typedef GroupFields_    GroupFields;
+    typedef ParticleFields_ ParticleFields;
 
-// A compile-time helper to see whether the user is correctly instatiating the templates
-template<typename GroupFields, typename ParticleFields>
-void template_checks ()
-{
-    static_assert(GroupFields::field_type == FieldTypes::GrpFld,
-                  "First template parameter is not a GroupFields type");
-    static_assert(ParticleFields::field_type == FieldTypes::PrtFld,
-                  "First template parameter is not a ParticleFields type");
+    static_assert( GroupFields::type == FieldTypes::GrpFld,
+                   "First template parameter for AllFields must be a GrpFields type" );
+    static_assert( ParticleFields::type == FieldTypes::PrtFld,
+                   "Second template parameter for AllFields must be a PrtFields type" );
 
-    #ifndef NDEBUG
-    print_templ_arg_info(GroupFields);
-    print_templ_arg_info(ParticleFields);
-    #endif // NDEBUG
-}
+    static void print_field_info ()
+    {
+        print_field_info_fct<GroupFields>("GroupFields");
+        print_field_info_fct<ParticleFields>("ParticleFields");
+    }
+
+private :
+    template<typename Fields>
+    static void print_field_info_fct (const char *FieldsName)
+    {
+        std::fprintf(stderr, "In the FieldsCollection %s are contained :\n", FieldsName);
+        for (size_t ii=0; ii != Fields::Nfields; ++ii)
+            std::fprintf(stderr, "\t[%2lu] %-20s   stride : %2lu byte\n",
+                                 ii, Fields::names[ii], Fields::strides[ii]);
+    }
+
+};
 
 #endif // FIELDS_HPP
