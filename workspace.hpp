@@ -35,12 +35,6 @@ class Workspace
 
     void shrink_grp_storage ();
 
-    // sets the pointers in dest to the locations in src indexed
-    // by idx
-    // T is one of GroupFields, ParticleFields
-    template<typename T>
-    void collect_properties (void **dest, void **src, size_t idx);
-
     // everything we need to sort particles
     class Sorting;
 
@@ -48,8 +42,8 @@ class Workspace
     
     // the inner action, invariant under how we do the loops
     void prt_loop_inner (size_t grp_idx,
-                         void **this_grp_properties,
-                         void **this_prt_properties);
+                         const typename Callback<AFields>::GrpProperties &grp,
+                         const typename Callback<AFields>::PrtProperties &prt);
     
     // computes the distance between a particle and a group,
     // taking into account periodic boundary conditions

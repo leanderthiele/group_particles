@@ -41,19 +41,16 @@ Workspace<AFields>::grp_loop ()
         // read the file data
         read_fields<AFields, typename AFields::GroupFields>(callback, fptr, Ngrp_this_file, tmp_grp_properties);
 
+        typename Callback<AFields>::GrpProperties grp (tmp_grp_properties);
+
         // now loop over groups to see which ones belong into permanent storage
-        for (size_t grp_idx=0; grp_idx != Ngrp_this_file; ++grp_idx)
-        {
-            void *this_grp_properties[AFields::GroupFields::Nfields];
-            collect_properties<typename AFields::GroupFields>(this_grp_properties,
-                                                              tmp_grp_properties, grp_idx);
-            
-            if (callback.grp_select(this_grp_properties))
+        for (size_t grp_idx=0; grp_idx != Ngrp_this_file; ++grp_idx, grp.advance())
+            if (callback.grp_select(grp))
             {
                 realloc_grp_storage_if_necessary ();
 
                 // let the user do some stuff
-                callback.grp_action(this_grp_properties);
+                callback.grp_action(grp);
                 
                 // compute group radius
                 grp_radii[Ngrp] = callback.grp_radius(tmp_grp_properties);
@@ -61,13 +58,11 @@ Workspace<AFields>::grp_loop ()
                 // copy properties into permanent storage
                 for (size_t ii=0; ii != AFields::GroupFields::Nfields; ++ii)
                     std::memcpy((char *)(grp_properties[ii]) + Ngrp * AFields::GroupFields::strides[ii],
-                                this_grp_properties[ii],
-                                AFields::GroupFields::strides[ii]);
+                                grp[ii], AFields::GroupFields::strides[ii]);
                 
                 // advance the counter
                 ++Ngrp;
             }
-        }// for grp_idx
 
         #ifndef NDEBUG
         std::fprintf(stderr, "In Workspace::grp_loop : did %lu chunks.\n", chunk_idx+1UL);

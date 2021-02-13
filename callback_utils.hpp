@@ -1,6 +1,13 @@
 #ifndef CALLBACK_UTILS_HPP
 #define CALLBACK_UTILS_HPP
 
+// TODO
+// -- call non-default constructor (with GrpProperties instance)
+//    in MultiGrp...
+// -- register fct in MultiGrp
+// -- buffer instead of std::vector in MultiGrp
+// -- simplify StorePrtHomogeneous so that only one function needs to be overriden
+
 // This file contains some subclasses of the Callback base class,
 // by inheriting a subset from this list the user can achieve a lot
 // of functionality out of the box without writing much new code
@@ -185,7 +192,7 @@ namespace select
     template<typename AFields>
     struct GrpAll : virtual public Callback<AFields>
     {
-        bool grp_select (void **grp_properties)
+        bool grp_select (const typename Callback<AFields>::GrpProperties &grp)
         { return true; }
     };
 
@@ -205,9 +212,9 @@ namespace select
                                  "Mmin=%.3e and Mmax=%.3e.\n", Mmin, Mmax);
             #endif
         }
-        bool grp_select (void **grp_properties) const override
+        bool grp_select (const typename Callback<AFields>::GrpProperties &grp) const override
         {
-            auto M = Callback<AFields>::template get_property<MassField>(grp_properties);
+            auto M = grp.template get<MassField>();
             return M>Mmin && M<Mmax;
         }
     };
@@ -229,7 +236,10 @@ namespace select
     template<typename AFields>
     struct PrtAll : virtual public Callback<AFields>
     {
-        bool prt_select (size_t grp_idx, void **grp_properties, void **prt_properties, float R) const override
+        bool prt_select (size_t grp_idx,
+                         const typename Callback<AFields>::GrpProperties &grp,
+                         const typename Callback<AFields>::PrtProperties &prt,
+                         float R) const override
         { return true; }
     };
 }// namespace select }}}
@@ -252,8 +262,8 @@ namespace radius
             #endif
         }
         Simple () : scaling { (typename RField::value_type)1.0 } { }
-        float grp_radius (void **grp_properties) const override
-        { return scaling * Callback<AFields>::template get_property<RField>(grp_properties); }
+        float grp_radius (const typename Callback<AFields>::GrpProperties &grp) const override
+        { return scaling * grp.template get<RField>(); }
     };
 }// namespace radius }}}
 
@@ -267,11 +277,19 @@ namespace action
     template<typename AFields>
     class MultiGrpActionBase : virtual public Callback<AFields>
     {
-    protected :
-        std::vector<std::pair<void *,std::function<void(void *, void **)>>> grp_actions;
+        // very very unlikely that any user would want to use this more than for 64 different actions
+        // If that case happens, we have the assert below.
+        static constexpr size_t buf_size = 64UL;
+        size_t N_actions = 0UL;
+        std::pair<void *, std::function<void(void *, const typename Callback<AFields>::GrpProperties &)>> grp_actions[buf_size];
     public :
-        void grp_action (void **grp_properties) override final
-        { for (auto fct : grp_actions) fct.second(fct.first, grp_properties); }
+        void grp_action (const typename Callback<AFields>::GrpProperties &grp) override final
+        { for (size_t ii=0; ii != N_actions; ++ii) grp_actions[ii].second(grp_actions[ii].first, grp); }
+        void register_fct (void *obj, std::function<void(void *, const typename Callback<AFields>::GrpProperties &)> fct)
+        {
+            grp_actions[N_actions++] = std::make_pair(obj, fct);
+            assert(N_actions < buf_size);
+        }
     };
 
     // User should inherit from this class to register an action with the MultiGrpActionBase
@@ -282,41 +300,60 @@ namespace action
     struct MultiGrpAction : virtual public Callback<AFields>,
                             virtual private MultiGrpActionBase<AFields>
     {
-        MultiGrpAction (void *obj, void (*fct)(void *, void**))
-        { MultiGrpActionBase<AFields>::grp_actions.push_back(std::make_pair(obj, fct)); }
+        MultiGrpAction (void *obj, std::function<void(void *, const typename Callback<AFields>::GrpProperties &)> fct)
+        { MultiGrpActionBase<AFields>::register_fct(obj, fct); }
     };
 
     // Abstract base class that implements storage of homogeneous data for each group.
     // (data is particle dependent)
+    //
     // Each group gets an entry in the data vector, of type Tdata.
+    // If Tdata has a constructor of the signature
+    //      Tdata (const typename Callback<AFields::GrpProperties &),
+    // this constructor will be called. In this case, the default constructor should be
+    // deleted (this ensures that we have an extra check that the custom constructor
+    // was declared correctly).
+    // Otherwise, the default constructor will be called.
+    //
     // For each particle that should be considered part of a group,
     // the corresponding entry in the data vector is modified.
-    // To this end, the user needs to override two functions :
-    //      -- prt_reduce -> how to reduce a particle's properties to an item of a given type
-    //      -- prt_combine -> how to combine the outcome of the previous function with
-    //                        the existing entry in the data vector
-    template<typename AFields, typename Tdata, typename Tfromprt=Tdata>
+    // To this end, the user needs to override one function :
+    //      prt_insert -> specifies how a particle is supposed to be combined with the
+    //                    existing element of type Tdata in the data vector
+    template<typename AFields, typename Tdata>
     class StorePrtHomogeneous : virtual public Callback<AFields>,
                                 public MultiGrpAction<AFields>
     {
         std::vector<Tdata> *data;
-        static void enlarge_data (void *obj, void **grp_properties)
+        static void enlarge_data (void *obj, const typename Callback<AFields>::GrpProperties &grp)
         {
             StorePrtHomogeneous *p = (StorePrtHomogeneous *)obj;
-            p->data->resize(p->data->size() + 1UL);
+
+            if constexpr (std::is_constructible_v<Tdata, const typename Callback<AFields>::GrpProperties &>)
+            {
+                static_assert(!std::is_default_constructible_v<Tdata>);
+                p->data->emplace_back(grp);
+            }
+            else
+                p->data->emplace_back();
         }
     protected :
-        virtual Tfromprt prt_reduce (size_t grp_idx, void **grp_properties, void **prt_properties, float R) const = 0;
-        virtual void prt_combine (size_t grp_idx, Tdata &data_item, Tfromprt prt_item) const = 0;
+        virtual void prt_insert (size_t grp_idx,
+                                 const typename Callback<AFields>::GrpProperties &grp,
+                                 const typename Callback<AFields>::PrtProperties &prt,
+                                 float R,
+                                 Tdata &data_item) = 0;
     public :
         StorePrtHomogeneous (std::vector<Tdata> *data_) :
             data(data_),
             MultiGrpAction<AFields> { this, enlarge_data }
         { }
-        void prt_action (size_t grp_idx, void **grp_properties, void **prt_properties, float R) override final
+        void prt_action (size_t grp_idx,
+                         const typename Callback<AFields>::GrpProperties &grp,
+                         const typename Callback<AFields>::PrtProperties &prt,
+                         float R) override final
         {
-            auto prt_item = prt_reduce(grp_idx, grp_properties, prt_properties, R);
-            prt_combine(grp_idx, (*data)[grp_idx], prt_item);
+            prt_insert(grp_idx, grp, prt, R, (*data)[grp_idx]);
         }
     };
 
@@ -329,13 +366,13 @@ namespace action
                                 public MultiGrpAction<AFields>
     {
         std::vector<Tdata> *data;
-        static void append_data (void *obj, void **grp_properties)
+        static void append_data (void *obj, const typename Callback<AFields>::GrpProperties &grp)
         {
             StoreGrpHomogeneous *p = (StoreGrpHomogeneous *)obj;
-            p->data->push_back(p->grp_reduce(grp_properties));
+            p->data->push_back(p->grp_reduce(grp));
         }
     protected :
-        virtual Tdata grp_reduce (void **grp_properties) const = 0;
+        virtual Tdata grp_reduce (const typename Callback<AFields>::GrpProperties &grp) const = 0;
     public :
         StoreGrpHomogeneous (std::vector<Tdata> *data_) :
             data(data_),
@@ -352,9 +389,9 @@ namespace action
                              public StoreGrpHomogeneous<AFields, storeasT>
     {
         static_assert(Field::dim == 1, "Currently not implemented, could probably be done");
-        storeasT grp_reduce (void **grp_properties) const override final
+        storeasT grp_reduce (const typename Callback<AFields>::GrpProperties &grp) const override final
         {
-            return Callback<AFields>::template get_property<Field>(grp_properties);
+            return grp.template get<Field>();
         }
     public :
         StoreGrpProperty (std::vector<storeasT> *data) :

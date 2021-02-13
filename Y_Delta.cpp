@@ -3,6 +3,7 @@
 #include <cstdio>
 
 #include "halo_particles.hpp"
+#include "illustris_fields.hpp"
 
 namespace Y_Delta
 {
@@ -75,22 +76,15 @@ private :
     // The next three functions are required -- they define the functionality of this class
     
     // computation of Compton-Y for a single gas particle
-    Y_Delta::grp_Y_t prt_reduce (size_t grp_idx,
-                                 void **grp_properties,
-                                 void **prt_properties, float R) const override
+    void prt_insert (size_t grp_idx, const GrpProperties &grp, const PrtProperties &prt,
+                     float R, Y_Delta::grp_Y_t &data_item) override
     {
-        auto m = get_property<IllustrisFields::Masses>(prt_properties);
-        auto e = get_property<IllustrisFields::InternalEnergy>(prt_properties);
-        auto x = get_property<IllustrisFields::ElectronAbundance>(prt_properties);
-        
-        return 2.0F * (1.0F+XH) / (1.0F+3.0F*XH+4.0F*XH*x)
-               * (gamma-1.0F) * m * e;
-    }
+        auto m = prt.get<IllustrisFields::Masses>();
+        auto e = prt.get<IllustrisFields::InternalEnergy>();
+        auto x = prt.get<IllustrisFields::ElectronAbundance>();
 
-    // Compton-Y is additive
-    void prt_combine (size_t grp_idx, Y_Delta::grp_Y_t &grp_Y_val, Y_Delta::grp_Y_t prt_Y) const override
-    {
-        grp_Y_val += prt_Y;
+        data_item += 2.0F * (1.0F+XH) / (1.0F+3.0F*XH+4.0F*XH*x)
+                     * (gamma-1.0F) * m * e;
     }
 };// }}}
 

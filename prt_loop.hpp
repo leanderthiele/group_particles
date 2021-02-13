@@ -90,23 +90,17 @@ template<typename AFields>
 void
 Workspace<AFields>::prt_loop_naive (size_t Nprt_this_file)
 {// {{{
+    typename Callback<AFields>::PrtProperties prt (tmp_prt_properties);
+
     // loop over particles
-    for (size_t prt_idx=0; prt_idx != Nprt_this_file; ++prt_idx)
+    for (size_t prt_idx=0; prt_idx != Nprt_this_file; ++prt_idx, prt.advance())
     {
-        void *this_prt_properties[AFields::ParticleFields::Nfields];
-        collect_properties<typename AFields::ParticleFields>(this_prt_properties,
-                                                             tmp_prt_properties, prt_idx);
+        typename Callback<AFields>::GrpProperties grp (grp_properties);
 
         // now loop over groups
-        for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx)
-        {
-            void *this_grp_properties[AFields::GroupFields::Nfields];
-            collect_properties<typename AFields::GroupFields>(this_grp_properties,
-                                                              grp_properties, grp_idx);
-
+        for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx, grp.advance())
             // do stuff
-            prt_loop_inner(callback, grp_idx, this_grp_properties, this_prt_properties);
-        }// for grp_idx
+            prt_loop_inner(callback, grp_idx, grp, prt);
     }// for prt_idx
 }// }}}
 
@@ -126,18 +120,14 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
     TIME_MSG(t1, "initialization of Sorting instance (Nprt=%lu)", Nprt_this_file);
     #endif // NDEBUG
 
-    // loop over groups
-    for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx)
-    {
-        void *this_grp_properties[AFields::GroupFields::Nfields];
-        collect_properties<typename AFields::GroupFields>(this_grp_properties,
-                                                          grp_properties,
-                                                 grp_idx);
+    typename Callback<AFields>::GrpProperties grp (grp_properties);
 
+    // loop over groups
+    for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx, grp.advance())
+    {
         // compute which cells have intersection with this group
         std::vector<std::pair<size_t,size_t>> prt_idx_ranges
-            = prt_sort.prt_idx_ranges((typename AFields::GroupFields::coord_t *)this_grp_properties[0],
-                                      grp_radii[grp_idx]);
+            = prt_sort.prt_idx_ranges(grp.coord(), grp_radii[grp_idx]);
 
         // no particles in the vicinity of this group
         if (prt_idx_ranges.empty()) continue;
@@ -145,17 +135,13 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
         // loop over cells
         for (auto &prt_idx_range : prt_idx_ranges)
         {
+            typename Callback<AFields>::PrtProperties prt (prt_sort.tmp_prt_properties_sorted,
+                                                           prt_idx_range.first);
             // loop over particles
-            for (size_t prt_idx=prt_idx_range.first; prt_idx != prt_idx_range.second; ++prt_idx)
-            {
-                void *this_prt_properties[AFields::ParticleFields::Nfields];
-                collect_properties<typename AFields::ParticleFields>(this_prt_properties,
-                                                                     prt_sort.tmp_prt_properties_sorted,
-                                                                     prt_idx);
-
-                // do stuff
-                prt_loop_inner(grp_idx, this_grp_properties, this_prt_properties);
-            }// for prt_idx
+            for (size_t prt_idx=prt_idx_range.first;
+                        prt_idx != prt_idx_range.second;
+                        ++prt_idx, prt.advance())
+                prt_loop_inner(grp_idx, grp, prt);
         }// for prt_idx_range
     }// for grp_idx
 }// }}}
@@ -163,20 +149,20 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
 template<typename AFields>
 inline void
 Workspace<AFields>::prt_loop_inner
-    (size_t grp_idx, void **this_grp_properties, void **this_prt_properties)
+    (size_t grp_idx,
+     const typename Callback<AFields>::GrpProperties &grp,
+     const typename Callback<AFields>::PrtProperties &prt)
 {// {{{
     // figure out the distance between group and particle,
-    float R = prt_grp_dist((typename AFields::GroupFields::coord_t *)this_grp_properties[0],
-                           (typename AFields::ParticleFields::coord_t *)this_prt_properties[0]);
+    float R = prt_grp_dist(grp.coord(), prt.coord());
 
     // check if this particle belongs to the group
     if (R > grp_radii[grp_idx]
-        || !callback.prt_select(grp_idx, this_grp_properties,
-                                this_prt_properties, R))
+        || !callback.prt_select(grp_idx, grp, prt, R))
         return;
 
     // particle belongs to group: do the user-defined thing with it
-    callback.prt_action(grp_idx, this_grp_properties, this_prt_properties, R);
+    callback.prt_action(grp_idx, grp, prt, R);
 }// }}}
 
 template<typename AFields>

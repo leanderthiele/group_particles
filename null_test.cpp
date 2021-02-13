@@ -1,5 +1,6 @@
 // This code is a useful test whether the halo_particles stuff is working correctly.
 #include "halo_particles.hpp"
+#include "illustris_fields.hpp"
 
 namespace NullTest
 {
@@ -60,13 +61,13 @@ private :
     static constexpr const size_t prt_max_idx = 74;
     #undef ROOT
 
-    NullTest::grp_N_t prt_reduce (size_t grp_idx, 
-                                  void **grp_properties,
-                                  void **prt_properties, float R) const override
-    { return 1UL; }
+    // the (fairly trivial) functionality of this class : count particles
+    void prt_insert (size_t grp_idx, const GrpProperties &grp,
+                     const PrtProperties &prt, float R, NullTest::grp_N_t &data_item) override
+    {
+        ++data_item;
+    }
 
-    void prt_combine (size_t grp_idx, NullTest::grp_N_t &grp_count, NullTest::grp_N_t incr) const override
-    { grp_count += incr; }
 };
 
 template<typename T>

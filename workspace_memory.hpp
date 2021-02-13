@@ -82,15 +82,4 @@ void Workspace<AFields>::shrink_grp_storage ()
     realloc_grp_storage(alloced_grp);
 }// }}}
 
-template<typename AFields>
-template<typename T>
-inline void
-Workspace<AFields>::collect_properties
-    (void **dest, void **src, size_t idx)
-{// {{{
-    for (size_t ii=0; ii != T::Nfields; ++ii)
-        dest[ii] = (char *)(src[ii]) + idx * T::strides[ii];
-}// }}}
-
-
 #endif // WORKSPACE_MEMORY_HPP
