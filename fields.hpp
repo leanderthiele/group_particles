@@ -53,6 +53,10 @@ class FieldCollection
         return *str1==*str2 && ( *str1=='\0' || str_equ(str1+1, str2+1) );
     }// }}}
 
+    template<typename first_field>
+    static constexpr bool all_unequal ()
+    { return true; }
+
     template<typename first_field, typename second_field, typename... other_fields>
     static constexpr bool all_unequal ()
     {// {{{

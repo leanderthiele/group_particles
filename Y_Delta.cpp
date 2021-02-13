@@ -20,40 +20,36 @@ namespace Y_Delta
     typedef double grp_Y_t;
     typedef double grp_M_t;
 
-    typedef CallbackUtils::chunk_fmt::Multi<AF>
-        chunking;
-    typedef CallbackUtils::illustris::Conventional<AF, PartType>
-        file_format;
+    typedef CallbackUtils::chunk::Multi<AF>
+        chunk;
+    typedef CallbackUtils::name::Illustris<AF, PartType>
+        name;
+    typedef CallbackUtils::meta::Illustris<AF, PartType>
+        meta;
     typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::GroupMass>
         grp_select;
     typedef CallbackUtils::select::PrtAll<AF>
         prt_select;
     typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
         grp_radius;
-    typedef CallbackUtils::actions::StoreGrpProperties<AF, grp_M_t>
-        grp_action;
-    typedef CallbackUtils::actions::StoreHomogeneous<AF, grp_Y_t>
-        prt_action;
+    typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::GroupMass, grp_M_t>
+        grp_store_M;
+    typedef CallbackUtils::action::StorePrtHomogeneous<AF, grp_Y_t>
+        prt_compute_Y;
 } // namespace Y_Delta
 
 struct Y_Delta_Callback :
     virtual public Callback<Y_Delta::AF>,
-    public Y_Delta::chunking, public Y_Delta::file_format,
+    public Y_Delta::chunk, public Y_Delta::name, public Y_Delta::meta,
     public Y_Delta::grp_select, public Y_Delta::prt_select,
     public Y_Delta::grp_radius,
-    public Y_Delta::grp_action, public Y_Delta::prt_action
+    public Y_Delta::grp_store_M, public Y_Delta::prt_compute_Y
 {// {{{
     Y_Delta_Callback () :
-        Y_Delta::chunking
-                { fgrp, grp_max_idx, fprt, prt_max_idx },
-        Y_Delta::grp_select
-                { Mmin },
-        Y_Delta::grp_radius
-                { Rscale },
-        Y_Delta::grp_action
-                { &grp_M },
-        Y_Delta::prt_action
-                { &grp_Y }
+        Y_Delta::chunk { fgrp, grp_max_idx, fprt, prt_max_idx },
+        Y_Delta::grp_select { Mmin },
+        Y_Delta::grp_store_M { &grp_M },
+        Y_Delta::prt_compute_Y { &grp_Y }
     { }
 
     // data (public so user can do something with them once they are assembled)
@@ -67,9 +63,6 @@ private :
 
     // group mass cutoff
     static constexpr const float Mmin = 1e3F;
-
-    // radial cutoff
-    static constexpr const float Rscale = 1.0F;
 
     // files
     #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output/"
@@ -98,12 +91,6 @@ private :
     void prt_combine (size_t grp_idx, Y_Delta::grp_Y_t &grp_Y_val, Y_Delta::grp_Y_t prt_Y) const override
     {
         grp_Y_val += prt_Y;
-    }
-
-    // we want to store the group masses
-    Y_Delta::grp_M_t grp_reduce (void **grp_properties) const override
-    {
-        return get_property<IllustrisFields::GroupMass>(grp_properties);
     }
 };// }}}
 

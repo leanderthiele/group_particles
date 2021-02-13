@@ -14,6 +14,7 @@
 #include <functional>
 #include <utility>
 #include <cstdio>
+#include <type_traits>
 
 #include "H5Cpp.h"
 
@@ -24,7 +25,7 @@ namespace CallbackUtils
 {
 
 // Some common ways to have chunks organized
-namespace chunk_fmt
+namespace chunk
 {// {{{
     template<typename AFields>
     class SingleGrp : virtual public Callback<AFields>
@@ -109,13 +110,13 @@ namespace chunk_fmt
                const std::string &prt_fname, size_t prt_max_idx) :
             MultiGrp<AFields>(grp_fname, grp_max_idx), MultiPrt<AFields>(prt_fname, prt_max_idx) { }
     };
-} // namespace chunk_fmt }}}
+} // namespace chunk }}}
 
-// Some helpers for the Illustris file format
-namespace illustris
+// Some common ways to have hdf5 file contents organized
+namespace name
 {// {{{
     template<typename AFields, uint8_t PartType>
-    struct Naming : virtual public Callback<AFields>
+    struct Illustris : virtual public Callback<AFields>
     {
     public :
         std::string grp_name () const override
@@ -123,9 +124,13 @@ namespace illustris
         std::string prt_name () const override
         { return "PartType"+std::to_string(PartType)+"/"; }
     };
+} // namespace name }}}
 
+// Some common ways to get meta data
+namespace meta
+{// {{{
     template<typename AFields, uint8_t PartType>
-    class Meta : virtual public Callback<AFields>
+    class Illustris : virtual public Callback<AFields>
     {
         template<typename TH5, typename Trequ>
         Trequ read_scalar_attr (H5::Group &header, const std::string &name) const
@@ -172,19 +177,24 @@ namespace illustris
             read_prt_meta_custom(chunk_idx, fptr);
         }
     };
-
-    template<typename AFields, uint8_t PartType>
-    struct Conventional : virtual public Callback<AFields>,
-                          public Naming<AFields, PartType>, public Meta<AFields, PartType>
-    { };
-}// namespace illustris }}}
+}// namespace meta }}}
 
 // Some common cases for the selection functions
 namespace select
 {// {{{
+    template<typename AFields>
+    struct GrpAll : virtual public Callback<AFields>
+    {
+        bool grp_select (void **grp_properties)
+        { return true; }
+    };
+
     template<typename AFields, typename MassField>
     class GrpMassWindow : virtual public Callback<AFields>
     {
+        static_assert(MassField::dim == 1);
+        static_assert(MassField::type == FieldTypes::GrpFld);
+        static_assert(std::is_floating_point_v<typename MassField::value_type>);
         typename MassField::value_type Mmin, Mmax;
     public :
         GrpMassWindow (typename MassField::value_type Mmin_, typename MassField::value_type Mmax_) :
@@ -192,7 +202,7 @@ namespace select
         {
             #ifndef NDEBUG
             std::fprintf(stderr, "Initialized CallbackUtils::select::GrpMassWindow with "
-                                 "Mmin=%f and Mmax=%f.\n", Mmin, Mmax);
+                                 "Mmin=%.3e and Mmax=%.3e.\n", Mmin, Mmax);
             #endif
         }
         bool grp_select (void **grp_properties) const override
@@ -219,7 +229,7 @@ namespace select
     template<typename AFields>
     struct PrtAll : virtual public Callback<AFields>
     {
-        bool prt_select (void **grp_properties, void **prt_properties, float R) const override
+        bool prt_select (size_t grp_idx, void **grp_properties, void **prt_properties, float R) const override
         { return true; }
     };
 }// namespace select }}}
@@ -230,74 +240,128 @@ namespace radius
     template<typename AFields, typename RField>
     class Simple : virtual public Callback<AFields>
     {
+        static_assert(RField::dim == 1);
+        static_assert(RField::type == FieldTypes::GrpFld);
+        static_assert(std::is_floating_point_v<typename RField::value_type>);
         typename RField::value_type scaling;
     public :
-        Simple (typename RField::value_type scaling_) : scaling(scaling_)
+        Simple (typename RField::value_type scaling_) : scaling { scaling_ }
         {
             #ifndef NDEBUG
             std::fprintf(stderr, "Initialized CallbackUtils::radius::Simple with scaling=%f.\n", scaling);
             #endif
         }
+        Simple () : scaling { (typename RField::value_type)1.0 } { }
         float grp_radius (void **grp_properties) const override
         { return scaling * Callback<AFields>::template get_property<RField>(grp_properties); }
     };
 }// namespace radius }}}
 
-namespace actions
+// Some common cases for how we may want to treat the data
+namespace action
 {// {{{
+    // An abstract base class collecting different actions to be taken when a new group
+    // is encountered.
+    // The user should not inherit from this class directly
+    // but rather through MultiGrpAction below.
     template<typename AFields>
-    class MultiGrpAction : virtual public Callback<AFields>
+    class MultiGrpActionBase : virtual public Callback<AFields>
     {
     protected :
         std::vector<std::pair<void *,std::function<void(void *, void **)>>> grp_actions;
     public :
-        void grp_action (void **grp_properties) override
+        void grp_action (void **grp_properties) override final
         { for (auto fct : grp_actions) fct.second(fct.first, grp_properties); }
     };
 
+    // User should inherit from this class to register an action with the MultiGrpActionBase
+    // The constructor arguments are a pointer to the child class instance
+    // and a pointer to a static member function of the child class that
+    // takes a child class instance as its first argument and grp_properties as its second.
+    template<typename AFields>
+    struct MultiGrpAction : virtual public Callback<AFields>,
+                            virtual private MultiGrpActionBase<AFields>
+    {
+        MultiGrpAction (void *obj, void (*fct)(void *, void**))
+        { MultiGrpActionBase<AFields>::grp_actions.push_back(std::make_pair(obj, fct)); }
+    };
+
+    // Abstract base class that implements storage of homogeneous data for each group.
+    // (data is particle dependent)
+    // Each group gets an entry in the data vector, of type Tdata.
+    // For each particle that should be considered part of a group,
+    // the corresponding entry in the data vector is modified.
+    // To this end, the user needs to override two functions :
+    //      -- prt_reduce -> how to reduce a particle's properties to an item of a given type
+    //      -- prt_combine -> how to combine the outcome of the previous function with
+    //                        the existing entry in the data vector
     template<typename AFields, typename Tdata, typename Tfromprt=Tdata>
-    class StoreHomogeneous : virtual public Callback<AFields>, virtual public MultiGrpAction<AFields>
+    class StorePrtHomogeneous : virtual public Callback<AFields>,
+                                public MultiGrpAction<AFields>
     {
         std::vector<Tdata> *data;
         static void enlarge_data (void *obj, void **grp_properties)
         {
-            StoreHomogeneous *p = (StoreHomogeneous *)obj;
-            p->data->resize(p->data->size() + 1);
+            StorePrtHomogeneous *p = (StorePrtHomogeneous *)obj;
+            p->data->resize(p->data->size() + 1UL);
         }
     protected :
-        // how to reduce data about a particle to a Tfromprt object
         virtual Tfromprt prt_reduce (size_t grp_idx, void **grp_properties, void **prt_properties, float R) const = 0;
-        // how to combine the reduced particle data with the stored data
         virtual void prt_combine (size_t grp_idx, Tdata &data_item, Tfromprt prt_item) const = 0;
     public :
-        StoreHomogeneous (std::vector<Tdata> *data_) :
-            data(data_)
-        { MultiGrpAction<AFields>::grp_actions.push_back(std::make_pair(this, enlarge_data)); }
-        void prt_action (size_t grp_idx, void **grp_properties, void **prt_properties, float R) override
+        StorePrtHomogeneous (std::vector<Tdata> *data_) :
+            data(data_),
+            MultiGrpAction<AFields> { this, enlarge_data }
+        { }
+        void prt_action (size_t grp_idx, void **grp_properties, void **prt_properties, float R) override final
         {
             auto prt_item = prt_reduce(grp_idx, grp_properties, prt_properties, R);
             prt_combine(grp_idx, (*data)[grp_idx], prt_item);
         }
     };
 
+    // Abstract base class that implements storage of homogeneous data for each group.
+    // (data is group dependent)
+    // Since each group is only read once, in contrast to StorePrtHomogeneous only
+    // the grp_reduce function is required to be overriden by the subclass.
     template<typename AFields, typename Tdata>
-    class StoreGrpProperties : virtual public Callback<AFields>, virtual public MultiGrpAction<AFields>
+    class StoreGrpHomogeneous : virtual public Callback<AFields>,
+                                public MultiGrpAction<AFields>
     {
         std::vector<Tdata> *data;
         static void append_data (void *obj, void **grp_properties)
         {
-            StoreGrpProperties *p = (StoreGrpProperties *)obj;
+            StoreGrpHomogeneous *p = (StoreGrpHomogeneous *)obj;
             p->data->push_back(p->grp_reduce(grp_properties));
         }
     protected :
         virtual Tdata grp_reduce (void **grp_properties) const = 0;
     public :
-        StoreGrpProperties (std::vector<Tdata> *data_) :
-            data(data_)
-        { MultiGrpAction<AFields>::grp_actions.push_back(std::make_pair(this, append_data)); }
+        StoreGrpHomogeneous (std::vector<Tdata> *data_) :
+            data(data_),
+            MultiGrpAction<AFields> { this, append_data }
+        { }
     };
 
-}// namespace actions }}}
+    // Implements storage of a single group property named Field
+    // in a data vector.
+    // Multiple template instantiations can be used to store multiple
+    // group properties.
+    template<typename AFields, typename Field, typename storeasT = typename Field::value_type>
+    class StoreGrpProperty : virtual public Callback<AFields>,
+                             public StoreGrpHomogeneous<AFields, storeasT>
+    {
+        static_assert(Field::dim == 1, "Currently not implemented, could probably be done");
+        storeasT grp_reduce (void **grp_properties) const override final
+        {
+            return Callback<AFields>::template get_property<Field>(grp_properties);
+        }
+    public :
+        StoreGrpProperty (std::vector<storeasT> *data) :
+            StoreGrpHomogeneous<AFields, storeasT>(data)
+        { }
+    };
+}// namespace action }}}
 
 } // namespace CallbackUtils
 

@@ -23,6 +23,13 @@ FIELD(GroupPos, 3, float, FieldTypes::GrpFld, true);
 FIELD(GroupMass, 1, float, FieldTypes::GrpFld, false);
 FIELD(GroupVel, 3, float, FieldTypes::GrpFld, false);
 FIELD(Group_R_Crit200, 1, float, FieldTypes::GrpFld, false);
+FIELD(Group_M_Crit200, 1, float, FieldTypes::GrpFld, false);
+FIELD(Group_R_Crit500, 1, float, FieldTypes::GrpFld, false);
+FIELD(Group_M_Crit500, 1, float, FieldTypes::GrpFld, false);
+FIELD(Group_R_Mean200, 1, float, FieldTypes::GrpFld, false);
+FIELD(Group_M_Mean200, 1, float, FieldTypes::GrpFld, false);
+FIELD(Group_R_TopHat200, 1, float, FieldTypes::GrpFld, false);
+FIELD(Group_M_TopHat200, 1, float, FieldTypes::GrpFld, false);
 // TODO
 
 

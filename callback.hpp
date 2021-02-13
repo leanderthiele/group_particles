@@ -62,7 +62,7 @@ struct Callback
 
     // returns whether a particle should be considered for the halo passed.
     // Only particles falling within grp_radius will be passed here.
-    virtual bool prt_select (void **grp_properties, void **prt_properties, float R) const = 0;
+    virtual bool prt_select (size_t grp_idx, void **grp_properties, void **prt_properties, float R) const = 0;
 
     // this function will be called for all particles for which prt_select
     // returns true.

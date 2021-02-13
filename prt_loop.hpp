@@ -171,7 +171,7 @@ Workspace<AFields>::prt_loop_inner
 
     // check if this particle belongs to the group
     if (R > grp_radii[grp_idx]
-        || !callback.prt_select(this_grp_properties,
+        || !callback.prt_select(grp_idx, this_grp_properties,
                                 this_prt_properties, R))
         return;
 
