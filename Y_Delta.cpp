@@ -10,7 +10,7 @@ namespace Y_Delta
     constexpr const size_t PartType = 0; // gas
 
     typedef GrpFields<IllustrisFields::GroupPos,
-                      IllustrisFields::GroupMass,
+                      IllustrisFields::Group_M_Crit200,
                       IllustrisFields::Group_R_Crit200> GrpF;
     typedef PrtFields<IllustrisFields::Coordinates,
                       IllustrisFields::Masses,
@@ -27,13 +27,13 @@ namespace Y_Delta
         name;
     typedef CallbackUtils::meta::Illustris<AF, PartType>
         meta;
-    typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::GroupMass>
+    typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::Group_M_Crit200>
         grp_select;
     typedef CallbackUtils::select::PrtAll<AF>
         prt_select;
     typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
         grp_radius;
-    typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::GroupMass, grp_M_t>
+    typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
         grp_store_M;
     typedef CallbackUtils::action::StorePrtHomogeneous<AF, grp_Y_t>
         prt_compute_Y;

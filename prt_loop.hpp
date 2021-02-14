@@ -65,13 +65,24 @@ Workspace<AFields>::prt_loop ()
         #endif // NDEBUG
 
         // run the loop
-        #ifndef NDEBUG
+        #ifndef NAIVE
+        #   ifndef NDEBUG
         TIME_PT(t4);
-        #endif // NDEBUG
+        #   endif // NDEBUG
         prt_loop_sorted(Nprt_this_file);
-        #ifndef NDEBUG
+        #   ifndef NDEBUG
         TIME_MSG(t4, "prt_loop->prt_loop_sorted");
-        #endif // NDEBUG
+        #   endif // NDEBUG
+        #else // NAIVE
+        #   ifndef NDEBUG
+        TIME_PT(t4);
+        #   endif // NDEBUG
+        #   warning "Compiling with the naive particle loop instead of the (much faster) sorted one."
+        prt_loop_naive(Nprt_this_file);
+        #   ifndef NDEBUG
+        TIME_MSG(t4, "prt_loop->prt_loop_naive");
+        #   endif // NDEBUG
+        #endif // NAIVE
 
         #ifndef NDEBUG
         TIME_MSG(t1, "chunk %lu in Workspace::prt_loop", chunk_idx+1UL);
@@ -100,7 +111,7 @@ Workspace<AFields>::prt_loop_naive (size_t Nprt_this_file)
         // now loop over groups
         for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx, grp.advance())
             // do stuff
-            prt_loop_inner(callback, grp_idx, grp, prt);
+            prt_loop_inner(grp_idx, grp, prt);
     }// for prt_idx
 }// }}}
 

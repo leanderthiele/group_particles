@@ -1,13 +1,6 @@
 #ifndef CALLBACK_UTILS_HPP
 #define CALLBACK_UTILS_HPP
 
-// TODO
-// -- call non-default constructor (with GrpProperties instance)
-//    in MultiGrp...
-// -- register fct in MultiGrp
-// -- buffer instead of std::vector in MultiGrp
-// -- simplify StorePrtHomogeneous so that only one function needs to be overriden
-
 // This file contains some subclasses of the Callback base class,
 // by inheriting a subset from this list the user can achieve a lot
 // of functionality out of the box without writing much new code

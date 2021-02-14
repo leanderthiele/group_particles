@@ -85,8 +85,8 @@ int main ()
     halo_particles<> ( n );
 
     // save data to files
-    vec_to_f<>(n.grp_M, "./null_test_result/grp_M.bin");
-    vec_to_f<>(n.grp_N, "./null_test_result/grp_N.bin");
+    vec_to_f<>(n.grp_M, "./null_test_result_Feb13/grp_M.bin");
+    vec_to_f<>(n.grp_N, "./null_test_result_Feb13/grp_N.bin");
 
     return 0;
 };
