@@ -45,10 +45,6 @@ class Workspace<AFields>::Sorting
 
     class Geometry
     {
-        // these two helper functions bring the geometric setup into a canonical form
-        static void mod_translations (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
-                                      typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]],
-                                      typename AFields::GroupFields::coord_t periodicity);
         static void mod_reflections (typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]]);
     public :
         // assumes that the parameters passed have units such that the cube sidelength is unity
@@ -254,7 +250,7 @@ Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
      typename AFields::GroupFields::coord_t grp_Rsq,
      typename AFields::GroupFields::coord_t periodicity)
 {// {{{
-    mod_translations(grp_coord, cub_coord, periodicity);
+    GeomUtils::periodic_dist(grp_coord, cub_coord, periodicity);
     mod_reflections(cub_coord);
 
     return GeomUtils::hypotsq(std::max((typename AFields::GroupFields::coord_t)0.0,
@@ -264,18 +260,6 @@ Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
                               std::max((typename AFields::GroupFields::coord_t)0.0,
                                        cub_coord[2])
                              ) < grp_Rsq;
-}// }}}
-
-template<typename AFields>
-inline void
-Workspace<AFields>::Sorting::Geometry::mod_translations
-    (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
-     typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]],
-     typename AFields::GroupFields::coord_t periodicity)
-{// {{{
-    for (size_t ii=0; ii != AFields::GroupFields::dims[0]; ++ii)
-        cub_coord[ii] = GeomUtils::periodic_dist<typename AFields::GroupFields::coord_t>
-                            (grp_coord[ii], cub_coord[ii], periodicity);
 }// }}}
 
 template<typename AFields>
