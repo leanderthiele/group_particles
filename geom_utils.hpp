@@ -41,7 +41,6 @@ periodic_dist (coord_t x1, coord_t x2, coord_t periodicity, int &periodic_to_add
 }// }}}
 
 // computes the unsigned distance |x2-x1|, taking into account the periodicity
-__attribute__((hot))
 static inline coord_t
 abs_periodic_dist (coord_t x1, coord_t x2, coord_t periodicity)
 {// {{{
@@ -92,8 +91,9 @@ periodic_hypotsq (const coord_t *r1, const coord_t *r2, coord_t periodicity)
     return hypotsq(dx0, dx1, dx2);
 }// }}}
 
+__attribute__((hot))
 static inline coord_t
-periodic_hypotsq (const coord_t *r1, const coord_t *r2, coord_t periodicity, const std::array<int,3> &periodic_to_add)
+periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2, coord_t periodicity, const std::array<int,3> &periodic_to_add)
 {
     auto dx0 = periodic_dist_whint(r1[0], r2[0], periodicity, periodic_to_add[0]);
     auto dx1 = periodic_dist_whint(r1[1], r2[1], periodicity, periodic_to_add[1]);
