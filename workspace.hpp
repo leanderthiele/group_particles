@@ -19,6 +19,7 @@ class Workspace
     size_t alloced_grp = 0UL;
     void *grp_properties[AFields::GroupFields::Nfields];
     coord_t *grp_radii_sq;
+    coord_t *grp_radii;
 
     // temporary buffers
     void *tmp_grp_properties[AFields::GroupFields::Nfields];

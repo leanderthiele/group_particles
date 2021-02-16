@@ -20,6 +20,7 @@ Workspace<AFields>::Workspace (Callback<AFields> &callback_) :
     for (size_t ii=0; ii != AFields::ParticleFields::Nfields; ++ii)
         tmp_prt_properties[ii] = nullptr;
     grp_radii_sq = nullptr;
+    grp_radii    = nullptr;
 }// }}}
 
 template<typename AFields>
@@ -39,6 +40,8 @@ Workspace<AFields>::~Workspace ()
 
     if (grp_radii_sq)
         std::free(grp_radii_sq);
+    if (grp_radii)
+        std::free(grp_radii);
 }// }}}
 
 template<typename AFields>
@@ -49,6 +52,7 @@ void Workspace<AFields>::realloc_grp_storage (size_t new_size)
                                           new_size * AFields::GroupFields::strides_fcoord[ii]);
 
     grp_radii_sq = (coord_t *)std::realloc(grp_radii_sq, new_size * sizeof(coord_t));
+    grp_radii    = (coord_t *)std::realloc(grp_radii,    new_size * sizeof(coord_t));
 }// }}}
 
 template<typename AFields>

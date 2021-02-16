@@ -168,8 +168,20 @@ Workspace<AFields>::prt_loop_inner
      const typename Callback<AFields>::GrpProperties &grp,
      const typename Callback<AFields>::PrtProperties &prt)
 {// {{{
-    // figure out the distance between group and particle,
-    coord_t Rsq = GeomUtils::periodic_hypotsq(grp.coord(), prt.coord(), Bsize);
+    coord_t *rgrp = grp.coord();
+    coord_t *rprt = prt.coord();
+
+    coord_t Rsq = (coord_t)0.0;
+
+    for (size_t ii=0; ii != 3; ++ii)
+    {
+        coord_t dx = GeomUtils::abs_periodic_dist(rgrp[ii], rprt[ii], Bsize);
+
+        if (dx > grp_radii[grp_idx])
+            return;
+
+        Rsq += dx * dx;
+    }
 
     // check if this particle belongs to the group
     if (Rsq > grp_radii_sq[grp_idx]
