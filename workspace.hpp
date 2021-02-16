@@ -11,14 +11,14 @@ class Workspace
     Callback<AFields> &callback;
 
     // metadata we need to store permanently
-    float Bsize;
+    coord_t Bsize;
 
     // data we need to store permanently
     // (acoording to user-defined selection and radius calculation)
     size_t Ngrp = 0UL;
     size_t alloced_grp = 0UL;
     void *grp_properties[AFields::GroupFields::Nfields];
-    float *grp_radii_sq;
+    coord_t *grp_radii_sq;
 
     // temporary buffers
     void *tmp_grp_properties[AFields::GroupFields::Nfields];

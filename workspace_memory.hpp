@@ -46,9 +46,9 @@ void Workspace<AFields>::realloc_grp_storage (size_t new_size)
 {// {{{
     for (size_t ii=0; ii != AFields::GroupFields::Nfields; ++ii)
         grp_properties[ii] = std::realloc(grp_properties[ii],
-                                          new_size * AFields::GroupFields::strides[ii]);
+                                          new_size * AFields::GroupFields::strides_fcoord[ii]);
 
-    grp_radii_sq = (float *)std::realloc(grp_radii_sq, new_size * sizeof(float));
+    grp_radii_sq = (coord_t *)std::realloc(grp_radii_sq, new_size * sizeof(coord_t));
 }// }}}
 
 template<typename AFields>
@@ -71,7 +71,7 @@ void Workspace<AFields>::realloc_grp_storage_if_necessary ()
 
     assert(Ngrp == alloced_grp);
 
-    alloced_grp = std::max(128UL, 2 * alloced_grp);
+    alloced_grp = std::max(128UL, 2UL * alloced_grp);
     realloc_grp_storage(alloced_grp);
 }// }}}
 

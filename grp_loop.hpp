@@ -41,6 +41,9 @@ Workspace<AFields>::grp_loop ()
         // read the file data
         read_fields<AFields, typename AFields::GroupFields>(callback, fptr, Ngrp_this_file, tmp_grp_properties);
 
+        // convert coordinates to global type
+        tmp_grp_properties[0] = (void *)AFields::GroupFields::convert_coords(Ngrp_this_file, tmp_grp_properties[0]);
+
         typename Callback<AFields>::GrpProperties grp (tmp_grp_properties);
 
         // now loop over groups to see which ones belong into permanent storage
@@ -58,8 +61,8 @@ Workspace<AFields>::grp_loop ()
 
                 // copy properties into permanent storage
                 for (size_t ii=0; ii != AFields::GroupFields::Nfields; ++ii)
-                    std::memcpy((char *)(grp_properties[ii]) + Ngrp * AFields::GroupFields::strides[ii],
-                                grp[ii], AFields::GroupFields::strides[ii]);
+                    std::memcpy((char *)(grp_properties[ii]) + Ngrp * AFields::GroupFields::strides_fcoord[ii],
+                                grp[ii], AFields::GroupFields::strides_fcoord[ii]);
                 
                 // advance the counter
                 ++Ngrp;

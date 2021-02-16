@@ -9,6 +9,7 @@
 #include <cassert>
 #include <cmath>
 
+#include "fields.hpp"
 #include "workspace.hpp"
 #include "geom_utils.hpp"
 #include "timing.hpp"
@@ -20,12 +21,12 @@
 template<typename AFields>
 class Workspace<AFields>::Sorting
 {// {{{
-    typename AFields::ParticleFields::coord_t Bsize;
+    coord_t Bsize;
     const size_t Nprt;
 
     static constexpr const size_t Ncells_side = 16UL;
     static constexpr const size_t Ncells_tot  = Ncells_side * Ncells_side * Ncells_side;
-    const typename AFields::ParticleFields::coord_t acell;
+    coord_t acell;
     
     // stores particle index in original particle order (first) and index in cells (second)
     std::vector<std::pair<size_t, size_t>> prt_indices;
@@ -45,19 +46,19 @@ class Workspace<AFields>::Sorting
 
     class Geometry
     {
-        static void mod_reflections (typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]]);
+        static void mod_reflections (coord_t cub_coord[AFields::GroupFields::dims[0]]);
     public :
         // assumes that the parameters passed have units such that the cube sidelength is unity
         // The cub_coord array will be modified!
-        static bool sph_cub_intersect (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
-                                       typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]],
-                                       typename AFields::GroupFields::coord_t grp_Rsq,
-                                       typename AFields::GroupFields::coord_t periodicity);
+        static bool sph_cub_intersect (const coord_t grp_coord[AFields::GroupFields::dims[0]],
+                                       coord_t cub_coord[AFields::GroupFields::dims[0]],
+                                       coord_t grp_Rsq,
+                                       coord_t periodicity);
         Geometry () = delete;
     };
 
 public :
-    Sorting (size_t Nprt_, typename AFields::ParticleFields::coord_t Bsize_, void **tmp_prt_properties_);
+    Sorting (size_t Nprt_, coord_t Bsize_, void **tmp_prt_properties_);
     Sorting () = delete;
     ~Sorting ();
 
@@ -68,15 +69,15 @@ public :
     // user can use this function to find the indices of all particles that may
     // belong to a given group
     std::vector<std::pair<size_t, size_t>> prt_idx_ranges
-        (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
-         const typename AFields::GroupFields::coord_t Rsq) const;
+        (const coord_t grp_coord[AFields::GroupFields::dims[0]],
+         const coord_t Rsq) const;
 };// }}}
 
 // ----- Implementation -----
 
 template<typename AFields>
 Workspace<AFields>::Sorting::Sorting (size_t Nprt_,
-                                      typename AFields::ParticleFields::coord_t Bsize_,
+                                      coord_t Bsize_,
                                       void **tmp_prt_properties_) :
     Nprt { Nprt_ }, Bsize { Bsize_ }, tmp_prt_properties { tmp_prt_properties_ },
     acell { Bsize_ / Ncells_side },
@@ -104,7 +105,7 @@ Workspace<AFields>::Sorting::Sorting (size_t Nprt_,
     #endif // NDEBUG
     // allocate memory where we can store the sorted particle properties
     for (size_t ii=0; ii != AFields::ParticleFields::Nfields; ++ii)
-        tmp_prt_properties_sorted[ii] = std::malloc(Nprt * AFields::ParticleFields::strides[ii]);
+        tmp_prt_properties_sorted[ii] = std::malloc(Nprt * AFields::ParticleFields::strides_fcoord[ii]);
     #ifndef NDEBUG
     TIME_MSG(t3, "Sorting memory allocation");
     #endif // NDEBUG
@@ -138,7 +139,7 @@ void
 Workspace<AFields>::Sorting::compute_prt_indices ()
 {// {{{
     prt_indices.reserve(Nprt);
-    auto *prt_coord = (typename AFields::ParticleFields::coord_t *)tmp_prt_properties[0];
+    auto *prt_coord = (coord_t *)tmp_prt_properties[0];
 
     #define GRID(x, dir) ((size_t)(x[dir] / acell))
 
@@ -171,10 +172,10 @@ Workspace<AFields>::Sorting::reorder_prt_properties ()
     {
         char *dest = (char *)tmp_prt_properties_sorted[ii];
 
-        for (size_t prt_idx=0; prt_idx != Nprt; ++prt_idx, dest += AFields::ParticleFields::strides[ii])
+        for (size_t prt_idx=0; prt_idx != Nprt; ++prt_idx, dest += AFields::ParticleFields::strides_fcoord[ii])
             std::memcpy(dest, (char *)(tmp_prt_properties[ii])
-                              + prt_indices[prt_idx].first * AFields::ParticleFields::strides[ii],
-                        AFields::ParticleFields::strides[ii]);
+                              + prt_indices[prt_idx].first * AFields::ParticleFields::strides_fcoord[ii],
+                        AFields::ParticleFields::strides_fcoord[ii]);
     }
 }// }}}
 
@@ -197,31 +198,30 @@ Workspace<AFields>::Sorting::compute_offsets ()
 template<typename AFields>
 std::vector<std::pair<size_t, size_t>>
 Workspace<AFields>::Sorting::prt_idx_ranges
-    (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
-     typename AFields::GroupFields::coord_t Rsq) const
+    (const coord_t grp_coord[AFields::GroupFields::dims[0]],
+     coord_t Rsq) const
 {// {{{
     std::vector<std::pair<size_t, size_t>> out;
 
-    typename AFields::GroupFields::coord_t grp_coord_normalized[AFields::GroupFields::dims[0]];
+    coord_t grp_coord_normalized[AFields::GroupFields::dims[0]];
     for (size_t ii=0; ii != AFields::GroupFields::dims[0]; ++ii)
         grp_coord_normalized[ii] = grp_coord[ii] / acell;
 
-    const typename AFields::GroupFields::coord_t Rsq_normalized = Rsq / (acell*acell);
+    const coord_t Rsq_normalized = Rsq / (acell*acell);
 
     // loop over all cells -- there's a more efficient way of doing this,
     //                        by some preselection based on R,
     //                        but this is fast enough
     for (size_t ii=0; ii != Ncells_tot; ++ii)
     {
-        typename AFields::GroupFields::coord_t cub_coord[]
+        coord_t cub_coord[]
             = { ii / (Ncells_side*Ncells_side),
                 (ii/Ncells_side) % Ncells_side,
                 ii % Ncells_side };
 
         if (// check if group has overlap with this cell
             Geometry::sph_cub_intersect(grp_coord_normalized, cub_coord,
-                                        Rsq_normalized,
-                                        (typename AFields::GroupFields::coord_t)Bsize)
+                                        Rsq_normalized, Bsize)
             // check if this cell has any particles
             && offsets[ii] < Nprt)
         {
@@ -245,27 +245,24 @@ Workspace<AFields>::Sorting::prt_idx_ranges
 template<typename AFields>
 inline bool
 Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
-    (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
-     typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]],
-     typename AFields::GroupFields::coord_t grp_Rsq,
-     typename AFields::GroupFields::coord_t periodicity)
+    (const coord_t grp_coord[AFields::GroupFields::dims[0]],
+     coord_t cub_coord[AFields::GroupFields::dims[0]],
+     coord_t grp_Rsq,
+     coord_t periodicity)
 {// {{{
     GeomUtils::periodic_dist(grp_coord, cub_coord, periodicity);
     mod_reflections(cub_coord);
 
-    return GeomUtils::hypotsq(std::max((typename AFields::GroupFields::coord_t)0.0,
-                                       cub_coord[0]),
-                              std::max((typename AFields::GroupFields::coord_t)0.0,
-                                       cub_coord[1]),
-                              std::max((typename AFields::GroupFields::coord_t)0.0,
-                                       cub_coord[2])
+    return GeomUtils::hypotsq(std::max((coord_t)0.0, cub_coord[0]),
+                              std::max((coord_t)0.0, cub_coord[1]),
+                              std::max((coord_t)0.0, cub_coord[2])
                              ) < grp_Rsq;
 }// }}}
 
 template<typename AFields>
 inline void
 Workspace<AFields>::Sorting::Geometry::mod_reflections
-    (typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]])
+    (coord_t cub_coord[AFields::GroupFields::dims[0]])
 {// {{{
     for (size_t ii=0; ii != AFields::GroupFields::dims[0]; ++ii)
         if (cub_coord[ii] < -0.5)

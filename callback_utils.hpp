@@ -170,10 +170,10 @@ namespace meta
             Ngroups = read_scalar_attr<int32_t,size_t>(header, "Ngroups_ThisFile");
             read_grp_meta_custom(chunk_idx, fptr);
         }
-        void read_prt_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr, float &Bsize, size_t &Npart) override
+        void read_prt_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr, coord_t &Bsize, size_t &Npart) override
         {
             auto header = fptr->openGroup("/Header");
-            Bsize = read_scalar_attr<double,float>(header, "BoxSize");
+            Bsize = read_scalar_attr<double,coord_t>(header, "BoxSize");
             Npart = read_vector_attr<int32_t,size_t>(header, "NumPart_ThisFile", PartType);
             read_prt_meta_custom(chunk_idx, fptr);
         }
@@ -233,7 +233,7 @@ namespace select
         bool prt_select (size_t grp_idx,
                          const typename Callback<AFields>::GrpProperties &grp,
                          const typename Callback<AFields>::PrtProperties &prt,
-                         float R) const override
+                         coord_t Rsq) const override
         { return true; }
     };
 }// namespace select }}}
@@ -256,7 +256,7 @@ namespace radius
             #endif
         }
         Simple () : scaling { (typename RField::value_type)1.0 } { }
-        float grp_radius (const typename Callback<AFields>::GrpProperties &grp) const override
+        coord_t grp_radius (const typename Callback<AFields>::GrpProperties &grp) const override
         { return scaling * grp.template get<RField>(); }
     };
 }// namespace radius }}}
@@ -335,7 +335,7 @@ namespace action
         virtual void prt_insert (size_t grp_idx,
                                  const typename Callback<AFields>::GrpProperties &grp,
                                  const typename Callback<AFields>::PrtProperties &prt,
-                                 float R,
+                                 coord_t Rsq,
                                  Tdata &data_item) = 0;
     public :
         StorePrtHomogeneous (std::vector<Tdata> *data_) :
@@ -345,9 +345,9 @@ namespace action
         void prt_action (size_t grp_idx,
                          const typename Callback<AFields>::GrpProperties &grp,
                          const typename Callback<AFields>::PrtProperties &prt,
-                         float R) override final
+                         coord_t Rsq) override final
         {
-            prt_insert(grp_idx, grp, prt, R, (*data)[grp_idx]);
+            prt_insert(grp_idx, grp, prt, Rsq, (*data)[grp_idx]);
         }
     };
 

@@ -84,7 +84,7 @@ struct Callback
     // This function is required to write the box size and number of particles in this
     // chunk into the return values.
     virtual void read_prt_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr,
-                                float &Bsize, size_t &Npart) = 0;
+                                coord_t &Bsize, size_t &Npart) = 0;
 
     // returns whether the group described by the argument should be
     // considered
@@ -99,12 +99,12 @@ struct Callback
 
     // returns the group radius. Only particles falling within the radius
     // should be considered
-    virtual float grp_radius (const GrpProperties &grp) const = 0;
+    virtual coord_t grp_radius (const GrpProperties &grp) const = 0;
 
     // returns whether a particle should be considered for the halo passed.
     // Only particles falling within grp_radius will be passed here.
     virtual bool prt_select (size_t grp_idx, const GrpProperties &grp,
-                             const PrtProperties &prt, float Rsq) const = 0;
+                             const PrtProperties &prt, coord_t Rsq) const = 0;
 
     // this function will be called for all particles for which prt_select
     // returns true.
@@ -114,7 +114,7 @@ struct Callback
     // R is the radius from the group center (as defined by the user)
     // It is not marked as const since it probably stores some data in the child class.
     virtual void prt_action (size_t grp_idx, const GrpProperties &grp,
-                             const PrtProperties &prt, float Rsq) = 0;
+                             const PrtProperties &prt, coord_t Rsq) = 0;
 };
 
 
@@ -125,7 +125,7 @@ template<typename T>
 Callback<AFields>::BaseProperties<T>::BaseProperties (void *data_in_memory[T::Nfields], size_t offset)
 {
     for (size_t ii=0; ii != T::Nfields; ++ii)
-        data[ii] = ((char *)data_in_memory[ii]) + offset * T::strides[ii];
+        data[ii] = ((char *)data_in_memory[ii]) + offset * T::strides_fcoord[ii];
 }
 
 template<typename AFields>
@@ -134,7 +134,7 @@ inline void
 Callback<AFields>::BaseProperties<T>::advance ()
 {
     for (size_t ii=0; ii != T::Nfields; ++ii)
-        data[ii] += T::strides[ii];
+        data[ii] += T::strides_fcoord[ii];
 }
 
 template<typename AFields>
@@ -150,7 +150,7 @@ template<typename T>
 inline auto
 Callback<AFields>::BaseProperties<T>::coord () const
 {
-    return (typename T::coord_t *)data[0];
+    return (coord_t *)data[0];
 }
 
 template<typename AFields>
@@ -178,7 +178,11 @@ Callback<AFields>::BaseProperties<T>::get () const
     if constexpr (Field::dim == 1)
         return (typename Field::value_type) *(typename Field::value_type *)data[idx];
     else
-        return (typename Field::value_type *)data[idx];
+        if constexpr (Field::coord)
+        // need to use the global coord_t that this field has been converted to
+            return (coord_t *)data[idx];
+        else
+            return (typename Field::value_type *)data[idx];
 }
 
 #endif // CALLBACK_HPP

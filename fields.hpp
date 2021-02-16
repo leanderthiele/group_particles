@@ -3,10 +3,13 @@
 
 #include <initializer_list>
 #include <type_traits>
+#include <cstdlib>
 
 #ifndef NDEBUG
 #   include <cstdio>
 #endif // NDEBUG
+
+typedef float coord_t;
 
 enum class FieldTypes { GrpFld, PrtFld };
 
@@ -16,9 +19,12 @@ enum class FieldTypes { GrpFld, PrtFld };
         name_ () = delete;                                            \
         static constexpr const char name[] = #name_;                  \
         static constexpr const size_t size = sizeof(value_type_);     \
+        static constexpr const size_t size_fcoord                     \
+            = (coord_) ? sizeof(coord_t) : size;                      \
         static constexpr const size_t dim  = dim_;                    \
-        static constexpr const size_t stride = dim_                   \
-                                               * sizeof(value_type_); \
+        static constexpr const size_t stride = dim_ * size;           \
+        static cpnstexpr const size_t stride_fcoord                   \
+            = dim_ * size_fcoord                                      \
         static constexpr const FieldTypes type = type_;               \
         static constexpr const bool coord = coord_;                   \
         typedef value_type_ value_type;                               \
@@ -94,11 +100,15 @@ public :
     static constexpr const size_t Nfields   = sizeof...(Fields);
     static constexpr const char  *names[]   = { Fields::name ... };
     static constexpr const size_t sizes[]   = { Fields::size ... };
+    static constexpr const size_t sizes_fcoord[]
+        = { Fields::size_fcoord ... };
     static constexpr const size_t dims[]    = { Fields::dim ... };
     static constexpr const size_t strides[] = { Fields::stride ... };
+    static constexpr const size_t strides_fcoord[]
+        = { Fields::stride_fcoord ... };
 
     // we need to do arithmetic with the coordinate values, so we need to know their type
-    typedef typename extract_coord_type<Fields...>::value_type coord_t;
+    typedef typename extract_coord_type<Fields...>::value_type sim_coord_t;
 
     // store this information so we can use it to check order
     static constexpr const FieldTypes field_type = field_type_;
@@ -123,6 +133,43 @@ public :
     // check that there is no duplication (which is not a problem per se but likely indicates a bug)
     static_assert( all_unequal<Fields...>(),
                    "Duplicate field, this is likely not what you intended to do.");
+
+    // converts coords to global coordinate type if necessary
+    static coord_t *
+    convert_coords (size_t Nitems, void * &coords)
+    {
+        if constexpr (!std::is_same_v<sim_coord_t, coord_t>)
+        {
+            if constexpr (sizeof(coord_t) <= sizeof(sim_coord_t))
+            // we can work in the original buffer
+            {
+                coord_t *coords_global_type = (coord_t *)coords;
+                sim_coord_t *coords_sim_type = (sim_coord_t *)coords;
+
+                for (size_t ii=0; ii != Nitems * dims[0]; ++ii)
+                    coords_global_type[ii] = (coord_t)(coords_sim_type[ii]);
+
+                // resize to save memory
+                coords = std::realloc(coords, Nitems * dims[0] * sizeof(coord_t));
+
+                return (coord_t *)coords;
+            }
+            else
+            // we need to allocate a new buffer
+            {
+                coord_t *coords_global_type = (coord_t *)std::malloc(Nitems * dims[0] * sizeof(coord_t));
+                sim_coord_t *coords_sim_type = (sim_coord_t *)coords;
+
+                for (size_t ii=0; ii != Nitems * dims[0]; ++ii)
+                    coords_global_type[ii] = (coord_t)(coords_sim_type[ii]);
+
+                // free the original coordinates
+                std::free(coords);
+
+                return (coord_t *)coords_global_type;
+            }
+        }
+    }
 };//}}}
 
 template<typename... Fields>

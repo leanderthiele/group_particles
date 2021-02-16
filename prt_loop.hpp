@@ -36,7 +36,7 @@ Workspace<AFields>::prt_loop ()
 
         // read metadata
         size_t Nprt_this_file;
-        float Bsize_this_file;
+        coord_t Bsize_this_file;
         callback.read_prt_meta(chunk_idx, fptr, Bsize_this_file, Nprt_this_file);
 
         if (chunk_idx==0)
@@ -64,6 +64,9 @@ Workspace<AFields>::prt_loop ()
         #ifndef NDEBUG
         TIME_MSG(t3, "prt_loop read_fields for particle chunk data");
         #endif // NDEBUG
+
+        // convert the particle coordinates
+        tmp_prt_properties[0] = (void *)AFields::ParticleFields::convert_coords(Nprt_this_file, tmp_prt_properties);
 
         // run the loop
         #ifndef NAIVE
@@ -166,7 +169,7 @@ Workspace<AFields>::prt_loop_inner
      const typename Callback<AFields>::PrtProperties &prt)
 {// {{{
     // figure out the distance between group and particle,
-    float Rsq = GeomUtils::periodic_hypotsq<float>(grp.coord(), prt.coord(), Bsize);
+    coord_t Rsq = GeomUtils::periodic_hypotsq(grp.coord(), prt.coord(), Bsize);
 
     // check if this particle belongs to the group
     if (Rsq > grp_radii_sq[grp_idx]

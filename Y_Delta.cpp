@@ -77,7 +77,7 @@ private :
     
     // computation of Compton-Y for a single gas particle
     void prt_insert (size_t grp_idx, const GrpProperties &grp, const PrtProperties &prt,
-                     float R, Y_Delta::grp_Y_t &data_item) override
+                     float Rsq, Y_Delta::grp_Y_t &data_item) override
     {
         auto m = prt.get<IllustrisFields::Masses>();
         auto e = prt.get<IllustrisFields::InternalEnergy>();
