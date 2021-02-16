@@ -186,7 +186,7 @@ namespace select
     template<typename AFields>
     struct GrpAll : virtual public Callback<AFields>
     {
-        bool grp_select (const typename Callback<AFields>::GrpProperties &grp)
+        bool grp_select (const typename Callback<AFields>::GrpProperties &grp) const
         { return true; }
     };
 
