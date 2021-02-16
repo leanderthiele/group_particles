@@ -10,6 +10,7 @@
 #include <cmath>
 
 #include "workspace.hpp"
+#include "geom_utils.hpp"
 #include "timing.hpp"
 
 // TODO
@@ -54,7 +55,7 @@ class Workspace<AFields>::Sorting
         // The cub_coord array will be modified!
         static bool sph_cub_intersect (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
                                        typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]],
-                                       typename AFields::GroupFields::coord_t grp_R,
+                                       typename AFields::GroupFields::coord_t grp_Rsq,
                                        typename AFields::GroupFields::coord_t periodicity);
         Geometry () = delete;
     };
@@ -72,7 +73,7 @@ public :
     // belong to a given group
     std::vector<std::pair<size_t, size_t>> prt_idx_ranges
         (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
-         const typename AFields::GroupFields::coord_t R) const;
+         const typename AFields::GroupFields::coord_t Rsq) const;
 };// }}}
 
 // ----- Implementation -----
@@ -201,7 +202,7 @@ template<typename AFields>
 std::vector<std::pair<size_t, size_t>>
 Workspace<AFields>::Sorting::prt_idx_ranges
     (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
-     typename AFields::GroupFields::coord_t R) const
+     typename AFields::GroupFields::coord_t Rsq) const
 {// {{{
     std::vector<std::pair<size_t, size_t>> out;
 
@@ -209,7 +210,7 @@ Workspace<AFields>::Sorting::prt_idx_ranges
     for (size_t ii=0; ii != AFields::GroupFields::dims[0]; ++ii)
         grp_coord_normalized[ii] = grp_coord[ii] / acell;
 
-    const typename AFields::GroupFields::coord_t R_normalized = R / acell;
+    const typename AFields::GroupFields::coord_t Rsq_normalized = Rsq / (acell*acell);
 
     // loop over all cells -- there's a more efficient way of doing this,
     //                        by some preselection based on R,
@@ -223,7 +224,7 @@ Workspace<AFields>::Sorting::prt_idx_ranges
 
         if (// check if group has overlap with this cell
             Geometry::sph_cub_intersect(grp_coord_normalized, cub_coord,
-                                        R_normalized,
+                                        Rsq_normalized,
                                         (typename AFields::GroupFields::coord_t)Bsize)
             // check if this cell has any particles
             && offsets[ii] < Nprt)
@@ -250,15 +251,19 @@ inline bool
 Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
     (const typename AFields::GroupFields::coord_t grp_coord[AFields::GroupFields::dims[0]],
      typename AFields::GroupFields::coord_t cub_coord[AFields::GroupFields::dims[0]],
-     typename AFields::GroupFields::coord_t grp_R,
+     typename AFields::GroupFields::coord_t grp_Rsq,
      typename AFields::GroupFields::coord_t periodicity)
 {// {{{
     mod_translations(grp_coord, cub_coord, periodicity);
     mod_reflections(cub_coord);
 
-    return std::hypot(std::max((typename AFields::GroupFields::coord_t)0.0, cub_coord[0]),
-                      std::max((typename AFields::GroupFields::coord_t)0.0, cub_coord[1]),
-                      std::max((typename AFields::GroupFields::coord_t)0.0, cub_coord[2]) ) < grp_R;
+    return GeomUtils::hypotsq(std::max((typename AFields::GroupFields::coord_t)0.0,
+                                       cub_coord[0]),
+                              std::max((typename AFields::GroupFields::coord_t)0.0,
+                                       cub_coord[1]),
+                              std::max((typename AFields::GroupFields::coord_t)0.0,
+                                       cub_coord[2])
+                             ) < grp_Rsq;
 }// }}}
 
 template<typename AFields>
@@ -269,13 +274,8 @@ Workspace<AFields>::Sorting::Geometry::mod_translations
      typename AFields::GroupFields::coord_t periodicity)
 {// {{{
     for (size_t ii=0; ii != AFields::GroupFields::dims[0]; ++ii)
-    {
-        cub_coord[ii] -= grp_coord[ii];
-        if (cub_coord[ii] > 0.5 * periodicity)
-            cub_coord[ii] -= periodicity;
-        else if (cub_coord[ii] < -0.5 * periodicity)
-            cub_coord[ii] += periodicity;
-    }
+        cub_coord[ii] = GeomUtils::periodic_dist<typename AFields::GroupFields::coord_t>
+                            (grp_coord[ii], cub_coord[ii], periodicity);
 }// }}}
 
 template<typename AFields>

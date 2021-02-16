@@ -53,7 +53,8 @@ Workspace<AFields>::grp_loop ()
                 callback.grp_action(grp);
                 
                 // compute group radius
-                grp_radii[Ngrp] = callback.grp_radius(tmp_grp_properties);
+                auto user_R = callback.grp_radius(tmp_grp_properties);
+                grp_radii_sq[Ngrp] = user_R * user_R;
 
                 // copy properties into permanent storage
                 for (size_t ii=0; ii != AFields::GroupFields::Nfields; ++ii)

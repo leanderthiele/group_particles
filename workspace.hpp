@@ -18,7 +18,7 @@ class Workspace
     size_t Ngrp = 0UL;
     size_t alloced_grp = 0UL;
     void *grp_properties[AFields::GroupFields::Nfields];
-    float *grp_radii;
+    float *grp_radii_sq;
 
     // temporary buffers
     void *tmp_grp_properties[AFields::GroupFields::Nfields];
@@ -45,11 +45,6 @@ class Workspace
                          const typename Callback<AFields>::GrpProperties &grp,
                          const typename Callback<AFields>::PrtProperties &prt);
     
-    // computes the distance between a particle and a group,
-    // taking into account periodic boundary conditions
-    float prt_grp_dist (typename AFields::GroupFields::coord_t *grp_coord,
-                        typename AFields::ParticleFields::coord_t *prt_coord);
-
     // the simple loop over all particles
     void prt_loop_naive (size_t Nprt_this_file);
 

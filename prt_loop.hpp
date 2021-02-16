@@ -10,6 +10,7 @@
 #include "workspace.hpp"
 #include "workspace_memory.hpp"
 #include "workspace_sorting.hpp"
+#include "geom_utils.hpp"
 #include "timing.hpp"
 
 template<typename AFields>
@@ -138,7 +139,7 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
     {
         // compute which cells have intersection with this group
         std::vector<std::pair<size_t,size_t>> prt_idx_ranges
-            = prt_sort.prt_idx_ranges(grp.coord(), grp_radii[grp_idx]);
+            = prt_sort.prt_idx_ranges(grp.coord(), grp_radii_sq[grp_idx]);
 
         // no particles in the vicinity of this group
         if (prt_idx_ranges.empty()) continue;
@@ -165,34 +166,15 @@ Workspace<AFields>::prt_loop_inner
      const typename Callback<AFields>::PrtProperties &prt)
 {// {{{
     // figure out the distance between group and particle,
-    float R = prt_grp_dist(grp.coord(), prt.coord());
+    float Rsq = GeomUtils::periodic_hypotsq<float>(grp.coord(), prt.coord(), Bsize);
 
     // check if this particle belongs to the group
-    if (R > grp_radii[grp_idx]
-        || !callback.prt_select(grp_idx, grp, prt, R))
+    if (Rsq > grp_radii_sq[grp_idx]
+        || !callback.prt_select(grp_idx, grp, prt, Rsq))
         return;
 
     // particle belongs to group: do the user-defined thing with it
-    callback.prt_action(grp_idx, grp, prt, R);
-}// }}}
-
-template<typename AFields>
-inline float
-Workspace<AFields>::prt_grp_dist
-    (typename AFields::GroupFields::coord_t *grp_coord,
-     typename AFields::ParticleFields::coord_t *prt_coord)
-{// {{{
-    #define PERIODIC(dist)                          \
-        ((dist) > 0.5F * Bsize) ? ((dist)-Bsize)    \
-        : ((dist) < -0.5F * Bsize) ? ((dist)+Bsize) \
-        : dist
-    #define DIST(dir)                     \
-        (prt_coord[dir] - grp_coord[dir])
-    return std::hypot(PERIODIC(DIST(0)),
-                      PERIODIC(DIST(1)),
-                      PERIODIC(DIST(2)) );
-    #undef PERIODIC
-    #undef DIST
+    callback.prt_action(grp_idx, grp, prt, Rsq);
 }// }}}
 
 #endif // PRT_LOOP_HPP

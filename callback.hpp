@@ -104,7 +104,7 @@ struct Callback
     // returns whether a particle should be considered for the halo passed.
     // Only particles falling within grp_radius will be passed here.
     virtual bool prt_select (size_t grp_idx, const GrpProperties &grp,
-                             const PrtProperties &prt, float R) const = 0;
+                             const PrtProperties &prt, float Rsq) const = 0;
 
     // this function will be called for all particles for which prt_select
     // returns true.
@@ -114,7 +114,7 @@ struct Callback
     // R is the radius from the group center (as defined by the user)
     // It is not marked as const since it probably stores some data in the child class.
     virtual void prt_action (size_t grp_idx, const GrpProperties &grp,
-                             const PrtProperties &prt, float R) = 0;
+                             const PrtProperties &prt, float Rsq) = 0;
 };
 
 
