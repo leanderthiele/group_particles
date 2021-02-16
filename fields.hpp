@@ -169,6 +169,9 @@ public :
                 return (coord_t *)coords_global_type;
             }
         }
+        else
+        // the coordinates are already of the correct type
+            return (coord_t *)coords;
     }
 };//}}}
 
