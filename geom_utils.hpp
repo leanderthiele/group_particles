@@ -60,12 +60,15 @@ periodic_dist_whint (coord_t x1, coord_t x2, coord_t periodicity, int periodic_t
 {
     coord_t dx = x2 - x1;
 
+/*
     if (periodic_to_add == -1)
         return dx - periodicity;
     else if (periodic_to_add == +1)
         return dx + periodicity;
     else
         return dx;
+*/
+    return dx + periodicity * periodic_to_add;
 }
 
 // replaces r2 with the signed distance r2-r1, taking into account the periodicity
