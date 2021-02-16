@@ -66,25 +66,31 @@ Workspace<AFields>::prt_loop ()
         #endif // NDEBUG
 
         // convert the particle coordinates
+        #ifndef NDEBUG
+        TIME_PT(t4);
+        #endif // NDEBUG
         tmp_prt_properties[0] = (void *)AFields::ParticleFields::convert_coords(Nprt_this_file, tmp_prt_properties[0]);
+        #ifndef NDEBUG
+        TIME_MSG(t4, "prt_loop convert coords");
+        #endif // NDEBUG
 
         // run the loop
         #ifndef NAIVE
         #   ifndef NDEBUG
-        TIME_PT(t4);
+        TIME_PT(t5);
         #   endif // NDEBUG
         prt_loop_sorted(Nprt_this_file);
         #   ifndef NDEBUG
-        TIME_MSG(t4, "prt_loop->prt_loop_sorted");
+        TIME_MSG(t5, "prt_loop->prt_loop_sorted");
         #   endif // NDEBUG
         #else // NAIVE
         #   ifndef NDEBUG
-        TIME_PT(t4);
+        TIME_PT(t5);
         #   endif // NDEBUG
         #   warning "Compiling with the naive particle loop instead of the (much faster) sorted one."
         prt_loop_naive(Nprt_this_file);
         #   ifndef NDEBUG
-        TIME_MSG(t4, "prt_loop->prt_loop_naive");
+        TIME_MSG(t5, "prt_loop->prt_loop_naive");
         #   endif // NDEBUG
         #endif // NAIVE
 
@@ -162,6 +168,7 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
 }// }}}
 
 template<typename AFields>
+__attribute__((hot))
 inline void
 Workspace<AFields>::prt_loop_inner
     (size_t grp_idx,

@@ -32,6 +32,7 @@ periodic_dist (coord_t x1, coord_t x2, coord_t periodicity)
 }// }}}
 
 // computes the unsigned distance |x2-x1|, taking into account the periodicity
+__attribute__((hot))
 static inline coord_t
 abs_periodic_dist( coord_t x1, coord_t x2, coord_t periodicity)
 {// {{{
