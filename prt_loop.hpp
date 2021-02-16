@@ -66,7 +66,7 @@ Workspace<AFields>::prt_loop ()
         #endif // NDEBUG
 
         // convert the particle coordinates
-        tmp_prt_properties[0] = (void *)AFields::ParticleFields::convert_coords(Nprt_this_file, tmp_prt_properties);
+        tmp_prt_properties[0] = (void *)AFields::ParticleFields::convert_coords(Nprt_this_file, tmp_prt_properties[0]);
 
         // run the loop
         #ifndef NAIVE
