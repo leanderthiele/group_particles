@@ -188,14 +188,14 @@ Workspace<AFields>::prt_loop_inner
     coord_t *rgrp = grp.coord();
     coord_t *rprt = prt.coord();
 
+    #ifdef EARLY_RETURN
     coord_t Rsq = (coord_t)0.0;
-
     for (size_t ii=0; ii != 3; ++ii)
     {
         #ifdef NAIVE
         coord_t dx = GeomUtils::abs_periodic_dist(rgrp[ii], rprt[ii], Bsize);
         #else // NAIVE
-        coord_t dx = GeomUtils::periodic_dist_whint(rgrp[ii], rprt[ii], Bsize, periodic_to_add[ii]);
+        coord_t dx = std::fabs(GeomUtils::periodic_dist_whint(rgrp[ii], rprt[ii], Bsize, periodic_to_add[ii]));
         #endif // NAIVE
 
         if (dx > grp_radii[grp_idx])
@@ -203,6 +203,9 @@ Workspace<AFields>::prt_loop_inner
 
         Rsq += dx * dx;
     }
+    #else // EARLY_RETURN
+    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
+    #endif // EARLY_RETURN
 
     // check if this particle belongs to the group
     if (Rsq > grp_radii_sq[grp_idx]

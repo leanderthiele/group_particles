@@ -92,6 +92,16 @@ periodic_hypotsq (const coord_t *r1, const coord_t *r2, coord_t periodicity)
     return hypotsq(dx0, dx1, dx2);
 }// }}}
 
+static inline coord_t
+periodic_hypotsq (const coord_t *r1, const coord_t *r2, coord_t periodicity, const std::array<int,3> &periodic_to_add)
+{
+    auto dx0 = periodic_dist_whint(r1[0], r2[0], periodicity, periodic_to_add[0]);
+    auto dx1 = periodic_dist_whint(r1[1], r2[1], periodicity, periodic_to_add[1]);
+    auto dx2 = periodic_dist_whint(r1[2], r2[2], periodicity, periodic_to_add[2]);
+
+    return hypotsq(dx0, dx1, dx2);
+}
+
 } // namespace GeomUtils
 
 
