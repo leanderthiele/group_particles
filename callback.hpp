@@ -88,7 +88,7 @@ struct Callback
 
     // returns whether the group described by the argument should be
     // considered
-    virtual bool grp_select (const GrpProperties &gp) const = 0;
+    virtual bool grp_select (const GrpProperties &grp) const = 0;
 
     // this function will be called for all groups for which grp_select
     // returns true.
