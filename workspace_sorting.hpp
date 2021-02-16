@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <utility>
+#include <tuple>
 #include <cstdlib>
 #include <algorithm>
 #include <cstring>
@@ -50,10 +51,16 @@ class Workspace<AFields>::Sorting
     public :
         // assumes that the parameters passed have units such that the cube sidelength is unity
         // The cub_coord array will be modified!
+        // The return array periodic_to_add will be filled with the signs that are needed
+        // to correct for the periodicity,
+        //      i.e. if dx = prt_position - grp_position,
+        //           then dx + periodic_to_add * Bsize
+        //           will be the corrected distance
         static bool sph_cub_intersect (const coord_t grp_coord[AFields::GroupFields::dims[0]],
                                        coord_t cub_coord[AFields::GroupFields::dims[0]],
                                        coord_t grp_Rsq,
-                                       coord_t periodicity);
+                                       coord_t periodicity,
+                                       std::array<int,3> &periodic_to_add);
         Geometry () = delete;
     };
 
@@ -68,7 +75,7 @@ public :
 
     // user can use this function to find the indices of all particles that may
     // belong to a given group
-    std::vector<std::pair<size_t, size_t>> prt_idx_ranges
+    std::vector<std::tuple<size_t, size_t, std::array<int,3>>> prt_idx_ranges
         (const coord_t grp_coord[AFields::GroupFields::dims[0]],
          const coord_t Rsq) const;
 };// }}}
@@ -196,12 +203,12 @@ Workspace<AFields>::Sorting::compute_offsets ()
 }// }}}
 
 template<typename AFields>
-std::vector<std::pair<size_t, size_t>>
+std::vector<std::tuple<size_t, size_t, std::array<int,3>>>
 Workspace<AFields>::Sorting::prt_idx_ranges
     (const coord_t grp_coord[AFields::GroupFields::dims[0]],
      coord_t Rsq) const
 {// {{{
-    std::vector<std::pair<size_t, size_t>> out;
+    std::vector<std::tuple<size_t, size_t, std::array<int,3>>> out;
 
     coord_t grp_coord_normalized[AFields::GroupFields::dims[0]];
     for (size_t ii=0; ii != AFields::GroupFields::dims[0]; ++ii)
@@ -219,19 +226,22 @@ Workspace<AFields>::Sorting::prt_idx_ranges
                 (ii/Ncells_side) % Ncells_side,
                 ii % Ncells_side };
 
+        std::array<int,3> periodic_to_add;
+
         if (// check if group has overlap with this cell
             Geometry::sph_cub_intersect(grp_coord_normalized, cub_coord,
-                                        Rsq_normalized, Bsize)
+                                        Rsq_normalized, Bsize, periodic_to_add)
             // check if this cell has any particles
             && offsets[ii] < Nprt)
         {
-            std::pair<size_t, size_t> idx_range { offsets[ii], Nprt };
+            std::tuple<size_t, size_t, std::array<int,3>> idx_range
+                { offsets[ii], Nprt, periodic_to_add };
 
             // find the last one -- taking possibly empty cells that follow into account!
             for (size_t jj=ii+1UL; jj != Ncells_tot; ++jj)
                 if (offsets[jj] < Nprt)
                 {
-                    idx_range.second = offsets[jj];
+                    std::get<1>(idx_range) = offsets[jj];
                     break;
                 }
             
@@ -248,9 +258,10 @@ Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
     (const coord_t grp_coord[AFields::GroupFields::dims[0]],
      coord_t cub_coord[AFields::GroupFields::dims[0]],
      coord_t grp_Rsq,
-     coord_t periodicity)
+     coord_t periodicity,
+     std::array<int,3> &periodic_to_add)
 {// {{{
-    GeomUtils::periodic_dist(grp_coord, cub_coord, periodicity);
+    GeomUtils::periodic_dist(grp_coord, cub_coord, periodicity, periodic_to_add);
     mod_reflections(cub_coord);
 
     return GeomUtils::hypotsq(std::max((coord_t)0.0, cub_coord[0]),

@@ -4,6 +4,7 @@
 #include "fields.hpp"
 
 #include <cmath>
+#include <array>
 #include <type_traits>
 
 namespace GeomUtils
@@ -18,15 +19,23 @@ hypotsq (coord_t x, coord_t y, coord_t z)
 
 // computes the signed distance x2-x1, taking into account the periodicity
 static inline coord_t
-periodic_dist (coord_t x1, coord_t x2, coord_t periodicity)
+periodic_dist (coord_t x1, coord_t x2, coord_t periodicity, int &periodic_to_add)
 {// {{{
     // TODO double check this function!
     auto out = x2 - x1;
 
     if (out > (coord_t)(0.5) * periodicity)
+    {
         out -= periodicity;
+        periodic_to_add = -1;
+    }
     else if (out < (coord_t)(-0.5) * periodicity)
+    {
         out += periodicity;
+        periodic_to_add = 1;
+    }
+    else
+        periodic_to_add = 0;
 
     return out;
 }// }}}
@@ -34,7 +43,7 @@ periodic_dist (coord_t x1, coord_t x2, coord_t periodicity)
 // computes the unsigned distance |x2-x1|, taking into account the periodicity
 __attribute__((hot))
 static inline coord_t
-abs_periodic_dist( coord_t x1, coord_t x2, coord_t periodicity)
+abs_periodic_dist (coord_t x1, coord_t x2, coord_t periodicity)
 {// {{{
     auto out = std::abs(x2 - x1);
 
@@ -44,13 +53,29 @@ abs_periodic_dist( coord_t x1, coord_t x2, coord_t periodicity)
     return out;
 }// }}}
 
+// equal action to previous function, but uses precomputed periodicity
+// (and does not use absolute value)
+static inline coord_t
+periodic_dist_whint (coord_t x1, coord_t x2, coord_t periodicity, int periodic_to_add)
+{
+    coord_t dx = x2 - x1;
+
+    if (periodic_to_add == -1)
+        return dx - periodicity;
+    else if (periodic_to_add == +1)
+        return dx + periodicity;
+    else
+        return dx;
+}
+
 // replaces r2 with the signed distance r2-r1, taking into account the periodicity
 static inline void
-periodic_dist (const coord_t *r1, coord_t *r2, coord_t periodicity)
+periodic_dist (const coord_t *r1, coord_t *r2, coord_t periodicity, std::array<int,3> &periodic_to_add)
 {// {{{
     for (size_t ii=0; ii != 3; ++ii)
-        r2[ii] = periodic_dist(r1[ii], r2[ii], periodicity);
+        r2[ii] = periodic_dist(r1[ii], r2[ii], periodicity, periodic_to_add[ii]);
 }// }}}
+
 
 // computes the squared 3D cartesian distance between two points,
 // taking into acount the periodicity

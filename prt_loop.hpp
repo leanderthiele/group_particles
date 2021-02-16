@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include <cstdio>
+#include <tuple>
+#include <array>
 
 #include "callback.hpp"
 #include "fields.hpp"
@@ -147,7 +149,7 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
     for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx, grp.advance())
     {
         // compute which cells have intersection with this group
-        std::vector<std::pair<size_t,size_t>> prt_idx_ranges
+        std::vector<std::tuple<size_t,size_t,std::array<int,3>>> prt_idx_ranges
             = prt_sort.prt_idx_ranges(grp.coord(), grp_radii_sq[grp_idx]);
 
         // no particles in the vicinity of this group
@@ -157,12 +159,12 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
         for (auto &prt_idx_range : prt_idx_ranges)
         {
             typename Callback<AFields>::PrtProperties prt (prt_sort.tmp_prt_properties_sorted,
-                                                           prt_idx_range.first);
+                                                           std::get<0>(prt_idx_range));
             // loop over particles
-            for (size_t prt_idx=prt_idx_range.first;
-                        prt_idx != prt_idx_range.second;
+            for (size_t prt_idx=std::get<0>(prt_idx_range);
+                        prt_idx != std::get<1>(prt_idx_range);
                         ++prt_idx, prt.advance())
-                prt_loop_inner(grp_idx, grp, prt);
+                prt_loop_inner(grp_idx, grp, prt, std::get<2>(prt_idx_range));
         }// for prt_idx_range
     }// for grp_idx
 }// }}}
@@ -170,10 +172,18 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
 template<typename AFields>
 __attribute__((hot))
 inline void
+#ifdef NAIVE
 Workspace<AFields>::prt_loop_inner
     (size_t grp_idx,
      const typename Callback<AFields>::GrpProperties &grp,
      const typename Callback<AFields>::PrtProperties &prt)
+#else // NAIVE
+Workspace<AFields>::prt_loop_inner
+    (size_t grp_idx,
+     const typename Callback<AFields>::GrpProperties &grp,
+     const typename Callback<AFields>::PrtProperties &prt,
+     const std::array<int, 3> &periodic_to_add)
+#endif // NAIVE
 {// {{{
     coord_t *rgrp = grp.coord();
     coord_t *rprt = prt.coord();
@@ -182,7 +192,11 @@ Workspace<AFields>::prt_loop_inner
 
     for (size_t ii=0; ii != 3; ++ii)
     {
+        #ifdef NAIVE
         coord_t dx = GeomUtils::abs_periodic_dist(rgrp[ii], rprt[ii], Bsize);
+        #else // NAIVE
+        coord_t dx = GeomUtils::periodic_dist_whint(rgrp[ii], rprt[ii], Bsize, periodic_to_add[ii]);
+        #endif // NAIVE
 
         if (dx > grp_radii[grp_idx])
             return;

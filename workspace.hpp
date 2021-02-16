@@ -1,6 +1,8 @@
 #ifndef WORKSPACE_HPP
 #define WORKSPACE_HPP
 
+#include <array>
+
 #include "callback.hpp"
 #include "fields.hpp"
 
@@ -42,9 +44,17 @@ class Workspace
     // --- helper functions for the loops ---
     
     // the inner action, invariant under how we do the loops
+    // (execept for the periodic_to_add)
+    #ifdef NAIVE
     void prt_loop_inner (size_t grp_idx,
                          const typename Callback<AFields>::GrpProperties &grp,
                          const typename Callback<AFields>::PrtProperties &prt);
+    #else // NAIVE
+    void prt_loop_inner (size_t grp_idx,
+                         const typename Callback<AFields>::GrpProperties &grp,
+                         const typename Callback<AFields>::PrtProperties &prt,
+                         const std::array<int,3> &periodic_to_add);
+    #endif // NAIVE
     
     // the simple loop over all particles
     void prt_loop_naive (size_t Nprt_this_file);
