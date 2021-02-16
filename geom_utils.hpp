@@ -17,6 +17,12 @@ hypotsq (coord_t x, coord_t y, coord_t z)
     return x*x + y*y + z*z;
 }// }}}
 
+static inline coord_t
+hypotsq (coord_t *r)
+{
+    return r[0]*r[0] + r[1]*r[1] + r[2]*r[2];
+}
+
 // computes the signed distance x2-x1, taking into account the periodicity
 static inline coord_t
 periodic_dist (coord_t x1, coord_t x2, coord_t periodicity, int &periodic_to_add)
@@ -95,11 +101,12 @@ __attribute__((hot))
 static inline coord_t
 periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2, coord_t periodicity, const std::array<int,3> &periodic_to_add)
 {
-    auto dx0 = periodic_dist_whint(r1[0], r2[0], periodicity, periodic_to_add[0]);
-    auto dx1 = periodic_dist_whint(r1[1], r2[1], periodicity, periodic_to_add[1]);
-    auto dx2 = periodic_dist_whint(r1[2], r2[2], periodicity, periodic_to_add[2]);
+    coord_t dx[3];
+    
+    for (size_t ii=0; ii != 3; ++ii)
+        dx[ii] = periodic_dist_whint(r1[ii], r2[ii], periodicity, periodic_to_add[ii])
 
-    return hypotsq(dx0, dx1, dx2);
+    return hypotsq(dx);
 }
 
 } // namespace GeomUtils
