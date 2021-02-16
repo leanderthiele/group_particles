@@ -9,7 +9,12 @@
 #include <cassert>
 #include <cmath>
 
+#include "workspace.hpp"
 #include "timing.hpp"
+
+// TODO
+// put parallel execution policy into std::sort
+// (depending on preprocessor flag)
 
 template<typename AFields>
 class Workspace<AFields>::Sorting

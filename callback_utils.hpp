@@ -150,6 +150,7 @@ namespace meta
             auto Ndims = aspace.getSimpleExtentDims(dim_lenghts);
             assert(Ndims == 1);
             assert(dim_lenghts[0] > idx);
+            assert(attr.getDataType().getSize() == sizeof(TH5));
             TH5 out[dim_lenghts[0]];
             attr.read(attr.getDataType(), out);
             return (Trequ)(out[idx]);

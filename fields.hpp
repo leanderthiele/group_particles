@@ -61,7 +61,7 @@ class FieldCollection
     static constexpr bool all_unequal ()
     {// {{{
         constexpr bool first_two = !std::is_same_v<first_field,second_field>;
-        if constexpr (sizeof...(other_fields))
+        if constexpr ((bool)sizeof...(other_fields))
             return first_two
                    && all_unequal<first_field, other_fields...>()
                    && all_unequal<second_field, other_fields...>();
