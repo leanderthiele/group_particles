@@ -104,7 +104,7 @@ periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2
     coord_t dx[3];
     
     for (size_t ii=0; ii != 3; ++ii)
-        dx[ii] = periodic_dist_whint(r1[ii], r2[ii], periodicity, periodic_to_add[ii])
+        dx[ii] = periodic_dist_whint(r1[ii], r2[ii], periodicity, periodic_to_add[ii]);
 
     return hypotsq(dx);
 }
