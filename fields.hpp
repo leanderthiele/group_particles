@@ -23,8 +23,8 @@ enum class FieldTypes { GrpFld, PrtFld };
             = (coord_) ? sizeof(coord_t) : size;                      \
         static constexpr const size_t dim  = dim_;                    \
         static constexpr const size_t stride = dim_ * size;           \
-        static cpnstexpr const size_t stride_fcoord                   \
-            = dim_ * size_fcoord                                      \
+        static constexpr const size_t stride_fcoord                   \
+            = dim_ * size_fcoord;                                     \
         static constexpr const FieldTypes type = type_;               \
         static constexpr const bool coord = coord_;                   \
         typedef value_type_ value_type;                               \
