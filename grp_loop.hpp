@@ -42,7 +42,7 @@ Workspace<AFields>::grp_loop ()
         read_fields<AFields, typename AFields::GroupFields>(callback, fptr, Ngrp_this_file, tmp_grp_properties);
 
         // convert coordinates to global type
-        tmp_grp_properties[0] = (void *)AFields::GroupFields::convert_coords(Ngrp_this_file, tmp_grp_properties[0]);
+        AFields::GroupFields::convert_coords(Ngrp_this_file, tmp_grp_properties[0]);
 
         typename Callback<AFields>::GrpProperties grp (tmp_grp_properties);
 

@@ -71,7 +71,7 @@ Workspace<AFields>::prt_loop ()
         #ifndef NDEBUG
         TIME_PT(t4);
         #endif // NDEBUG
-        tmp_prt_properties[0] = (void *)AFields::ParticleFields::convert_coords(Nprt_this_file, tmp_prt_properties[0]);
+        AFields::ParticleFields::convert_coords(Nprt_this_file, tmp_prt_properties[0]);
         #ifndef NDEBUG
         TIME_MSG(t4, "prt_loop convert coords");
         #endif // NDEBUG

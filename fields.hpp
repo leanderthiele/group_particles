@@ -1,9 +1,17 @@
 #ifndef FIELDS_HPP
 #define FIELDS_HPP
 
+// FIXME
+// if sizeof(coord_t) > sizeof(Field::value_type), we have an invalid free.
+// Just use realloc in convert_coords, and don't return anything
+//
+// TODO
+// use std::is_floatingpoint_v (or similar) instead of checks for float and double
+
 #include <initializer_list>
 #include <type_traits>
 #include <cstdlib>
+#include <cstring>
 
 #ifndef NDEBUG
 #   include <cstdio>
@@ -135,7 +143,8 @@ public :
                    "Duplicate field, this is likely not what you intended to do.");
 
     // converts coords to global coordinate type if necessary
-    static coord_t *
+    // this function takes care of the necessary buffer reallocs
+    static void
     convert_coords (size_t Nitems, void * &coords)
     {
         if constexpr (!std::is_same_v<sim_coord_t, coord_t>)
@@ -143,35 +152,37 @@ public :
             if constexpr (sizeof(coord_t) <= sizeof(sim_coord_t))
             // we can work in the original buffer
             {
+                // get some accessor-type pointers
                 coord_t *coords_global_type = (coord_t *)coords;
                 sim_coord_t *coords_sim_type = (sim_coord_t *)coords;
 
+                // do the conversion
                 for (size_t ii=0; ii != Nitems * dims[0]; ++ii)
                     coords_global_type[ii] = (coord_t)(coords_sim_type[ii]);
 
                 // resize to save memory
                 coords = std::realloc(coords, Nitems * dims[0] * sizeof(coord_t));
-
-                return (coord_t *)coords;
             }
             else
-            // we need to allocate a new buffer
+            // we need to enlarge the new buffer
             {
-                coord_t *coords_global_type = (coord_t *)std::malloc(Nitems * dims[0] * sizeof(coord_t));
-                sim_coord_t *coords_sim_type = (sim_coord_t *)coords;
+                // make more space, preserving the data
+                coords = std::realloc(coords, Nitems * dims[0] * sizeof(coord_t));
 
+                // get some accessor-type pointers
+                coord_t *coords_global_type = (coord_t *)coords;
+                sim_coord_t *coords_sim_type
+                    = (sim_coord_t *)((char *)coords + Nitems * dims[0]
+                                                       * (sizeof(coord_t)-sizeof(sim_coord_t)));
+                
+                // move the data to the back of the buffer
+                std::memmove(coords_sim_type, coords, Nitems * dims[0] * sizeof(sim_coord_t));
+
+                // do the conversion
                 for (size_t ii=0; ii != Nitems * dims[0]; ++ii)
                     coords_global_type[ii] = (coord_t)(coords_sim_type[ii]);
-
-                // free the original coordinates
-                std::free(coords);
-
-                return (coord_t *)coords_global_type;
             }
         }
-        else
-        // the coordinates are already of the correct type
-            return (coord_t *)coords;
     }
 };//}}}
 
