@@ -49,8 +49,8 @@ struct Y_Delta_Callback :
     Y_Delta_Callback () :
         Y_Delta::chunk { fgrp, grp_max_idx, fprt, prt_max_idx },
         Y_Delta::grp_select { Mmin },
-        Y_Delta::grp_store_M { &grp_M },
-        Y_Delta::prt_compute_Y { &grp_Y }
+        Y_Delta::grp_store_M { grp_M },
+        Y_Delta::prt_compute_Y { grp_Y }
     { }
 
     // data (public so user can do something with them once they are assembled)

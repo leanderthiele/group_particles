@@ -43,8 +43,8 @@ struct NullTest_Callback :
     NullTest_Callback () :
         NullTest::chunk { fgrp, grp_max_idx, fprt, prt_max_idx },
         NullTest::grp_select { Mmin },
-        NullTest::grp_store_M { &grp_M },
-        NullTest::prt_count_prt { &grp_N }
+        NullTest::grp_store_M { grp_M },
+        NullTest::prt_count_prt { grp_N }
     { }
 
     std::vector<NullTest::grp_M_t> grp_M;

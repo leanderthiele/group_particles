@@ -318,7 +318,7 @@ namespace action
     class StorePrtHomogeneous : virtual public Callback<AFields>,
                                 public MultiGrpAction<AFields>
     {
-        std::vector<Tdata> *data;
+        std::vector<Tdata> &data;
         static void enlarge_data (void *obj, const typename Callback<AFields>::GrpProperties &grp)
         {
             StorePrtHomogeneous *p = (StorePrtHomogeneous *)obj;
@@ -326,10 +326,10 @@ namespace action
             if constexpr (std::is_constructible_v<Tdata, const typename Callback<AFields>::GrpProperties &>)
             {
                 static_assert(!std::is_default_constructible_v<Tdata>);
-                p->data->emplace_back(grp);
+                p->data.emplace_back(grp);
             }
             else
-                p->data->emplace_back();
+                p->data.emplace_back();
         }
     protected :
         virtual void prt_insert (size_t grp_idx,
@@ -338,7 +338,7 @@ namespace action
                                  coord_t Rsq,
                                  Tdata &data_item) = 0;
     public :
-        StorePrtHomogeneous (std::vector<Tdata> *data_) :
+        StorePrtHomogeneous (std::vector<Tdata> &data_) :
             data(data_),
             MultiGrpAction<AFields> { this, enlarge_data }
         { }
@@ -347,28 +347,26 @@ namespace action
                          const typename Callback<AFields>::PrtProperties &prt,
                          coord_t Rsq) override final
         {
-            prt_insert(grp_idx, grp, prt, Rsq, (*data)[grp_idx]);
+            prt_insert(grp_idx, grp, prt, Rsq, data[grp_idx]);
         }
     };
 
     // Abstract base class that implements storage of homogeneous data for each group.
     // (data is group dependent)
-    // Since each group is only read once, in contrast to StorePrtHomogeneous only
-    // the grp_reduce function is required to be overriden by the subclass.
     template<typename AFields, typename Tdata>
     class StoreGrpHomogeneous : virtual public Callback<AFields>,
                                 public MultiGrpAction<AFields>
     {
-        std::vector<Tdata> *data;
+        std::vector<Tdata> &data;
         static void append_data (void *obj, const typename Callback<AFields>::GrpProperties &grp)
         {
             StoreGrpHomogeneous *p = (StoreGrpHomogeneous *)obj;
-            p->data->push_back(p->grp_reduce(grp));
+            p->data.push_back(p->grp_reduce(grp));
         }
     protected :
         virtual Tdata grp_reduce (const typename Callback<AFields>::GrpProperties &grp) const = 0;
     public :
-        StoreGrpHomogeneous (std::vector<Tdata> *data_) :
+        StoreGrpHomogeneous (std::vector<Tdata> &data_) :
             data(data_),
             MultiGrpAction<AFields> { this, append_data }
         { }
@@ -388,7 +386,7 @@ namespace action
             return grp.template get<Field>();
         }
     public :
-        StoreGrpProperty (std::vector<storeasT> *data) :
+        StoreGrpProperty (std::vector<storeasT> &data) :
             StoreGrpHomogeneous<AFields, storeasT>(data)
         { }
     };

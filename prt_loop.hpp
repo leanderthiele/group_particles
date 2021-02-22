@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <tuple>
 #include <array>
+#include <string>
 
 #include "callback.hpp"
 #include "fields.hpp"
