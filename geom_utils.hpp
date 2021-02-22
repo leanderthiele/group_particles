@@ -77,6 +77,7 @@ periodic_dist_whint (coord_t x1, coord_t x2, coord_t periodicity, int periodic_t
 }
 
 // replaces r2 with the signed distance r2-r1, taking into account the periodicity
+// Writes into the periodic_to_add return value
 static inline void
 periodic_dist (const coord_t *r1, coord_t *r2, coord_t periodicity, std::array<int,3> &periodic_to_add)
 {// {{{

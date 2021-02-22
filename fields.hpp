@@ -1,13 +1,6 @@
 #ifndef FIELDS_HPP
 #define FIELDS_HPP
 
-// FIXME
-// if sizeof(coord_t) > sizeof(Field::value_type), we have an invalid free.
-// Just use realloc in convert_coords, and don't return anything
-//
-// TODO
-// use std::is_floatingpoint_v (or similar) instead of checks for float and double
-
 #include <initializer_list>
 #include <type_traits>
 #include <cstdlib>
@@ -39,8 +32,7 @@ enum class FieldTypes { GrpFld, PrtFld };
         static_assert(!coord_ || dim_==3,                             \
                       "Non-3dimensional coordinate field "#name_);    \
         static_assert(!coord_                                         \
-                      || std::is_same_v<float,value_type_>            \
-                      || std::is_same_v<double,value_type_>,          \
+                      || std::is_floating_point_v<value_type_>,       \
                       "Non-float coordinate field "#name_             \
                       " not supported");                              \
     }
