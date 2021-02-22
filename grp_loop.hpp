@@ -56,7 +56,7 @@ Workspace<AFields>::grp_loop ()
                 callback.grp_action(grp);
                 
                 // compute group radius
-                grp_radii[Ngrp]    = callback.grp_radius(tmp_grp_properties);
+                grp_radii[Ngrp]    = callback.grp_radius(grp);
                 grp_radii_sq[Ngrp] = grp_radii[Ngrp] * grp_radii[Ngrp];
 
                 // copy properties into permanent storage
