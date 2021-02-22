@@ -204,7 +204,11 @@ Workspace<AFields>::prt_loop_inner
         Rsq += dx * dx;
     }
     #else // EARLY_RETURN
+    #ifndef NAIVE
     coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
+    #else // NAIVE
+    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize);
+    #endif // NAIVE
     #endif // EARLY_RETURN
 
     // check if this particle belongs to the group

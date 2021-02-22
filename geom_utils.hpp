@@ -19,9 +19,9 @@ hypotsq (coord_t x, coord_t y, coord_t z)
 
 static inline coord_t
 hypotsq (coord_t *r)
-{
+{// {{{
     return r[0]*r[0] + r[1]*r[1] + r[2]*r[2];
-}
+}// }}}
 
 // computes the signed distance x2-x1, taking into account the periodicity
 static inline coord_t
@@ -84,11 +84,11 @@ periodic_dist (const coord_t *r1, coord_t *r2, coord_t periodicity, std::array<i
         r2[ii] = periodic_dist(r1[ii], r2[ii], periodicity, periodic_to_add[ii]);
 }// }}}
 
-
 // computes the squared 3D cartesian distance between two points,
 // taking into acount the periodicity
 static inline coord_t
-periodic_hypotsq (const coord_t *r1, const coord_t *r2, coord_t periodicity)
+periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2,
+                   coord_t periodicity)
 {// {{{
     auto dx0 = abs_periodic_dist(r1[0], r2[0], periodicity);
     auto dx1 = abs_periodic_dist(r1[1], r2[1], periodicity);
@@ -97,17 +97,19 @@ periodic_hypotsq (const coord_t *r1, const coord_t *r2, coord_t periodicity)
     return hypotsq(dx0, dx1, dx2);
 }// }}}
 
+// same as the above, but with precomputed periodicity hint
 __attribute__((hot))
 static inline coord_t
-periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2, coord_t periodicity, const std::array<int,3> &periodic_to_add)
-{
+periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2,
+                  coord_t periodicity, const std::array<int,3> &periodic_to_add)
+{// {{{
     coord_t dx[3];
     
     for (size_t ii=0; ii != 3; ++ii)
         dx[ii] = periodic_dist_whint(r1[ii], r2[ii], periodicity, periodic_to_add[ii]);
 
     return hypotsq(dx);
-}
+}// }}}
 
 } // namespace GeomUtils
 
