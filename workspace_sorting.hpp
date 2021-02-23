@@ -18,6 +18,9 @@
 // TODO
 // put parallel execution policy into std::sort
 // (depending on preprocessor flag)
+//
+//
+// choose Ncells dynamically depending on box size / group radii ratio?
 
 template<typename AFields>
 class Workspace<AFields>::Sorting
@@ -192,6 +195,7 @@ Workspace<AFields>::Sorting::compute_offsets ()
     assert(offsets.empty());
 
     // initialize all offsets to default value
+    offsets.reserve(Ncells_tot+1UL);
     for (size_t ii=0; ii != Ncells_tot+1UL; ++ii)
         offsets.push_back(Nprt);
 
