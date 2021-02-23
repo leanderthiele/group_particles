@@ -104,7 +104,7 @@ public :
     }// }}}
     // it is assumed that this function is called after all data has been added,
     // because it performs the normalization by volume
-    void save (std::FILE *f) const
+    void save (std::FILE *f)
     {// {{{
         for (size_t ii=0; ii != N; ++ii)
             data[ii] /= shell_vol(ii);
