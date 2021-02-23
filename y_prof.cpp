@@ -176,7 +176,7 @@ int main ()
     vec_to_f<>(y.grp_R, ROOT"/grp_R200c.bin");
     {
         auto f = std::fopen(ROOT"/grp_yprof.bin", "wb");
-        for (const auto &prof : y.grp_Y)
+        for (auto &prof : y.grp_Y)
             prof.save(f);
         std::fclose(f);
     }
