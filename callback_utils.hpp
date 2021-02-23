@@ -226,16 +226,6 @@ namespace select
         GrpMassHighCutoff (typename MassField::value_type Mmax) :
             GrpMassWindow<AFields,MassField>(std::numeric_limits<typename MassField::value_type>::min(), Mmax) { }
     };
-
-    template<typename AFields>
-    struct PrtAll : virtual public Callback<AFields>
-    {
-        bool prt_select (size_t grp_idx,
-                         const typename Callback<AFields>::GrpProperties &grp,
-                         const typename Callback<AFields>::PrtProperties &prt,
-                         coord_t Rsq) const override
-        { return true; }
-    };
 }// namespace select }}}
 
 // Some common cases for the radius function

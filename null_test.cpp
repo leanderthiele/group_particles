@@ -23,8 +23,6 @@ namespace NullTest
         meta;
     typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::Group_M_Crit200>
         grp_select;
-    typedef CallbackUtils::select::PrtAll<AF>
-        prt_select;
     typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
         grp_radius;
     typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
@@ -36,8 +34,7 @@ namespace NullTest
 struct NullTest_Callback :
     virtual public Callback<NullTest::AF>,
     public NullTest::chunk, public NullTest::name, public NullTest::meta,
-    public NullTest::grp_select, public NullTest::prt_select,
-    public NullTest::grp_radius,
+    public NullTest::grp_select, public NullTest::grp_radius,
     public NullTest::grp_store_M, public NullTest::prt_count_prt
 {
     NullTest_Callback () :

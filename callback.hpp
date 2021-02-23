@@ -22,7 +22,7 @@ struct Callback
     // T is either AFields::GroupFields or AFields::ParticleFields
     template<typename T>
     class BaseProperties
-    {
+    {// {{{
         // declare as char so we can advance byte-wise
         // (char is guaranteed to be one byte wide)
         char *data[T::Nfields];
@@ -51,7 +51,7 @@ struct Callback
         // Otherwise, a pointer to the first element is returned.
         template<typename Field>
         auto get () const;
-    };
+    };// }}}
 
     typedef BaseProperties<typename AFields::GroupFields>
         GrpProperties;
@@ -100,11 +100,6 @@ struct Callback
     // returns the group radius. Only particles falling within the radius
     // should be considered
     virtual coord_t grp_radius (const GrpProperties &grp) const = 0;
-
-    // returns whether a particle should be considered for the halo passed.
-    // Only particles falling within grp_radius will be passed here.
-    virtual bool prt_select (size_t grp_idx, const GrpProperties &grp,
-                             const PrtProperties &prt, coord_t Rsq) const = 0;
 
     // this function will be called for all particles for which prt_select
     // returns true.

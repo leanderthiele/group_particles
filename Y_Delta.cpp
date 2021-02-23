@@ -29,8 +29,6 @@ namespace Y_Delta
         meta;
     typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::Group_M_Crit200>
         grp_select;
-    typedef CallbackUtils::select::PrtAll<AF>
-        prt_select;
     typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
         grp_radius;
     typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
@@ -42,8 +40,7 @@ namespace Y_Delta
 struct Y_Delta_Callback :
     virtual public Callback<Y_Delta::AF>,
     public Y_Delta::chunk, public Y_Delta::name, public Y_Delta::meta,
-    public Y_Delta::grp_select, public Y_Delta::prt_select,
-    public Y_Delta::grp_radius,
+    public Y_Delta::grp_select, public Y_Delta::grp_radius,
     public Y_Delta::grp_store_M, public Y_Delta::prt_compute_Y
 {// {{{
     Y_Delta_Callback () :
