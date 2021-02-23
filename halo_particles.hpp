@@ -26,6 +26,8 @@ halo_particles (Callback<AFields> &callback)
 
     Workspace<AFields> ws { callback };
 
+    ws.meta_init();
+
     ws.grp_loop();
 
     ws.prt_loop();
