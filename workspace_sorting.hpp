@@ -34,7 +34,7 @@ class Workspace<AFields>::Sorting
 
     // stores where particles belonging to a specific cell are in the array
     // special value : Nprt (no particles in cell)
-    size_t offsets[Ncells_tot+1UL];
+    std::vector<size_t> offsets;
 
     // this is given by constructor, no memory allocation necessary
     void **tmp_prt_properties;
@@ -88,9 +88,8 @@ Workspace<AFields>::Sorting::Sorting (size_t Nprt_,
                                       void **tmp_prt_properties_) :
     Nprt { Nprt_ }, Bsize { Bsize_ }, tmp_prt_properties { tmp_prt_properties_ },
     acell { Bsize_ / Ncells_side },
-    prt_indices { }
+    prt_indices { }, offsets { }
 {// {{{
-
     #ifndef NDEBUG
     TIME_PT(t1);
     #endif // NDEBUG
@@ -190,9 +189,11 @@ template<typename AFields>
 void
 Workspace<AFields>::Sorting::compute_offsets ()
 {// {{{
+    assert(offsets.empty());
+
     // initialize all offsets to default value
     for (size_t ii=0; ii != Ncells_tot+1UL; ++ii)
-        offsets[ii] = Nprt;
+        offsets.push_back(Nprt);
 
     offsets[prt_indices[0].second] = 0UL;
 
