@@ -50,9 +50,11 @@ namespace y_prof
 // implementation of the YProfile class
 // We inherit from the Callback template specialization so we can use the
 // GrpProperties and PrtProperties types
-class y_prof::YProfile :
-    virtual public Callback<y_prof::AF>
+class y_prof::YProfile
 {// {{{
+    typedef Callback<y_prof::AF>::GrpProperties GrpProperties;
+    typedef Callback<y_prof::AF>::PrtProperties PrtProperties;
+
     // all internal calculations regarding Y in this type
     typedef double value_type;
 
@@ -117,8 +119,7 @@ struct y_prof_callback :
     virtual public Callback<y_prof::AF>,
     public y_prof::chunk, public y_prof::name, public y_prof::meta,
     public y_prof::grp_select, public y_prof::grp_radius,
-    public y_prof::grp_store_M,
-    public y_prof::grp_store_R,
+    public y_prof::grp_store_M, public y_prof::grp_store_R,
     public y_prof::prt_compute_Y
 {// {{{
     y_prof_callback () :
