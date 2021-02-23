@@ -222,8 +222,7 @@ Workspace<AFields>::prt_loop_inner
     #endif // EARLY_RETURN
 
     // check if this particle belongs to the group
-    if (Rsq > grp_radii_sq[grp_idx]
-        || !callback.prt_select(grp_idx, grp, prt, Rsq))
+    if (Rsq > grp_radii_sq[grp_idx])
         return;
 
     // particle belongs to group: do the user-defined thing with it
