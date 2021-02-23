@@ -144,31 +144,39 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
     TIME_MSG(t1, "initialization of Sorting instance (Nprt=%lu)", Nprt_this_file);
     #endif // NDEBUG
 
-    typename Callback<AFields>::GrpProperties grp (grp_properties);
-
-    // loop over groups
-    for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx, grp.advance())
+    #pragma omp parallel
     {
-        // compute which cells have intersection with this group
-        const std::vector<std::tuple<size_t,size_t,std::array<int,3>>> prt_idx_ranges
-            = prt_sort.prt_idx_ranges(grp.coord(), grp_radii[grp_idx], grp_radii_sq[grp_idx]);
 
-        // no particles in the vicinity of this group
-        if (prt_idx_ranges.empty()) continue;
-        
-        // loop over cells
-        for (auto &prt_idx_range : prt_idx_ranges)
+        // loop over groups
+        #pragma omp for schedule(dynamic,1)
+        for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx)
         {
-            typename Callback<AFields>::PrtProperties prt (prt_sort.tmp_prt_properties_sorted,
-                                                           std::get<0>(prt_idx_range));
+            // we have to initialize this on each iteration,
+            // otherwise the loop doesn't work with OpenMP
+            typename Callback<AFields>::GrpProperties grp (grp_properties, grp_idx);
 
-            // loop over particles
-            for (size_t prt_idx=std::get<0>(prt_idx_range);
-                        prt_idx != std::get<1>(prt_idx_range);
-                        ++prt_idx, prt.advance())
-                prt_loop_inner(grp_idx, grp, prt, std::get<2>(prt_idx_range));
-        }// for prt_idx_range
-    }// for grp_idx
+            // compute which cells have intersection with this group
+            const std::vector<std::tuple<size_t,size_t,std::array<int,3>>> prt_idx_ranges
+                = prt_sort.prt_idx_ranges(grp.coord(), grp_radii[grp_idx], grp_radii_sq[grp_idx]);
+
+            // no particles in the vicinity of this group
+            if (prt_idx_ranges.empty()) continue;
+            
+            // loop over cells
+            for (auto &prt_idx_range : prt_idx_ranges)
+            {
+                typename Callback<AFields>::PrtProperties prt (prt_sort.tmp_prt_properties_sorted,
+                                                               std::get<0>(prt_idx_range));
+
+                // loop over particles
+                for (size_t prt_idx=std::get<0>(prt_idx_range);
+                            prt_idx != std::get<1>(prt_idx_range);
+                            ++prt_idx, prt.advance())
+                    prt_loop_inner(grp_idx, grp, prt, std::get<2>(prt_idx_range));
+            }// for prt_idx_range
+        }// for grp_idx
+
+    } // parallel
 }// }}}
 
 template<typename AFields>

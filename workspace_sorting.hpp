@@ -71,12 +71,6 @@ public :
 
     // user can use this function to find the indices of all particles that may
     // belong to a given group
-    std::vector<std::tuple<size_t, size_t, std::array<int,3>>> prt_idx_ranges
-        (const coord_t grp_coord[3],
-         const coord_t Rsq) const;
-
-    // user can use this function to find the indices of all particles that may
-    // belong to a given group
     // same functionality as above, but hopefully correct implementation
     std::vector<std::tuple<size_t, size_t, std::array<int,3>>> prt_idx_ranges
         (const coord_t grp_coord[3],
