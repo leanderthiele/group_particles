@@ -371,6 +371,7 @@ namespace action
                              public StoreGrpHomogeneous<AFields, storeasT>
     {
         static_assert(Field::dim == 1, "Currently not implemented, could probably be done");
+    private :
         storeasT grp_reduce (const typename Callback<AFields>::GrpProperties &grp) const override final
         {
             return grp.template get<Field>();
