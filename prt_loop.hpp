@@ -207,8 +207,7 @@ Workspace<AFields>::prt_loop_inner
     }
     #else // EARLY_RETURN
     #ifndef NAIVE
-// FIXME    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
-    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize);
+    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
     #else // NAIVE
     coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize);
     #endif // NAIVE
