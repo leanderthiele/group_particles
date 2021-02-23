@@ -150,7 +150,7 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
     for (size_t grp_idx=0; grp_idx != Ngrp; ++grp_idx, grp.advance())
     {
         // compute which cells have intersection with this group
-        std::vector<std::tuple<size_t,size_t,std::array<int,3>>> prt_idx_ranges
+        const std::vector<std::tuple<size_t,size_t,std::array<int,3>>> prt_idx_ranges
             = prt_sort.prt_idx_ranges(grp.coord(), grp_radii_sq[grp_idx]);
 
         // no particles in the vicinity of this group
@@ -161,6 +161,7 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
         {
             typename Callback<AFields>::PrtProperties prt (prt_sort.tmp_prt_properties_sorted,
                                                            std::get<0>(prt_idx_range));
+
             // loop over particles
             for (size_t prt_idx=std::get<0>(prt_idx_range);
                         prt_idx != std::get<1>(prt_idx_range);
@@ -206,7 +207,8 @@ Workspace<AFields>::prt_loop_inner
     }
     #else // EARLY_RETURN
     #ifndef NAIVE
-    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
+// FIXME    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
+    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize);
     #else // NAIVE
     coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize);
     #endif // NAIVE

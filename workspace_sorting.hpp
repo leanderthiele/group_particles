@@ -25,7 +25,7 @@ class Workspace<AFields>::Sorting
     coord_t Bsize;
     const size_t Nprt;
 
-    static constexpr const size_t Ncells_side = 16UL;
+    static constexpr const size_t Ncells_side = 8UL;
     static constexpr const size_t Ncells_tot  = Ncells_side * Ncells_side * Ncells_side;
     coord_t acell;
     
@@ -265,6 +265,8 @@ Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
     GeomUtils::periodic_dist(grp_coord, cub_coord, periodicity, periodic_to_add);
 
     mod_reflections(cub_coord);
+
+    return true;
 
     return GeomUtils::hypotsq(std::max((coord_t)0.0, cub_coord[0]),
                               std::max((coord_t)0.0, cub_coord[1]),
