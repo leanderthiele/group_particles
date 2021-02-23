@@ -151,7 +151,7 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
     {
         // compute which cells have intersection with this group
         const std::vector<std::tuple<size_t,size_t,std::array<int,3>>> prt_idx_ranges
-            = prt_sort.prt_idx_ranges(grp.coord(), grp_radii_sq[grp_idx]);
+            = prt_sort.prt_idx_ranges(grp.coord(), grp_radii[grp_idx], grp_radii_sq[grp_idx]);
 
         // no particles in the vicinity of this group
         if (prt_idx_ranges.empty()) continue;

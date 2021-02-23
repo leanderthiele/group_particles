@@ -47,6 +47,7 @@ class Workspace<AFields>::Sorting
 
     class Geometry
     {
+        static void mod_translations (const coord_t grp_coord[3], coord_t cub_coord[3]);
         static void mod_reflections (coord_t cub_coord[3]);
     public :
         // assumes that the parameters passed have units such that the cube sidelength is unity
@@ -61,6 +62,11 @@ class Workspace<AFields>::Sorting
                                        coord_t grp_Rsq,
                                        coord_t periodicity,
                                        std::array<int,3> &periodic_to_add);
+
+        // this function does not take the periodic boundary conditions into account
+        static bool sph_cub_intersect (const coord_t grp_coord[3],
+                                       coord_t cub_coord[3],
+                                       coord_t grp_Rsq);
         Geometry () = delete;
     };
 
@@ -78,6 +84,13 @@ public :
     std::vector<std::tuple<size_t, size_t, std::array<int,3>>> prt_idx_ranges
         (const coord_t grp_coord[3],
          const coord_t Rsq) const;
+
+    // user can use this function to find the indices of all particles that may
+    // belong to a given group
+    // same functionality as above, but hopefully correct implementation
+    std::vector<std::tuple<size_t, size_t, std::array<int,3>>> prt_idx_ranges
+        (const coord_t grp_coord[3],
+         const coord_t R, const coord_t Rsq) const;
 };// }}}
 
 // ----- Implementation -----
@@ -251,6 +264,70 @@ Workspace<AFields>::Sorting::prt_idx_ranges
     return out;
 }// }}}
 
+template<typename AFields>
+std::vector<std::tuple<size_t, size_t, std::array<int,3>>>
+Workspace<AFields>::Sorting::prt_idx_ranges
+    (const coord_t grp_coord[3], coord_t R, coord_t Rsq) const
+{// {{{
+    std::vector<std::tuple<size_t, size_t, std::array<int,3>>> out;
+
+    coord_t grp_coord_normalized[3];
+    for (size_t ii=0; ii != 3; ++ii)
+        grp_coord_normalized[ii] = grp_coord[ii] / acell;
+
+    const coord_t R_normalized = R / acell;
+    const coord_t Rsq_normalized = Rsq / (acell*acell);
+
+    for (int64_t  xx  = (int64_t)(grp_coord_normalized[0]-R_normalized) - 1L;
+                  xx <= (int64_t)(grp_coord_normalized[0]+R);
+                ++xx)
+    {
+        int64_t idx_x = Ncells_side * Ncells_side
+                        * ((Ncells_side+xx%Ncells_side) % Ncells_side);
+
+        for (int64_t  yy  = (int64_t)(grp_coord_normalized[1]-R_normalized) - 1L;
+                      yy <= (int64_t)(grp_coord_normalized[1]+R);
+                    ++yy)
+        {
+            int64_t idx_y = idx_x + Ncells_side 
+                                    * ((Ncells_side+yy%Ncells_side) % Ncells_side);
+
+            for (int64_t  zz  = (int64_t)(grp_coord_normalized[2]-R_normalized) - 1L;
+                          zz <= (int64_t)(grp_coord_normalized[2]+R);
+                        ++zz)
+            {
+                // this is the index in the flattened array of cells
+                int64_t ii = idx_y + ((Ncells_side+zz%Ncells_side) % Ncells_side);
+                
+                coord_t cub_coord[] = { (coord_t)xx, (coord_t)yy, (coord_t)zz };
+
+                if (Geometry::sph_cub_intersect(grp_coord_normalized, cub_coord, Rsq_normalized)
+                    && offsets[ii] < Nprt)
+                {
+                    #define PER(x) ((x>=Ncells_side) ? 1 : (x<0) ? -1 : 0)
+                    std::array<int,3> periodic_to_add { PER(xx), PER(yy), PER(zz) };
+                    #undef PER
+
+                    std::tuple<size_t, size_t, std::array<int,3>> idx_range
+                        { offsets[ii], Nprt, periodic_to_add };
+
+                    // find the last one -- taking possibly empty cells that follow into account!
+                    for (size_t jj=(size_t)ii+1UL; jj != Ncells_tot; ++jj)
+                        if (offsets[jj] < Nprt)
+                        {
+                            std::get<1>(idx_range) = offsets[jj];
+                            break;
+                        }
+                    
+                    out.push_back(idx_range);
+                }
+            }
+        }
+    }
+
+    return out;
+}// }}}
+
 // figures out whether there is an intersection.
 // Also writes the appropriate hints into return value periodic_to_add
 template<typename AFields>
@@ -266,12 +343,36 @@ Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
 
     mod_reflections(cub_coord);
 
-    return true;
+    return GeomUtils::hypotsq(std::max((coord_t)0.0, cub_coord[0]),
+                              std::max((coord_t)0.0, cub_coord[1]),
+                              std::max((coord_t)0.0, cub_coord[2])
+                             ) < grp_Rsq;
+}// }}}
+
+template<typename AFields>
+inline bool
+Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
+    (const coord_t grp_coord[3],
+     coord_t cub_coord[3],
+     coord_t grp_Rsq)
+{
+    mod_translations(grp_coord, cub_coord);
+    mod_reflections(cub_coord);
 
     return GeomUtils::hypotsq(std::max((coord_t)0.0, cub_coord[0]),
                               std::max((coord_t)0.0, cub_coord[1]),
                               std::max((coord_t)0.0, cub_coord[2])
                              ) < grp_Rsq;
+}
+
+// no periodic boudary conditions!!!
+template<typename AFields>
+inline void
+Workspace<AFields>::Sorting::Geometry::mod_translations
+    (const coord_t grp_coord[3], coord_t cub_coord[3])
+{// {{{
+    for (size_t ii=0; ii != 3; ++ii)
+        cub_coord[ii] -= grp_coord[ii];
 }// }}}
 
 template<typename AFields>
@@ -280,8 +381,8 @@ Workspace<AFields>::Sorting::Geometry::mod_reflections
     (coord_t cub_coord[3])
 {// {{{
     for (size_t ii=0; ii != 3; ++ii)
-        if (cub_coord[ii] < -0.5)
-            cub_coord[ii] = - ( cub_coord[ii] + 1.0 );
+        if (cub_coord[ii] < (coord_t)-0.5)
+            cub_coord[ii] = - ( cub_coord[ii] + (coord_t)1.0 );
 }// }}}
 
 #endif // WORKSPACE_SORTING_HPP
