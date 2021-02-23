@@ -125,7 +125,7 @@ template<typename T>
 Callback<AFields>::BaseProperties<T>::BaseProperties (void *data_in_memory[T::Nfields], size_t offset)
 {
     for (size_t ii=0; ii != T::Nfields; ++ii)
-        data[ii] = ((char *)data_in_memory[ii]) + offset * T::strides_fcoord[ii];
+        data[ii] = (char *)data_in_memory[ii] + offset * T::strides_fcoord[ii];
 }
 
 template<typename AFields>
