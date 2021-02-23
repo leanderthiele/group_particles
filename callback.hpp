@@ -72,19 +72,22 @@ struct Callback
     // (for Illustris: "PartType<>/")
     virtual std::string prt_name () const = 0;
 
-    // allows the user to read metadata for each group chunk
-    // (thus this function is not marked as constant)
+    // allow the user to read metadata (from the 0th chunks)
+    // They are guaranteed to be called before any of the below functions.
+    // Not marked as const since they may want to store something initially.
+    // These functions are already implemented so not required to be overridden.
+    virtual void read_grp_meta_init (std::shared_ptr<H5::H5File> fptr) { return; }
+    virtual void read_prt_meta_init (std::shared_ptr<H5::H5File> fptr) { return; }
+
     // This function is required to write the number of groups in this chunk into the
     // return value.
     virtual void read_grp_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr,
-                                size_t &Ngroups) = 0;
+                                size_t &Ngroups) const = 0;
 
-    // allows the user to read metadata for each particle chunk
-    // (thus this function is not marked as constant)
     // This function is required to write the box size and number of particles in this
     // chunk into the return values.
     virtual void read_prt_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr,
-                                coord_t &Bsize, size_t &Npart) = 0;
+                                coord_t &Bsize, size_t &Npart) const = 0;
 
     // returns whether the group described by the argument should be
     // considered

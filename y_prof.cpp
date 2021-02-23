@@ -7,7 +7,7 @@
 #include "illustris_fields.hpp"
 
 namespace y_prof
-{
+{// {{{
     constexpr const size_t PartType = 0; // gas
 
     typedef GrpFields<IllustrisFields::GroupPos,
@@ -21,9 +21,11 @@ namespace y_prof
 
     // forward declare these classes here, we'll implement them later
     class YProfile;
+    class grp_store_P;
 
     typedef double grp_M_t;
     typedef double grp_R_t;
+    typedef double grp_P_t;
     typedef YProfile grp_Y_t;
 
     // maximum radius (in units of R_200c) -- from Battaglia's plots
@@ -45,7 +47,7 @@ namespace y_prof
         grp_store_R;
     typedef CallbackUtils::action::StorePrtHomogeneous<AF, grp_Y_t>
         prt_compute_Y;
-} // namespace Y_Delta
+} // namespace y_prof }}}
 
 // implementation of the YProfile class
 // We inherit from the Callback template specialization so we can use the
@@ -115,11 +117,36 @@ public :
     }// }}}
 };// }}}
 
+class y_prof::grp_store_P :
+    virtual public Callback<y_prof::AF>,
+    public CallbackUtils::meta_init::IllustrisCosmology<AF>,
+    public CallbackUtils::action::StoreGrpHomogeneous<AF, y_prof::grp_P_t>
+{// {{{
+    static constexpr y_prof::grp_P_t GNewton    = 4.30091e4, // (kpc/1e10 Msun) (km/s)^2
+                                     rho_crit_0 = 2.775e-8;  // 1e10 Msun/h / (kpc/h)^3
+
+    y_prof::grp_P_t rho_crit () const
+    {
+        y_prof::grp_P_t a3 = Time * Time * Time;
+        return rho_crit_0 * (Omega0/a3 + OmegaLambda);
+    }
+    y_prof::grp_P_t grp_reduce (const GrpProperties &grp) const override
+    {
+        auto m = (y_prof::grp_P_t)grp.get<IllustrisFields::Group_M_Crit200>();
+        auto r = (y_prof::grp_P_t)grp.get<IllustrisFields::Group_R_Crit200>();
+        return 100.0 * GNewton * m * rho_crit() * OmegaBaryon / Omega0 / r;
+    }
+public :
+    grp_store_P (std::vector<y_prof::grp_P_t> &data) :
+        CallbackUtils::action::StoreGrpHomogeneous<AF, y_prof::grp_P_t> { data }
+    { }
+};// }}}
+
 struct y_prof_callback :
     virtual public Callback<y_prof::AF>,
     public y_prof::chunk, public y_prof::name, public y_prof::meta,
     public y_prof::grp_select, public y_prof::grp_radius,
-    public y_prof::grp_store_M, public y_prof::grp_store_R,
+    public y_prof::grp_store_M, public y_prof::grp_store_R, public y_prof::grp_store_P,
     public y_prof::prt_compute_Y
 {// {{{
     y_prof_callback () :
@@ -128,12 +155,14 @@ struct y_prof_callback :
         y_prof::grp_radius { y_prof::Rscale },
         y_prof::grp_store_M { grp_M },
         y_prof::grp_store_R { grp_R },
+        y_prof::grp_store_P { grp_P },
         y_prof::prt_compute_Y { grp_Y }
     { }
 
     // data (public so user can do something with them once they are assembled)
     std::vector<y_prof::grp_M_t> grp_M;
     std::vector<y_prof::grp_R_t> grp_R;
+    std::vector<y_prof::grp_P_t> grp_P;
     std::vector<y_prof::grp_Y_t> grp_Y;
 
 private :
@@ -175,6 +204,7 @@ int main ()
     #define ROOT "y_prof_results_Feb23"
     vec_to_f<>(y.grp_M, ROOT"/grp_M200c.bin");
     vec_to_f<>(y.grp_R, ROOT"/grp_R200c.bin");
+    vec_to_f<>(y.grp_P, ROOT"/grp_P200c.bin");
     {
         auto f = std::fopen(ROOT"/grp_yprof.bin", "wb");
         for (auto &prof : y.grp_Y)

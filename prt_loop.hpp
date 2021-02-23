@@ -9,7 +9,7 @@
 
 #include "callback.hpp"
 #include "fields.hpp"
-#include "read_fields.hpp"
+#include "hdf5_utils.hpp"
 #include "workspace.hpp"
 #include "workspace_memory.hpp"
 #include "workspace_sorting.hpp"
@@ -62,11 +62,14 @@ Workspace<AFields>::prt_loop ()
         #ifndef NDEBUG
         TIME_PT(t3);
         #endif // NDEBUG
-        read_fields<AFields, typename AFields::ParticleFields>(callback, fptr, Nprt_this_file,
+        hdf5Utils::read_fields<AFields, typename AFields::ParticleFields>(callback, fptr, Nprt_this_file,
                                                                tmp_prt_properties);
         #ifndef NDEBUG
         TIME_MSG(t3, "prt_loop read_fields for particle chunk data");
         #endif // NDEBUG
+
+        // file not needed anymore
+        fptr->close();
 
         // convert the particle coordinates
         #ifndef NDEBUG

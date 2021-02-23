@@ -9,7 +9,7 @@
 
 #include "workspace.hpp"
 #include "workspace_memory.hpp"
-#include "read_fields.hpp"
+#include "hdf5_utils.hpp"
 #include "callback.hpp"
 
 template<typename AFields>
@@ -39,7 +39,10 @@ Workspace<AFields>::grp_loop ()
         realloc_tmp_storage<typename AFields::GroupFields>(Ngrp_this_file, tmp_grp_properties);
 
         // read the file data
-        read_fields<AFields, typename AFields::GroupFields>(callback, fptr, Ngrp_this_file, tmp_grp_properties);
+        hdf5Utils::read_fields<AFields, typename AFields::GroupFields>(callback, fptr, Ngrp_this_file, tmp_grp_properties);
+
+        // file not needed anymore
+        fptr->close();
 
         // convert coordinates to global type
         AFields::GroupFields::convert_coords(Ngrp_this_file, tmp_grp_properties[0]);

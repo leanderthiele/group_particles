@@ -64,6 +64,7 @@ class Workspace
     void prt_loop_sorted (size_t Nprt_this_file);
 
 public :
+    void meta_init ();
     void grp_loop ();
     void prt_loop ();
 

@@ -20,6 +20,7 @@
 
 #include "callback.hpp"
 #include "fields.hpp"
+#include "hdf5_utils.hpp"
 
 namespace CallbackUtils
 {
@@ -126,56 +127,101 @@ namespace name
     };
 } // namespace name }}}
 
+// Some common things you'd want to store in terms of meta data
+namespace meta_init
+{// {{{
+    template<typename AFields>
+    class MultiPrtMetaInitBase : virtual public Callback<AFields>
+    {
+        static constexpr size_t buf_size = 64UL;
+        size_t N_inits = 0UL;
+        std::pair<void *, std::function<void(void *, std::shared_ptr<H5::H5File>)>> inits[buf_size];
+    public :
+        void read_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
+        { for (size_t ii=0; ii != N_inits; ++ii) inits[ii].second(inits[ii].first, fptr); }
+        void register_init (void *obj, std::function<void(void *, std::shared_ptr<H5::H5File>)> fct)
+        {
+            inits[N_inits++] = std::make_pair(obj, fct);
+            assert(N_inits < buf_size);
+        }
+    };
+
+    template<typename AFields>
+    struct MultiPrtMetaInit : virtual public Callback<AFields>,
+                              virtual private MultiPrtMetaInitBase<AFields>
+    {
+        MultiPrtMetaInit (void *obj, std::function<void(void *, std::shared_ptr<H5::H5File>)> fct)
+        { MultiPrtMetaInitBase<AFields>::register_init(obj, fct); }
+    };
+
+    template<typename AFields>
+    class IllustrisCosmology : virtual public Callback<AFields>,
+                               public MultiPrtMetaInit<AFields>
+    {
+        static void read_cosmology (void *obj, std::shared_ptr<H5::H5File> fptr)
+        {
+            IllustrisCosmology *p = (IllustrisCosmology *)obj;
+
+            auto header = fptr->openGroup("/Header");
+            #define READ(x) p->x = hdf5Utils::read_scalar_attr<double,double>(header, #x)
+            READ(HubbleParam);
+            READ(Omega0);
+            READ(OmegaLambda);
+            READ(OmegaBaryon);
+            READ(Redshift);
+            READ(Time);
+            #undef READ
+        }
+    public :
+        // data members the user may want to use
+        double HubbleParam, Omega0, OmegaLambda, OmegaBaryon, Redshift, Time;
+
+        IllustrisCosmology () :
+            MultiPrtMetaInit<AFields> { this, read_cosmology }
+        { }
+    };
+
+    template<typename AFields>
+    class IllustrisMassTable : virtual public Callback<AFields>,
+                               public MultiPrtMetaInit<AFields>
+    {
+        static void read_mass_table (void *obj, std::shared_ptr<H5::H5File> fptr)
+        {
+            IllustrisMassTable *p = (IllustrisMassTable *)obj;
+
+            auto header = fptr->openGroup("/Header");
+            p->Ntypes = hdf5Utils::read_vector_attr<double,double>(header, "MassTable", p->MassTable);
+        }
+    public :
+        // data members the user may want to use
+        // use a large enough buffer for all cases
+        double MassTable[16];
+        size_t Ntypes;
+
+        IllustrisMassTable () :
+            MultiPrtMetaInit<AFields> { this, read_mass_table }
+        { }
+
+    };
+} // namespace meta_init }}}
+
 // Some common ways to get meta data
 namespace meta
 {// {{{
     template<typename AFields, uint8_t PartType>
     class Illustris : virtual public Callback<AFields>
     {
-        template<typename TH5, typename Trequ>
-        Trequ read_scalar_attr (H5::Group &header, const std::string &name) const
-        {// {{{
-            TH5 out;
-            auto attr = header.openAttribute(name);
-            assert (attr.getDataType().getSize() == sizeof(TH5));
-            attr.read(attr.getDataType(), &out);
-            return (Trequ)(out);
-        }// }}}
-        template<typename TH5, typename Trequ>
-        Trequ read_vector_attr (H5::Group &header, const std::string &name, size_t idx) const
-        {// {{{
-            auto attr = header.openAttribute(name);
-            auto aspace = attr.getSpace();
-            hsize_t dim_lenghts[16];
-            auto Ndims = aspace.getSimpleExtentDims(dim_lenghts);
-            assert(Ndims == 1);
-            assert(dim_lenghts[0] > idx);
-            assert(attr.getDataType().getSize() == sizeof(TH5));
-            TH5 out[dim_lenghts[0]];
-            attr.read(attr.getDataType(), out);
-            return (Trequ)(out[idx]);
-        }// }}}
-    protected :
-        // user can override these functions if it is desired to do more than the required
-        // job with the hdf5 file metadata
-        // These functions are called by the exposed functions.
-        virtual void read_grp_meta_custom (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr)
-        { return; }
-        virtual void read_prt_meta_custom (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr)
-        { return; }
     public :
-        void read_grp_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr, size_t &Ngroups) override
+        void read_grp_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr, size_t &Ngroups) const override
         {
             auto header = fptr->openGroup("/Header");
-            Ngroups = read_scalar_attr<int32_t,size_t>(header, "Ngroups_ThisFile");
-            read_grp_meta_custom(chunk_idx, fptr);
+            Ngroups = hdf5Utils::read_scalar_attr<int32_t,size_t>(header, "Ngroups_ThisFile");
         }
-        void read_prt_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr, coord_t &Bsize, size_t &Npart) override
+        void read_prt_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr, coord_t &Bsize, size_t &Npart) const override
         {
             auto header = fptr->openGroup("/Header");
-            Bsize = read_scalar_attr<double,coord_t>(header, "BoxSize");
-            Npart = read_vector_attr<int32_t,size_t>(header, "NumPart_ThisFile", PartType);
-            read_prt_meta_custom(chunk_idx, fptr);
+            Bsize = hdf5Utils::read_scalar_attr<double,coord_t>(header, "BoxSize");
+            Npart = hdf5Utils::read_vector_attr<int32_t,size_t>(header, "NumPart_ThisFile", PartType);
         }
     };
 }// namespace meta }}}
