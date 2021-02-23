@@ -12,6 +12,7 @@
 #include "workspace.hpp"
 #include "workspace_memory.hpp"
 #include "workspace_sorting.hpp"
+#include "workspace_meta_init.hpp"
 #include "grp_loop.hpp"
 #include "prt_loop.hpp"
 
