@@ -25,7 +25,7 @@ class Workspace<AFields>::Sorting
     coord_t Bsize;
     const size_t Nprt;
 
-    static constexpr const size_t Ncells_side = 8UL;
+    static constexpr const size_t Ncells_side = 64UL;
     static constexpr const size_t Ncells_tot  = Ncells_side * Ncells_side * Ncells_side;
     coord_t acell;
     
