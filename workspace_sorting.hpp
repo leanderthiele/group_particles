@@ -215,27 +215,26 @@ Workspace<AFields>::Sorting::prt_idx_ranges
     const coord_t R_normalized = R / acell;
     const coord_t Rsq_normalized = Rsq / (acell*acell);
 
-    // we want a signed version, of the same size as xx,yy,zz for speed
-    constexpr const int N = (int)Ncells_side;
-
     for (int  xx  = (int)(grp_coord_normalized[0]-R_normalized) - 1L;
               xx <= (int)(grp_coord_normalized[0]+R_normalized);
             ++xx)
     {
-        size_t idx_x = N * N * ((N+xx%N) % N);
+        size_t idx_x = Ncells_side * Ncells_side
+                       * GeomUtils::periodic_idx(xx, Ncells_side);
 
         for (int  yy  = (int)(grp_coord_normalized[1]-R_normalized) - 1L;
                   yy <= (int)(grp_coord_normalized[1]+R_normalized);
                 ++yy)
         {
-            size_t idx_y = idx_x + N * ((N+yy%N) % N);
+            size_t idx_y = idx_x + Ncells_side
+                                   * GeomUtils::periodic_idx(yy, Ncells_side);
 
             for (int  zz  = (int)(grp_coord_normalized[2]-R_normalized) - 1L;
                       zz <= (int)(grp_coord_normalized[2]+R_normalized);
                     ++zz)
             {
                 // this is the index in the flattened array of cells
-                size_t ii = idx_y + ((N+zz%N) % N);
+                size_t ii = idx_y + GeomUtils::periodic_idx(zz, Ncells_side);
                 
                 coord_t cub_coord[] = { (coord_t)xx, (coord_t)yy, (coord_t)zz };
 

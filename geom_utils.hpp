@@ -10,6 +10,13 @@
 namespace GeomUtils
 {
 
+// wraps idx with period N
+static inline size_t
+periodic_idx (int idx, int N)
+{// {{{
+    return (N + idx%N) % N;
+}// }}}
+
 // computes the squared 3D cartesian distance from origin
 static inline coord_t
 hypotsq (coord_t x, coord_t y, coord_t z)
