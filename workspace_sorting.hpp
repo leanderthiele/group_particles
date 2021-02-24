@@ -215,26 +215,27 @@ Workspace<AFields>::Sorting::prt_idx_ranges
     const coord_t R_normalized = R / acell;
     const coord_t Rsq_normalized = Rsq / (acell*acell);
 
-    for (int64_t  xx  = (int64_t)(grp_coord_normalized[0]-R_normalized) - 1L;
-                  xx <= (int64_t)(grp_coord_normalized[0]+R_normalized);
-                ++xx)
+    // we want a signed version, of the same size as xx,yy,zz for speed
+    constexpr const int N = (int)Ncells_side;
+
+    for (int  xx  = (int)(grp_coord_normalized[0]-R_normalized) - 1L;
+              xx <= (int)(grp_coord_normalized[0]+R_normalized);
+            ++xx)
     {
-        int64_t idx_x = Ncells_side * Ncells_side
-                        * ((Ncells_side+xx%Ncells_side) % Ncells_side);
+        size_t idx_x = N * N * ((N+xx%N) % N);
 
-        for (int64_t  yy  = (int64_t)(grp_coord_normalized[1]-R_normalized) - 1L;
-                      yy <= (int64_t)(grp_coord_normalized[1]+R_normalized);
-                    ++yy)
+        for (int  yy  = (int)(grp_coord_normalized[1]-R_normalized) - 1L;
+                  yy <= (int)(grp_coord_normalized[1]+R_normalized);
+                ++yy)
         {
-            int64_t idx_y = idx_x + Ncells_side 
-                                    * ((Ncells_side+yy%Ncells_side) % Ncells_side);
+            size_t idx_y = idx_x + N * ((N+yy%N) % N);
 
-            for (int64_t  zz  = (int64_t)(grp_coord_normalized[2]-R_normalized) - 1L;
-                          zz <= (int64_t)(grp_coord_normalized[2]+R_normalized);
-                        ++zz)
+            for (int  zz  = (int)(grp_coord_normalized[2]-R_normalized) - 1L;
+                      zz <= (int)(grp_coord_normalized[2]+R_normalized);
+                    ++zz)
             {
                 // this is the index in the flattened array of cells
-                int64_t ii = idx_y + ((Ncells_side+zz%Ncells_side) % Ncells_side);
+                size_t ii = idx_y + ((N+zz%N) % N);
                 
                 coord_t cub_coord[] = { (coord_t)xx, (coord_t)yy, (coord_t)zz };
 
