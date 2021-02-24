@@ -85,14 +85,18 @@ public :
         data.resize(N, 0.0);
         logRmin = std::log(0.03F * grp.get<IllustrisFields::Group_R_Crit200>());
         logRmax = std::log(2.50F * grp.get<IllustrisFields::Group_R_Crit200>());
-        dlogR = (logRmin - logRmax) / (coord_t)N;
+        dlogR = (logRmax - logRmin) / (coord_t)N;
     }// }}}
     // add a particle
     void add (const PrtProperties &prt, coord_t Rsq)
     {// {{{
+        coord_t logR = 0.5 * std::log(Rsq);
+        if (logR < logRmin || logR > logRmax)
+            return;
+
         // figure out the index of the spherical shell the particle falls into
-        size_t idx = (size_t)((0.5 * std::log(Rsq) - logRmin) / dlogR);
-        if (idx >= N) // use wrapping of unsigned here
+        size_t idx = (size_t)((logR - logRmin) / dlogR);
+        if (idx >= N) // safety check against numerical issues
             return;
 
         // load the required properties of this particle
