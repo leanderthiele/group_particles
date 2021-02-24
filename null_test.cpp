@@ -1,6 +1,6 @@
 // This code is a useful test whether the halo_particles stuff is working correctly.
 #include "halo_particles.hpp"
-#include "illustris_fields.hpp"
+#include "common_fields.hpp"
 
 namespace NullTest
 {

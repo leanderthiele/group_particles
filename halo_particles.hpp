@@ -5,7 +5,7 @@
 #include <cstdio>
 
 #include "fields.hpp"
-#include "illustris_fields.hpp"
+#include "common_fields.hpp"
 #include "callback.hpp"
 #include "callback_utils.hpp"
 #include "hdf5_utils.hpp"

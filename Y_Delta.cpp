@@ -3,7 +3,7 @@
 #include <cstdio>
 
 #include "halo_particles.hpp"
-#include "illustris_fields.hpp"
+#include "common_fields.hpp"
 
 namespace Y_Delta
 {

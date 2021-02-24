@@ -119,11 +119,19 @@ namespace name
     template<typename AFields, uint8_t PartType>
     struct Illustris : virtual public Callback<AFields>
     {
-    public :
         std::string grp_name () const override
         { return "Group/"; }
         std::string prt_name () const override
         { return "PartType"+std::to_string(PartType)+"/"; }
+    };
+
+    template<typename AFields>
+    struct Gadget : virtual public Callback<AFields>
+    {
+        std::string grp_name () const override
+        { return "Group/"; }
+        std::string prt_name () const override
+        { return "PartType1/"; }
     };
 } // namespace name }}}
 
@@ -162,7 +170,7 @@ namespace meta_init
         {
             IllustrisCosmology *p = (IllustrisCosmology *)obj;
 
-            auto header = fptr->openGroup("/Header");
+            auto header = fptr->openGroup("/Parameters");
             #define READ(x) p->x = hdf5Utils::read_scalar_attr<double,double>(header, #x)
             READ(HubbleParam);
             READ(Omega0);
