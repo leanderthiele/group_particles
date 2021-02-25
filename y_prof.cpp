@@ -10,7 +10,7 @@ namespace y_prof
 {// {{{
     constexpr const size_t PartType = 0; // gas
 
-    typedef GrpFields<IllustrisFields::GroupPos,
+    typedef GrpFields<IllustrisFields::GroupCM,
                       IllustrisFields::Group_M_Crit200,
                       IllustrisFields::Group_R_Crit200> GrpF;
     typedef PrtFields<IllustrisFields::Coordinates,
@@ -66,7 +66,8 @@ class y_prof::YProfile
 
     // number of sample points
     static constexpr size_t N = 128;
-    std::vector<value_type> data;
+    std::vector<value_type> pressure;
+    std::vector<size_t> num_part;
     coord_t logRmin, logRmax, dlogR;
 
     // volume of spherical shells, used for save
@@ -82,7 +83,8 @@ public :
     // constructor from a group -- this is the required signature
     YProfile (const GrpProperties &grp)
     {// {{{
-        data.resize(N, 0.0);
+        pressure.resize(N, 0.0);
+        num_part.resize(N, 0UL);
         logRmin = std::log(0.03F * grp.get<IllustrisFields::Group_R_Crit200>());
         logRmax = std::log(2.50F * grp.get<IllustrisFields::Group_R_Crit200>());
         dlogR = (logRmax - logRmin) / (coord_t)N;
@@ -108,16 +110,18 @@ public :
         auto Y = 2.0 * (1.0+XH) / (1.0+3.0*XH+4.0*XH*x)
                      * (gamma-1.0) * m * e;
 
-        data[idx] += Y;
+        pressure[idx] += Y;
+        ++num_part[idx];
     }// }}}
     // it is assumed that this function is called after all data has been added,
     // because it performs the normalization by volume
-    void save (std::FILE *f)
+    void save (std::FILE *fpressure, std::FILE *fnum_part)
     {// {{{
         for (size_t ii=0; ii != N; ++ii)
-            data[ii] /= shell_vol(ii);
+            pressure[ii] /= shell_vol(ii);
 
-        std::fwrite(data.data(), sizeof(value_type), N, f);
+        std::fwrite(pressure.data(), sizeof(value_type), N, fpressure);
+        std::fwrite(num_part.data(), sizeof(size_t), N, fnum_part);
     }// }}}
 };// }}}
 
@@ -210,10 +214,12 @@ int main ()
     vec_to_f<>(y.grp_R, ROOT"/grp_R200c.bin");
     vec_to_f<>(y.grp_P, ROOT"/grp_P200c.bin");
     {
-        auto f = std::fopen(ROOT"/grp_yprof.bin", "wb");
+        auto fpressure = std::fopen(ROOT"/grp_pressure_prof.bin", "wb");
+        auto fnum_part = std::fopen(ROOT"/grp_num_part_prof.bin", "wb");
         for (auto &prof : y.grp_Y)
-            prof.save(f);
-        std::fclose(f);
+            prof.save(fpressure, fnum_part);
+        std::fclose(fpressure);
+        std::fclose(fnum_part);
     }
     #undef ROOT
 
