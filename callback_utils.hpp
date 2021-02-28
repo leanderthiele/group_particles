@@ -179,7 +179,7 @@ namespace meta_init
         {
             IllustrisCosmology *p = (IllustrisCosmology *)obj;
 
-            auto header = fptr->openGroup("/Parameters");
+            auto header = fptr->openGroup("/Header");
             #define READ(x) p->x = hdf5Utils::read_scalar_attr<double,double>(header, #x)
             READ(HubbleParam);
             READ(Omega0);
