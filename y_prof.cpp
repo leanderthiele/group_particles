@@ -37,8 +37,10 @@ namespace y_prof
         name;
     typedef CallbackUtils::meta::Illustris<AF, PartType>
         meta;
-    typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::Group_M_Crit200>
-        grp_select;
+    typedef CallbackUtils::select::LowCutoff<AF, IllustrisFields::Group_M_Crit200>
+        grp_select_M;
+    typedef CallbackUtils::select::LowCutoff<AF, IllustrisFields::Group_R_Crit200>
+        grp_select_R;
     typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
         grp_radius;
     typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
@@ -153,13 +155,15 @@ public :
 struct y_prof_callback :
     virtual public Callback<y_prof::AF>,
     public y_prof::chunk, public y_prof::name, public y_prof::meta,
-    public y_prof::grp_select, public y_prof::grp_radius,
+    public y_prof::grp_select_M, public y_prof::grp_select_R,
+    public y_prof::grp_radius,
     public y_prof::grp_store_M, public y_prof::grp_store_R, public y_prof::grp_store_P,
     public y_prof::prt_compute_Y
 {// {{{
     y_prof_callback () :
         y_prof::chunk { fgrp, grp_max_idx, fprt, prt_max_idx },
-        y_prof::grp_select { Mmin },
+        y_prof::grp_select_M { Mmin },
+        y_prof::grp_select_R { Rmin },
         y_prof::grp_radius { y_prof::Rscale },
         y_prof::grp_store_M { grp_M },
         y_prof::grp_store_R { grp_R },
@@ -178,6 +182,9 @@ private :
     // group mass cutoff
     static constexpr const IllustrisFields::Group_M_Crit200::value_type Mmin = 1e3F;
 
+    // group radius cutoff
+    static constexpr const IllustrisFields::Group_R_Crit200::value_type Rmin = 0.0F;
+    
     // files
     #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output/"
     static constexpr const char fgrp[]        = ROOT"groups_099/fof_subhalo_tab_099.%d.hdf5";

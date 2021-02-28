@@ -5,6 +5,15 @@
 // by inheriting a subset from this list the user can achieve a lot
 // of functionality out of the box without writing much new code
 
+
+// TODO
+//
+// -- break this up into smaller files
+//
+// -- group selections should inherit from a base class
+//    (similar to MultiGrpAction) that can combine 
+//    different selection functions (AND)
+
 #include <cassert>
 #include <string>
 #include <memory>
@@ -234,51 +243,93 @@ namespace meta
     };
 }// namespace meta }}}
 
-// Some common cases for the selection functions
+// Some common cases for the group selection function
 namespace select
 {// {{{
     template<typename AFields>
     struct GrpAll : virtual public Callback<AFields>
     {
-        bool grp_select (const typename Callback<AFields>::GrpProperties &grp) const
+        bool grp_select (const typename Callback<AFields>::GrpProperties &grp) const override
         { return true; }
     };
 
-    template<typename AFields, typename MassField>
-    class GrpMassWindow : virtual public Callback<AFields>
+    template<typename AFields>
+    class MultiSelectBase : virtual public Callback<AFields>
     {
-        static_assert(MassField::dim == 1);
-        static_assert(MassField::type == FieldTypes::GrpFld);
-        static_assert(std::is_floating_point_v<typename MassField::value_type>);
-        typename MassField::value_type Mmin, Mmax;
+        static constexpr size_t buf_size = 64UL;
+        size_t N_selects = 0UL;
+        std::pair<void *, std::function<bool(void *, const typename Callback<AFields>::GrpProperties &)>>
+            selectors[buf_size];
     public :
-        GrpMassWindow (typename MassField::value_type Mmin_, typename MassField::value_type Mmax_) :
-            Mmin(Mmin_), Mmax(Mmax_)
-        {
-            #ifndef NDEBUG
-            std::fprintf(stderr, "Initialized CallbackUtils::select::GrpMassWindow with "
-                                 "Mmin=%.3e and Mmax=%.3e.\n", Mmin, Mmax);
-            #endif
-        }
         bool grp_select (const typename Callback<AFields>::GrpProperties &grp) const override
         {
-            auto M = grp.template get<MassField>();
-            return M>Mmin && M<Mmax;
+            for (size_t ii=0; ii != N_selects; ++ii)
+                if (!selectors[ii].second(selectors[ii].first, grp))
+                    return false;
+            return true;
+        }
+        void register_select (void *obj,
+                              std::function<bool(void *,
+                                                 const typename Callback<AFields>::GrpProperties &)> fct)
+        {
+            selectors[N_selects++] = std::make_pair(obj, fct);
+            assert(N_selects < buf_size);
+        }
+    };
+
+    template<typename AFields>
+    class MultiSelect : virtual public Callback<AFields>,
+                        virtual private MultiSelectBase<AFields>
+    {
+        MultiSelect (void *obj,
+                     std::function<bool(void *,
+                                        const typename Callback<AFields>::GrpProperties &)> fct)
+        {
+            MultiSelectBase<AFields>::register_select(obj, fct);
+        }
+    };
+
+    template<typename AFields, typename Field>
+    class Window : virtual public Callback<AFields>,
+                   public MultiSelect<AFields>
+    {
+        static_assert(Field::dim == 1);
+        static_assert(Field::type == FieldTypes::GrpFld);
+        static_assert(std::is_floating_point_v<typename Field::value_type>);
+        typename Field::value_type min_val, max_val;
+        static bool window_grp_select (void *obj, const typename Callback<AFields>::GrpProperties &grp)
+        {
+            Window *p = (Window *)obj;
+            auto x = grp.template get<Field>();
+            return x > p->min_val && x < p->max_val;
+        }
+    public :
+        Window (typename Field::value_type min_val_, typename Field::value_type max_val_) :
+            MultiSelect<AFields> { this, window_grp_select },
+            min_val { min_val_ }, max_val  { max_val_ }
+        {
+            #ifndef NDEBUG
+            std::fprintf(stderr, "Initialized CallbackUtils::select::Window with "
+                                 "Field %s and min=%.3e and max=%.3e.\n",
+                                 Field::name, min_val, max_val);
+            #endif
         }
     };
     
-    template<typename AFields, typename MassField>
-    struct GrpMassLowCutoff : virtual public Callback<AFields>, public GrpMassWindow<AFields, MassField>
+    template<typename AFields, typename Field>
+    struct LowCutoff : virtual public Callback<AFields>,
+                       public Window<AFields, Field>
     {
-        GrpMassLowCutoff (typename MassField::value_type Mmin) :
-            GrpMassWindow<AFields,MassField>(Mmin, std::numeric_limits<typename MassField::value_type>::max()) { }
+        LowCutoff (typename Field::value_type min_val) :
+            Window<AFields, Field> { min_val, std::numeric_limits<typename Field::value_type>::max() } { }
     };
     
-    template<typename AFields, typename MassField>
-    struct GrpMassHighCutoff : virtual public Callback<AFields>, public GrpMassWindow<AFields,MassField>
+    template<typename AFields, typename Field>
+    struct HighCutoff : virtual public Callback<AFields>,
+                        public Window<AFields, Field>
     {
-        GrpMassHighCutoff (typename MassField::value_type Mmax) :
-            GrpMassWindow<AFields,MassField>(std::numeric_limits<typename MassField::value_type>::min(), Mmax) { }
+        HighCutoff (typename Field::value_type max_val) :
+            Window<AFields, Field> { std::numeric_limits<typename Field::value_type>::min(), max_val } { }
     };
 }// namespace select }}}
 
