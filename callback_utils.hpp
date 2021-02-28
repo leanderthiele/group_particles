@@ -278,7 +278,7 @@ namespace select
     };
 
     template<typename AFields>
-    class MultiSelect : virtual public Callback<AFields>,
+    struct MultiSelect : virtual public Callback<AFields>,
                         virtual private MultiSelectBase<AFields>
     {
         MultiSelect (void *obj,
