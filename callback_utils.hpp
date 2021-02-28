@@ -153,34 +153,46 @@ namespace meta_init
         static constexpr size_t buf_size = 64UL;
         size_t N_inits = 0UL;
         std::pair<void *, std::function<void(void *, std::shared_ptr<H5::H5File>)>> inits[buf_size];
-    public :
-        void read_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
-        { for (size_t ii=0; ii != N_inits; ++ii) inits[ii].second(inits[ii].first, fptr); }
+    protected :
         void register_init (void *obj, std::function<void(void *, std::shared_ptr<H5::H5File>)> fct)
         {
             inits[N_inits++] = std::make_pair(obj, fct);
             assert(N_inits < buf_size);
         }
+    public :
+        void read_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
+        {
+            for (size_t ii=0; ii != N_inits; ++ii)
+                inits[ii].second(inits[ii].first, fptr);
+        }
     };
 
-    template<typename AFields>
-    struct MultiPrtMetaInit : virtual public Callback<AFields>,
+    template<typename AFields, typename Child>
+    class MultiPrtMetaInit : virtual public Callback<AFields>,
                               virtual private MultiPrtMetaInitBase<AFields>
     {
-        MultiPrtMetaInit (void *obj, std::function<void(void *, std::shared_ptr<H5::H5File>)> fct)
-        { MultiPrtMetaInitBase<AFields>::register_init(obj, fct); }
+        static void this_prt_meta_init_static (void *obj, std::shared_ptr<H5::H5File> fptr)
+        {
+            Child *p = (Child *)obj;
+            p->this_prt_meta_init(fptr);
+        }
+    protected :
+        virtual void this_prt_meta_init (std::shared_ptr<H5::H5File> fptr) = 0;
+    public :
+        MultiPrtMetaInit ()
+        {
+            MultiPrtMetaInitBase<AFields>::register_init(this, this_prt_meta_init_static);
+        }
     };
 
     template<typename AFields>
     class IllustrisCosmology : virtual public Callback<AFields>,
-                               public MultiPrtMetaInit<AFields>
+                               public MultiPrtMetaInit<AFields, IllustrisCosmology<AFields>>
     {
-        static void read_cosmology (void *obj, std::shared_ptr<H5::H5File> fptr)
+        void this_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
         {
-            IllustrisCosmology *p = (IllustrisCosmology *)obj;
-
             auto header = fptr->openGroup("/Header");
-            #define READ(x) p->x = hdf5Utils::read_scalar_attr<double,double>(header, #x)
+            #define READ(x) x = hdf5Utils::read_scalar_attr<double,double>(header, #x)
             READ(HubbleParam);
             READ(Omega0);
             READ(OmegaLambda);
@@ -192,33 +204,22 @@ namespace meta_init
     public :
         // data members the user may want to use
         double HubbleParam, Omega0, OmegaLambda, OmegaBaryon, Redshift, Time;
-
-        IllustrisCosmology () :
-            MultiPrtMetaInit<AFields> { this, read_cosmology }
-        { }
     };
 
     template<typename AFields>
     class IllustrisMassTable : virtual public Callback<AFields>,
-                               public MultiPrtMetaInit<AFields>
+                               public MultiPrtMetaInit<AFields, IllustrisMassTable<AFields>>
     {
-        static void read_mass_table (void *obj, std::shared_ptr<H5::H5File> fptr)
+        void this_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
         {
-            IllustrisMassTable *p = (IllustrisMassTable *)obj;
-
             auto header = fptr->openGroup("/Header");
-            p->Ntypes = hdf5Utils::read_vector_attr<double,double>(header, "MassTable", p->MassTable);
+            Ntypes = hdf5Utils::read_vector_attr<double,double>(header, "MassTable", MassTable);
         }
     public :
         // data members the user may want to use
         // use a large enough buffer for all cases
         double MassTable[16];
         size_t Ntypes;
-
-        IllustrisMassTable () :
-            MultiPrtMetaInit<AFields> { this, read_mass_table }
-        { }
-
     };
 } // namespace meta_init }}}
 
@@ -256,64 +257,64 @@ namespace select
     template<typename AFields>
     class MultiSelectBase : virtual public Callback<AFields>
     {
+        typedef typename Callback<AFields>::GrpProperties GrpProperties;
         static constexpr size_t buf_size = 64UL;
         size_t N_selects = 0UL;
-        std::pair<void *, std::function<bool(void *, const typename Callback<AFields>::GrpProperties &)>>
+        std::pair<void *, std::function<bool(void *, const GrpProperties &)>>
             selectors[buf_size];
+    protected :
+        void register_select (void *obj, std::function<bool(void *, const GrpProperties &)> fct)
+        {
+            selectors[N_selects++] = std::make_pair(obj, fct);
+            assert(N_selects < buf_size);
+        }
     public :
-        bool grp_select (const typename Callback<AFields>::GrpProperties &grp) const override
+        bool grp_select (const GrpProperties &grp) const override
         {
             for (size_t ii=0; ii != N_selects; ++ii)
                 if (!selectors[ii].second(selectors[ii].first, grp))
                     return false;
             return true;
         }
-        void register_select (void *obj,
-                              std::function<bool(void *,
-                                                 const typename Callback<AFields>::GrpProperties &)> fct)
-        {
-            selectors[N_selects++] = std::make_pair(obj, fct);
-            assert(N_selects < buf_size);
-        }
     };
 
-    template<typename AFields>
+    template<typename AFields, typename Child>
     class MultiSelect : virtual public Callback<AFields>,
                         virtual private MultiSelectBase<AFields>
     {
-        MultiSelect (void *obj,
-                     std::function<bool(void *,
-                                        const typename Callback<AFields>::GrpProperties &)> fct)
+        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        static bool this_grp_select_static (void *obj, const GrpProperties &grp)
         {
-            MultiSelectBase<AFields>::register_select(obj, fct);
+            Child *p = (Child *)obj;
+            return p->this_grp_select(grp);
+        }
+    protected :
+        virtual bool this_grp_select (const GrpProperties &grp) const = 0;
+    public :
+        MultiSelect ()
+        {
+            MultiSelectBase<AFields>::register_select(this, this_grp_select_static);
         }
     };
 
     template<typename AFields, typename Field>
     class Window : virtual public Callback<AFields>,
-                   public MultiSelect<AFields>
+                   public MultiSelect<AFields, Window<AFields, Field>>
     {
+        typedef typename Callback<AFields>::GrpProperties GrpProperties;
         static_assert(Field::dim == 1);
         static_assert(Field::type == FieldTypes::GrpFld);
         static_assert(std::is_floating_point_v<typename Field::value_type>);
         typename Field::value_type min_val, max_val;
-        static bool window_grp_select (void *obj, const typename Callback<AFields>::GrpProperties &grp)
+        bool this_grp_select (const GrpProperties &grp) const override final
         {
-            Window *p = (Window *)obj;
             auto x = grp.template get<Field>();
-            return x > p->min_val && x < p->max_val;
+            return x > min_val && x < max_val;
         }
     public :
         Window (typename Field::value_type min_val_, typename Field::value_type max_val_) :
-            MultiSelect<AFields> { this, window_grp_select },
             min_val { min_val_ }, max_val  { max_val_ }
-        {
-            #ifndef NDEBUG
-            std::fprintf(stderr, "Initialized CallbackUtils::select::Window with "
-                                 "Field %s and min=%.3e and max=%.3e.\n",
-                                 Field::name, min_val, max_val);
-            #endif
-        }
+        { }
     };
     
     template<typename AFields, typename Field>
@@ -366,18 +367,21 @@ namespace action
     template<typename AFields>
     class MultiGrpActionBase : virtual public Callback<AFields>
     {
-        // very very unlikely that any user would want to use this more than for 64 different actions
-        // If that case happens, we have the assert below.
+        typedef typename Callback<AFields>::GrpProperties GrpProperties;
         static constexpr size_t buf_size = 64UL;
         size_t N_actions = 0UL;
-        std::pair<void *, std::function<void(void *, const typename Callback<AFields>::GrpProperties &)>> grp_actions[buf_size];
-    public :
-        void grp_action (const typename Callback<AFields>::GrpProperties &grp) override final
-        { for (size_t ii=0; ii != N_actions; ++ii) grp_actions[ii].second(grp_actions[ii].first, grp); }
-        void register_fct (void *obj, std::function<void(void *, const typename Callback<AFields>::GrpProperties &)> fct)
+        std::pair<void *, std::function<void(void *, const GrpProperties &)>> grp_actions[buf_size];
+    protected :
+        void register_fct (void *obj, std::function<void(void *, const GrpProperties &)> fct)
         {
             grp_actions[N_actions++] = std::make_pair(obj, fct);
             assert(N_actions < buf_size);
+        }
+    public :
+        void grp_action (const GrpProperties &grp) override final
+        {
+            for (size_t ii=0; ii != N_actions; ++ii)
+                grp_actions[ii].second(grp_actions[ii].first, grp);
         }
     };
 
@@ -385,12 +389,23 @@ namespace action
     // The constructor arguments are a pointer to the child class instance
     // and a pointer to a static member function of the child class that
     // takes a child class instance as its first argument and grp_properties as its second.
-    template<typename AFields>
-    struct MultiGrpAction : virtual public Callback<AFields>,
-                            virtual private MultiGrpActionBase<AFields>
+    template<typename AFields, typename Child>
+    class MultiGrpAction : virtual public Callback<AFields>,
+                           virtual private MultiGrpActionBase<AFields>
     {
-        MultiGrpAction (void *obj, std::function<void(void *, const typename Callback<AFields>::GrpProperties &)> fct)
-        { MultiGrpActionBase<AFields>::register_fct(obj, fct); }
+        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        static void this_grp_action_static (void *obj, const GrpProperties &grp)
+        {
+            Child *p = (Child *)obj;
+            p->this_grp_action(grp);
+        }
+    protected :
+        virtual void this_grp_action (const GrpProperties &grp) = 0;
+    public :
+        MultiGrpAction ()
+        {
+            MultiGrpActionBase<AFields>::register_fct(this, this_grp_action_static);
+        }
     };
 
     // Abstract base class that implements storage of homogeneous data for each group.
@@ -398,7 +413,7 @@ namespace action
     //
     // Each group gets an entry in the data vector, of type Tdata.
     // If Tdata has a constructor of the signature
-    //      Tdata (const typename Callback<AFields::GrpProperties &),
+    //      Tdata (const GrpProperties &),
     // this constructor will be called. In this case, the default constructor should be
     // deleted (this ensures that we have an extra check that the custom constructor
     // was declared correctly).
@@ -411,36 +426,31 @@ namespace action
     //                    existing element of type Tdata in the data vector
     template<typename AFields, typename Tdata>
     class StorePrtHomogeneous : virtual public Callback<AFields>,
-                                public MultiGrpAction<AFields>
+                                public MultiGrpAction<AFields, StorePrtHomogeneous<AFields, Tdata>>
     {
+        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        typedef typename Callback<AFields>::PrtProperties PrtProperties;
         std::vector<Tdata> &data;
-        static void enlarge_data (void *obj, const typename Callback<AFields>::GrpProperties &grp)
+        void this_grp_action (const GrpProperties &grp) override final
         {
-            StorePrtHomogeneous *p = (StorePrtHomogeneous *)obj;
-
-            if constexpr (std::is_constructible_v<Tdata, const typename Callback<AFields>::GrpProperties &>)
+            if constexpr (std::is_constructible_v<Tdata, const GrpProperties &>)
             {
                 static_assert(!std::is_default_constructible_v<Tdata>);
-                p->data.emplace_back(grp);
+                data.emplace_back(grp);
             }
             else
-                p->data.emplace_back();
+                data.emplace_back();
         }
     protected :
-        virtual void prt_insert (size_t grp_idx,
-                                 const typename Callback<AFields>::GrpProperties &grp,
-                                 const typename Callback<AFields>::PrtProperties &prt,
-                                 coord_t Rsq,
+        virtual void prt_insert (size_t grp_idx, const GrpProperties &grp,
+                                 const PrtProperties &prt, coord_t Rsq,
                                  Tdata &data_item) = 0;
     public :
         StorePrtHomogeneous (std::vector<Tdata> &data_) :
-            data(data_),
-            MultiGrpAction<AFields> { this, enlarge_data }
+            data(data_)
         { }
-        void prt_action (size_t grp_idx,
-                         const typename Callback<AFields>::GrpProperties &grp,
-                         const typename Callback<AFields>::PrtProperties &prt,
-                         coord_t Rsq) override final
+        void prt_action (size_t grp_idx, const GrpProperties &grp,
+                         const PrtProperties &prt, coord_t Rsq) override final
         {
             prt_insert(grp_idx, grp, prt, Rsq, data[grp_idx]);
         }
@@ -450,20 +460,19 @@ namespace action
     // (data is group dependent)
     template<typename AFields, typename Tdata>
     class StoreGrpHomogeneous : virtual public Callback<AFields>,
-                                public MultiGrpAction<AFields>
+                                public MultiGrpAction<AFields, StoreGrpHomogeneous<AFields, Tdata>>
     {
+        typedef typename Callback<AFields>::GrpProperties GrpProperties;
         std::vector<Tdata> &data;
-        static void append_data (void *obj, const typename Callback<AFields>::GrpProperties &grp)
+        void this_grp_action (const GrpProperties &grp) override final
         {
-            StoreGrpHomogeneous *p = (StoreGrpHomogeneous *)obj;
-            p->data.push_back(p->grp_reduce(grp));
+            data.push_back(grp_reduce(grp));
         }
     protected :
-        virtual Tdata grp_reduce (const typename Callback<AFields>::GrpProperties &grp) const = 0;
+        virtual Tdata grp_reduce (const GrpProperties &grp) const = 0;
     public :
         StoreGrpHomogeneous (std::vector<Tdata> &data_) :
-            data(data_),
-            MultiGrpAction<AFields> { this, append_data }
+            data(data_)
         { }
     };
 
@@ -476,7 +485,7 @@ namespace action
                              public StoreGrpHomogeneous<AFields, storeasT>
     {
         static_assert(Field::dim == 1, "Currently not implemented, could probably be done");
-    private :
+        static_assert(std::is_arithmetic_v<storeasT>);
         storeasT grp_reduce (const typename Callback<AFields>::GrpProperties &grp) const override final
         {
             return grp.template get<Field>();
