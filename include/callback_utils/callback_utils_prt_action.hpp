@@ -36,9 +36,12 @@ namespace prt_action {
                                 public grp_action::MultiGrpAction<AFields,
                                                                   StorePrtHomogeneous<AFields, Tdata>>
     {// {{{
+        friend grp_action::MultiGrpAction<AFields, StorePrtHomogeneous<AFields, Tdata>>;
         using typename Callback<AFields>::GrpProperties;
         using typename Callback<AFields>::PrtProperties;
+
         std::vector<Tdata> &data;
+
         void this_grp_action (const GrpProperties &grp) override final
         {
             if constexpr (std::is_constructible_v<Tdata, const GrpProperties &>)

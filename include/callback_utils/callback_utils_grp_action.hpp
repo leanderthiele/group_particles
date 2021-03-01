@@ -82,6 +82,7 @@ namespace grp_action {
     class StoreGrpHomogeneous : virtual public Callback<AFields>,
                                 public MultiGrpAction<AFields, StoreGrpHomogeneous<AFields, Tdata>>
     {// {{{
+        friend MultiGrpAction<AFields, StoreGrpHomogeneous<AFields, Tdata>>;
         using typename Callback<AFields>::GrpProperties;
         std::vector<Tdata> &data;
         void this_grp_action (const GrpProperties &grp) override final

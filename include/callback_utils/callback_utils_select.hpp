@@ -83,11 +83,14 @@ namespace select
     class Window : virtual public Callback<AFields>,
                    public MultiSelect<AFields, Window<AFields, Field>>
     {// {{{
+        friend MultiSelect<AFields, Window<AFields, Field>>;
         using typename Callback<AFields>::GrpProperties;
         static_assert(Field::dim == 1);
         static_assert(Field::type == FieldTypes::GrpFld);
         static_assert(std::is_floating_point_v<typename Field::value_type>);
+
         typename Field::value_type min_val, max_val;
+
         bool this_grp_select (const GrpProperties &grp) const override final
         {
             auto x = grp.template get<Field>();
