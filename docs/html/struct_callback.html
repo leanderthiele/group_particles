@@ -190,7 +190,7 @@ struct Callback&lt; AFields &gt;</h3>
   </dd>
 </dl>
 <p>By overriding this classes methods, the user defines the functionality of the code.</p>
-<p>See the documentation for <a class="el" href="halo__particles_8hpp.html#a55176d39143aba704fbcd669902e955f">halo_particles</a> for the order in which the non-const methods are called. </p>
+<p>See the documentation for <a class="el" href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">group_particles</a> for the order in which the non-const methods are called. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a0769db4ca89e3f36600aab651d37d4d3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0769db4ca89e3f36600aab651d37d4d3">&#9670;&nbsp;</a></span>grp_chunk()</h2>
@@ -236,7 +236,8 @@ template&lt;typename AFields &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if there is a chunk corresponding to chunk_idx, false otherwise. By definition, must return true for chunk_idx=0. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if there is a chunk corresponding to chunk_idx, false otherwise. By definition, must return true for chunk_idx=0.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1chunk.html" title="Some common ways to override Callback::grp_chunk and Callback::prt_chunk.">CallbackUtils::chunk</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -284,7 +285,8 @@ template&lt;typename AFields &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if there is a chunk corresponding to chunk_idx, false otherwise. By definition, must return true for chunk_idx=0. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if there is a chunk corresponding to chunk_idx, false otherwise. By definition, must return true for chunk_idx=0.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1chunk.html" title="Some common ways to override Callback::grp_chunk and Callback::prt_chunk.">CallbackUtils::chunk</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -314,7 +316,8 @@ template&lt;typename AFields &gt; </div>
 </div><div class="memdoc">
 
 <p>Where to find the group fields in the hdf5 file. </p>
-<dl class="section remark"><dt>Remarks</dt><dd>for Illustris-type formats, "Group/" </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>for Illustris-type formats, "Group/"</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1name.html" title="Some common ways to override Callback::grp_name and Callback::prt_name.">CallbackUtils::name</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -344,7 +347,8 @@ template&lt;typename AFields &gt; </div>
 </div><div class="memdoc">
 
 <p>Where to find the particle fields in the hdf5 file. </p>
-<dl class="section remark"><dt>Remarks</dt><dd>for Illustris-type formats, "PartType.../" </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>for Illustris-type formats, "PartType.../"</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1name.html" title="Some common ways to override Callback::grp_name and Callback::prt_name.">CallbackUtils::name</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -381,7 +385,8 @@ template&lt;typename AFields &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section remark"><dt>Remarks</dt><dd>This function is trivially implemented, so does not need to be overriden. </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>This function is trivially implemented, so does not need to be overriden.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1meta__init.html" title="Some common ways to override Callback::read_grp_meta_init and Callback::read_prt_meta_init.">CallbackUtils::meta_init</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -418,7 +423,8 @@ template&lt;typename AFields &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section remark"><dt>Remarks</dt><dd>This function is trivially implemented, so does not need to be overriden. </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>This function is trivially implemented, so does not need to be overriden.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1meta__init.html" title="Some common ways to override Callback::read_grp_meta_init and Callback::read_prt_meta_init.">CallbackUtils::meta_init</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -473,7 +479,8 @@ template&lt;typename AFields &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section remark"><dt>Remarks</dt><dd>In principle, the code could infer Ngroups from the size of the data arrays stored in the file, but it is safer to have this additional check. </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>In principle, the code could infer Ngroups from the size of the data arrays stored in the file, but it is safer to have this additional check.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1meta.html" title="Some common ways to override Callback::read_grp_meta and Callback::read_prt_meta.">CallbackUtils::meta</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -535,7 +542,8 @@ template&lt;typename AFields &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section remark"><dt>Remarks</dt><dd>In principle, the code could infer Nparts from the size of the data arrays stored in the file, but it is safer to have this additional check. </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>In principle, the code could infer Nparts from the size of the data arrays stored in the file, but it is safer to have this additional check.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1meta.html" title="Some common ways to override Callback::read_grp_meta and Callback::read_prt_meta.">CallbackUtils::meta</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -573,7 +581,8 @@ template&lt;typename AFields &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>whether this group should be considered.</dd></dl>
-<dl class="section remark"><dt>Remarks</dt><dd>This function is trivially implemented, so does not need to be overriden. </dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>This function is trivially implemented, so does not need to be overriden.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1select.html" title="Some common ways to override Callback::grp_select.">CallbackUtils::select</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -611,7 +620,8 @@ template&lt;typename AFields &gt; </div>
   </dd>
 </dl>
 <dl class="section remark"><dt>Remarks</dt><dd>This function will be called in the order of groups encountered, corresponding to the grp_idx argument in the <a class="el" href="struct_callback.html#abbe9064a38b332a4ad3499b9990cdd50" title="Action to take for each particle that falls within grp_radius from a group.">prt_action</a> method. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>There can be a cross-reaction with certain overrides of the <a class="el" href="struct_callback.html#abbe9064a38b332a4ad3499b9990cdd50" title="Action to take for each particle that falls within grp_radius from a group.">prt_action</a> method. In that case, overriding this method directly will lead to a compiler error. It is advised that the user always uses inheritance from the <a class="el" href="class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title="interface class to add an action to be performed during Callback::grp_action">CallbackUtils::grp_action::MultiGrpAction</a> interface to indirectly override this method. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>There can be a cross-reaction with certain overrides of the <a class="el" href="struct_callback.html#abbe9064a38b332a4ad3499b9990cdd50" title="Action to take for each particle that falls within grp_radius from a group.">prt_action</a> method. In that case, overriding this method directly will lead to a compiler error. It is advised that the user always uses inheritance from the <a class="el" href="class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title="interface class to add an action to be performed during Callback::grp_action">CallbackUtils::grp_action::MultiGrpAction</a> interface to indirectly override this method.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1grp__action.html" title="Some common ways to override Callback::grp_action.">CallbackUtils::grp_action</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -648,7 +658,8 @@ template&lt;typename AFields &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the radius of this group. Only particles falling within this distance from the group coordinate will be passed to the <a class="el" href="struct_callback.html#abbe9064a38b332a4ad3499b9990cdd50" title="Action to take for each particle that falls within grp_radius from a group.">prt_action</a> method. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the radius of this group. Only particles falling within this distance from the group coordinate will be passed to the <a class="el" href="struct_callback.html#abbe9064a38b332a4ad3499b9990cdd50" title="Action to take for each particle that falls within grp_radius from a group.">prt_action</a> method.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1radius.html" title="Some common ways to override Callback::grp_radius.">CallbackUtils::radius</a> for some overrides. </dd></dl>
 
 </div>
 </div>
@@ -706,10 +717,11 @@ template&lt;typename AFields &gt; </div>
     <tr><td class="paramdir">[in]</td><td class="paramname">grp_idx</td><td>index of this group, corresponding to the order in which <a class="el" href="struct_callback.html#a8de674b091b75b0dbc64f795e203ed07" title="Action to take for each group for which grp_select returned true.">grp_action</a> was called. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">grp</td><td>properties of this group. Well-designed code should not need to use this argument, as the required data products can be reduced more efficiently in the <a class="el" href="struct_callback.html#a8de674b091b75b0dbc64f795e203ed07" title="Action to take for each group for which grp_select returned true.">grp_action</a> method. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">prt</td><td>properties of this particle. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">Rsq</td><td>squared distance between this particle's coordinate and this group's coordinate. The code already computes this so the user should be able to use it without re-computing it. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">Rsq</td><td>squared distance between this particle's coordinate and this group's coordinate. The code already computes this so the user should be able to use it without re-computing it.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>see <a class="el" href="namespace_callback_utils_1_1prt__action.html" title="Some common ways to override Callback::prt_action.">CallbackUtils::prt_action</a> for some overrides. </dd></dl>
 
 </div>
 </div>
