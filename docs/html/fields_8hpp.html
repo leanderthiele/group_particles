@@ -85,12 +85,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_field_collection.html">FieldCollection&lt; field_type_, Fields &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template to define a "bundle" of fields.  <a href="class_field_collection.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_grp_fields.html">GrpFields&lt; Fields &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of the <a class="el" href="class_field_collection.html" title="Template to define a &quot;bundle&quot; of fields.">FieldCollection</a> to group fields.  <a href="struct_grp_fields.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_prt_fields.html">PrtFields&lt; Fields &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of the <a class="el" href="class_field_collection.html" title="Template to define a &quot;bundle&quot; of fields.">FieldCollection</a> to particle fields.  <a href="struct_prt_fields.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_all_fields.html">AllFields&lt; GroupFields_, ParticleFields_ &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience type that bundles the group and particle fields.  <a href="struct_all_fields.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,11 +100,21 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ab6f4d03ec72b362c4d0173181fa15ea7"><td class="memItemLeft" align="right" valign="top">typedef float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a></td></tr>
 <tr class="memdesc:ab6f4d03ec72b362c4d0173181fa15ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal coordinate type.  <a href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">More...</a><br /></td></tr>
 <tr class="separator:ab6f4d03ec72b362c4d0173181fa15ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae96acd6538928bef620b69185123053b"><td class="memTemplParams" colspan="2">template&lt;typename... Fields&gt; </td></tr>
+<tr class="memitem:ae96acd6538928bef620b69185123053b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="fields_8hpp.html#ae96acd6538928bef620b69185123053b">GrpFields</a> = <a class="el" href="class_field_collection.html">FieldCollection</a>&lt; <a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a>, Fields... &gt;</td></tr>
+<tr class="memdesc:ae96acd6538928bef620b69185123053b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of the <a class="el" href="class_field_collection.html" title="Template to define a &quot;bundle&quot; of fields.">FieldCollection</a> to group fields.  <a href="fields_8hpp.html#ae96acd6538928bef620b69185123053b">More...</a><br /></td></tr>
+<tr class="separator:ae96acd6538928bef620b69185123053b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a413a3e58c7db8b23fbc1136b4379927c"><td class="memTemplParams" colspan="2">template&lt;typename... Fields&gt; </td></tr>
+<tr class="memitem:a413a3e58c7db8b23fbc1136b4379927c"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="fields_8hpp.html#a413a3e58c7db8b23fbc1136b4379927c">PrtFields</a> = <a class="el" href="class_field_collection.html">FieldCollection</a>&lt; <a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8a11e5696cde6ca4479893210561dab9c0">FieldTypes::PrtFld</a>, Fields... &gt;</td></tr>
+<tr class="memdesc:a413a3e58c7db8b23fbc1136b4379927c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of the <a class="el" href="class_field_collection.html" title="Template to define a &quot;bundle&quot; of fields.">FieldCollection</a> to particle fields.  <a href="fields_8hpp.html#a413a3e58c7db8b23fbc1136b4379927c">More...</a><br /></td></tr>
+<tr class="separator:a413a3e58c7db8b23fbc1136b4379927c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ad282183b327c04b54b4d83706212f9c8"><td class="memItemLeft" align="right" valign="top"><a id="ad282183b327c04b54b4d83706212f9c8"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8">FieldTypes</a> </td></tr>
-<tr class="memdesc:ad282183b327c04b54b4d83706212f9c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fields fall into two categories, group and particle fields. <br /></td></tr>
+<tr class="memitem:ad282183b327c04b54b4d83706212f9c8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8">FieldTypes</a> { <a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a>, 
+<a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8a11e5696cde6ca4479893210561dab9c0">FieldTypes::PrtFld</a>
+ }</td></tr>
+<tr class="memdesc:ad282183b327c04b54b4d83706212f9c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fields fall into two categories, group and particle fields.  <a href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8">More...</a><br /></td></tr>
 <tr class="separator:ad282183b327c04b54b4d83706212f9c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -190,6 +194,85 @@ Enumerations</h2></td></tr>
 
 <p>Internal coordinate type. </p>
 <p>Internally, the code converts all coordinates to a common type for efficiency. The user will not need to consider this, apart from the return type of the <a class="el" href="struct_callback.html#a1e0a8093ac75d5b566f659872da6cd2f" title="Inform the code how large this group is.">Callback::grp_radius</a> method and the fact that the <a class="el" href="class_callback_1_1_base_properties.html#abbb5e1a2ce425b069bda1538c186b3ef">Callback::BaseProperties::get</a> method will return a <a class="el" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7" title="Internal coordinate type.">coord_t</a>-pointer if a coordinate field is requested. </p>
+
+</div>
+</div>
+<a id="ae96acd6538928bef620b69185123053b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae96acd6538928bef620b69185123053b">&#9670;&nbsp;</a></span>GrpFields</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Fields&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="fields_8hpp.html#ae96acd6538928bef620b69185123053b">GrpFields</a> =  <a class="el" href="class_field_collection.html">FieldCollection</a>&lt;<a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a>, Fields...&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Specialization of the <a class="el" href="class_field_collection.html" title="Template to define a &quot;bundle&quot; of fields.">FieldCollection</a> to group fields. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Fields</td><td>the fields to be read from the group catalog. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a413a3e58c7db8b23fbc1136b4379927c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a413a3e58c7db8b23fbc1136b4379927c">&#9670;&nbsp;</a></span>PrtFields</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Fields&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="fields_8hpp.html#a413a3e58c7db8b23fbc1136b4379927c">PrtFields</a> =  <a class="el" href="class_field_collection.html">FieldCollection</a>&lt;<a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8a11e5696cde6ca4479893210561dab9c0">FieldTypes::PrtFld</a>, Fields...&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Specialization of the <a class="el" href="class_field_collection.html" title="Template to define a &quot;bundle&quot; of fields.">FieldCollection</a> to particle fields. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Fields</td><td>the fields to be read from the particle catalog. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ad282183b327c04b54b4d83706212f9c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad282183b327c04b54b4d83706212f9c8">&#9670;&nbsp;</a></span>FieldTypes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8">FieldTypes</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Fields fall into two categories, group and particle fields. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617"></a>GrpFld&#160;</td><td class="fielddoc"><p>label for a group field </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ad282183b327c04b54b4d83706212f9c8a11e5696cde6ca4479893210561dab9c0"></a>PrtFld&#160;</td><td class="fielddoc"><p>label for a particle field </p>
+</td></tr>
+</table>
 
 </div>
 </div>

@@ -28,7 +28,11 @@ typedef float coord_t;
 
 /*! @brief Fields fall into two categories, group and particle fields.
  */
-enum class FieldTypes { GrpFld, PrtFld };
+enum class FieldTypes
+{
+    GrpFld, /*!< label for a group field */
+    PrtFld, /*!< label for a particle field */
+};
 
 /*! @brief Macro to define a new field type.
  *
@@ -72,6 +76,8 @@ enum class FieldTypes { GrpFld, PrtFld };
  *
  * It is required that the first of Fields is a coordinate field
  * (the code needs to know where the groups and particles are).
+ *
+ * Specializations are in #GrpFields and #PrtFields.
  */
 template<FieldTypes field_type_, typename... Fields>
 class FieldCollection
@@ -219,16 +225,14 @@ public :
  * @tparam Fields       the fields to be read from the group catalog.
  */
 template<typename... Fields>
-struct GrpFields : FieldCollection<FieldTypes::GrpFld, Fields...>
-{ };
+using GrpFields = FieldCollection<FieldTypes::GrpFld, Fields...>;
 
 /*! @brief Specialization of the #FieldCollection to particle fields.
  *
  * @tparam Fields       the fields to be read from the particle catalog.
  */
 template<typename... Fields>
-struct PrtFields : FieldCollection<FieldTypes::PrtFld, Fields...>
-{ };
+using PrtFields = FieldCollection<FieldTypes::PrtFld, Fields...>;
 
 /*! @brief Convenience type that bundles the group and particle fields.
  *

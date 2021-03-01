@@ -136,7 +136,7 @@ $(function() {
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">friend</span> <a class="code" href="class_callback_utils_1_1select_1_1_multi_select.html">MultiSelect&lt;AFields, Window&lt;AFields, Field&gt;</a>&gt;;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keyword">using</span> <span class="keyword">typename</span> <a class="code" href="class_callback_1_1_base_properties.html">Callback&lt;AFields&gt;::GrpProperties</a>;</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        static_assert(Field::dim == 1);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        static_assert(Field::type == FieldTypes::GrpFld);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        static_assert(Field::type == <a class="code" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a>);</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        static_assert(std::is_floating_point_v&lt;typename Field::value_type&gt;);</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keyword">typename</span> Field::value_type min_val, max_val;</div>
@@ -177,6 +177,7 @@ $(function() {
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="preprocessor">#endif // CALLBACK_UTILS_SELECT_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="afields_8hpp_html_ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617"><div class="ttname"><a href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a></div><div class="ttdeci">@ GrpFld</div></div>
 <div class="ttc" id="astruct_callback_utils_1_1select_1_1_high_cutoff_html_a2980e3b76ee718cf24043b25c86972c6"><div class="ttname"><a href="struct_callback_utils_1_1select_1_1_high_cutoff.html#a2980e3b76ee718cf24043b25c86972c6">CallbackUtils::select::HighCutoff::HighCutoff</a></div><div class="ttdeci">HighCutoff(typename Field::value_type max_val)</div><div class="ttdef"><b>Definition:</b> callback_utils_select.hpp:142</div></div>
 <div class="ttc" id="astruct_callback_utils_1_1select_1_1_low_cutoff_html_a3b0fd723a1ae921a0dfacdcc57346533"><div class="ttname"><a href="struct_callback_utils_1_1select_1_1_low_cutoff.html#a3b0fd723a1ae921a0dfacdcc57346533">CallbackUtils::select::LowCutoff::LowCutoff</a></div><div class="ttdeci">LowCutoff(typename Field::value_type min_val)</div><div class="ttdef"><b>Definition:</b> callback_utils_select.hpp:127</div></div>
 <div class="ttc" id="aclass_callback_utils_1_1select_1_1_multi_select_html_ac40cd88ea185a774577b35a0fe56704c"><div class="ttname"><a href="class_callback_utils_1_1select_1_1_multi_select.html#ac40cd88ea185a774577b35a0fe56704c">CallbackUtils::select::MultiSelect::this_grp_select</a></div><div class="ttdeci">virtual bool this_grp_select(const GrpProperties &amp;grp) const =0</div></div>

@@ -191,7 +191,7 @@ $(function() {
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;{</div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    static_assert(T::field_type == Field::type);</div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="keywordflow">if</span> constexpr (T::field_type == FieldTypes::GrpFld)</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="keywordflow">if</span> constexpr (T::field_type == <a class="code" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a>)</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="keywordflow">return</span> AFields::GroupFields::template idx&lt;Field&gt;;</div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="keywordflow">return</span> AFields::ParticleFields::template idx&lt;Field&gt;;</div>
@@ -218,6 +218,7 @@ $(function() {
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="preprocessor">#endif // CALLBACK_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astruct_callback_html_a19c69daf07f5eb00cad227e24240936d"><div class="ttname"><a href="struct_callback.html#a19c69daf07f5eb00cad227e24240936d">Callback::read_grp_meta</a></div><div class="ttdeci">virtual void read_grp_meta(size_t chunk_idx, std::shared_ptr&lt; H5::H5File &gt; fptr, size_t &amp;Ngroups) const =0</div><div class="ttdoc">Inform the code how many groups there are in a group chunk.</div></div>
+<div class="ttc" id="afields_8hpp_html_ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617"><div class="ttname"><a href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a></div><div class="ttdeci">@ GrpFld</div></div>
 <div class="ttc" id="astruct_callback_html_a9532186b15b39db2bbe65ad6aab57aae"><div class="ttname"><a href="struct_callback.html#a9532186b15b39db2bbe65ad6aab57aae">Callback::read_prt_meta_init</a></div><div class="ttdeci">virtual void read_prt_meta_init(std::shared_ptr&lt; H5::H5File &gt; fptr)</div><div class="ttdoc">Allows the user to read meta-data from the 0th particle chunk.</div><div class="ttdef"><b>Definition:</b> callback.hpp:150</div></div>
 <div class="ttc" id="astruct_callback_html_a0769db4ca89e3f36600aab651d37d4d3"><div class="ttname"><a href="struct_callback.html#a0769db4ca89e3f36600aab651d37d4d3">Callback::grp_chunk</a></div><div class="ttdeci">virtual bool grp_chunk(size_t chunk_idx, std::string &amp;fname) const =0</div><div class="ttdoc">Where to find the group files.</div></div>
 <div class="ttc" id="astruct_callback_html_aee19dc84ca6e000d263a1291468896fa"><div class="ttname"><a href="struct_callback.html#aee19dc84ca6e000d263a1291468896fa">Callback::grp_name</a></div><div class="ttdeci">virtual std::string grp_name() const =0</div><div class="ttdoc">Where to find the group fields in the hdf5 file.</div></div>
