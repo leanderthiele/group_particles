@@ -26,7 +26,8 @@ namespace grp_action {
      * but rather through the #CallbackUtils::grp_action::MultiGrpAction class.
      */
     template<typename AFields>
-    class MultiGrpActionBase : virtual public Callback<AFields>
+    class MultiGrpActionBase :
+        virtual public Callback<AFields>
     {// {{{
         using typename Callback<AFields>::GrpProperties;
         static constexpr size_t buf_size = 64UL;
@@ -53,8 +54,9 @@ namespace grp_action {
      * See #CallbackUtils::grp_action::StoreGrpHomogeneous for an example.
      */
     template<typename AFields, typename Child>
-    class MultiGrpAction : virtual public Callback<AFields>,
-                           virtual private MultiGrpActionBase<AFields>
+    class MultiGrpAction :
+        virtual public Callback<AFields>,
+        virtual private MultiGrpActionBase<AFields>
     {// {{{
         using typename Callback<AFields>::GrpProperties;
         static void this_grp_action_static (void *obj, const GrpProperties &grp)
@@ -79,8 +81,9 @@ namespace grp_action {
      * @tparam Tdata        the data type that is to be stored for each group.
      */
     template<typename AFields, typename Tdata>
-    class StoreGrpHomogeneous : virtual public Callback<AFields>,
-                                public MultiGrpAction<AFields, StoreGrpHomogeneous<AFields, Tdata>>
+    class StoreGrpHomogeneous :
+        virtual public Callback<AFields>,
+        private MultiGrpAction<AFields, StoreGrpHomogeneous<AFields, Tdata>>
     {// {{{
         friend MultiGrpAction<AFields, StoreGrpHomogeneous<AFields, Tdata>>;
         using typename Callback<AFields>::GrpProperties;
@@ -115,8 +118,9 @@ namespace grp_action {
      * @note Currently, only 1-dimensional Fields are supported (and storeasT must be arithmetic)
      */
     template<typename AFields, typename Field, typename storeasT = typename Field::value_type>
-    class StoreGrpProperty : virtual public Callback<AFields>,
-                             public StoreGrpHomogeneous<AFields, storeasT>
+    class StoreGrpProperty :
+        virtual public Callback<AFields>,
+        private StoreGrpHomogeneous<AFields, storeasT>
     {// {{{
         static_assert(Field::dim == 1, "Currently not implemented, could probably be done");
         static_assert(std::is_arithmetic_v<storeasT>);

@@ -23,9 +23,13 @@ namespace select
      *
      * The user should not inherit directly from this class
      * but rather through the #CallbackUtils::select::MultiSelect class.
+     *
+     * The selection functions included in this base are connected by logical `and`,
+     * i.e. all selection functions must return true for a group to be considered.
      */
     template<typename AFields>
-    class MultiSelectBase : virtual public Callback<AFields>
+    class MultiSelectBase :
+        virtual public Callback<AFields>
     {// {{{
         using typename Callback<AFields>::GrpProperties;
         static constexpr size_t buf_size = 64UL;
@@ -54,8 +58,9 @@ namespace select
      * See #CallbackUtils::select::Window for an example.
      */
     template<typename AFields, typename Child>
-    class MultiSelect : virtual public Callback<AFields>,
-                        virtual private MultiSelectBase<AFields>
+    class MultiSelect :
+        virtual public Callback<AFields>,
+        virtual private MultiSelectBase<AFields>
     {// {{{
         using typename Callback<AFields>::GrpProperties;
         static bool this_grp_select_static (void *obj, const GrpProperties &grp)
@@ -80,8 +85,9 @@ namespace select
      * @tparam Field    the group property that should be checked.
      */
     template<typename AFields, typename Field>
-    class Window : virtual public Callback<AFields>,
-                   public MultiSelect<AFields, Window<AFields, Field>>
+    class Window :
+        virtual public Callback<AFields>,
+        private MultiSelect<AFields, Window<AFields, Field>>
     {// {{{
         friend MultiSelect<AFields, Window<AFields, Field>>;
         using typename Callback<AFields>::GrpProperties;
@@ -110,8 +116,9 @@ namespace select
      * @tparam Field    the group property that should be checked.
      */
     template<typename AFields, typename Field>
-    struct LowCutoff : virtual public Callback<AFields>,
-                       public Window<AFields, Field>
+    struct LowCutoff :
+        virtual public Callback<AFields>,
+        private Window<AFields, Field>
     {// {{{
         /*! @param min_val      lower limit on Field.
          */
@@ -124,8 +131,9 @@ namespace select
      * @tparam Field    the group property that should be checked.
      */
     template<typename AFields, typename Field>
-    struct HighCutoff : virtual public Callback<AFields>,
-                        public Window<AFields, Field>
+    struct HighCutoff :
+        virtual public Callback<AFields>,
+        private Window<AFields, Field>
     {// {{{
         /*! @param max_val      upper limit on Field.
          */

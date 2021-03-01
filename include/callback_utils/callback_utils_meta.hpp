@@ -22,7 +22,8 @@ namespace meta
      * @tparam PartType     the particle type
      */
     template<typename AFields, uint8_t PartType>
-    struct Illustris : virtual public Callback<AFields>
+    struct Illustris :
+        virtual public Callback<AFields>
     {// {{{
         void read_grp_meta (size_t chunk_idx, std::shared_ptr<H5::H5File> fptr,
                             size_t &Ngroups) const override final
@@ -45,8 +46,9 @@ namespace meta
      * This is just #CallbackUtils::meta::Illustris with PartType=1.
      */
     template<typename AFields>
-    struct Gadget : virtual public Callback<AFields>,
-                    public Illustris<AFields, 1>
+    struct Gadget :
+        virtual public Callback<AFields>,
+        public Illustris<AFields, 1>
     { };
 
 } // namespace meta

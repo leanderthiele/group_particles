@@ -22,7 +22,8 @@ namespace name
      * @tparam PartType     the particle type
      */
     template<typename AFields, uint8_t PartType>
-    struct Illustris : virtual public Callback<AFields>
+    struct Illustris :
+        virtual public Callback<AFields>
     {// {{{
         std::string grp_name () const override final
         {
@@ -39,8 +40,9 @@ namespace name
      * This is just #CallbackUtils::name::Illustris with PartType=1.
      */
     template<typename AFields>
-    struct Gadget : virtual public Callback<AFields>,
-                    public Illustris<AFields, 1>
+    struct Gadget :
+        virtual public Callback<AFields>,
+        public Illustris<AFields, 1>
     { };
 
 } // namespace name

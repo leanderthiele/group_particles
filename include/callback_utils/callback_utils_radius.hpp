@@ -21,7 +21,8 @@ namespace radius
      * @tparam RField       the group property the radius is proportional to
      */
     template<typename AFields, typename RField>
-    class Simple : virtual public Callback<AFields>
+    class Simple :
+        virtual public Callback<AFields>
     {// {{{
         static_assert(RField::dim == 1);
         static_assert(RField::type == FieldTypes::GrpFld);

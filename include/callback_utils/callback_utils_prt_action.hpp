@@ -32,9 +32,9 @@ namespace prt_action {
      *                      the default constructor will be called.
      */
     template<typename AFields, typename Tdata>
-    class StorePrtHomogeneous : virtual public Callback<AFields>,
-                                public grp_action::MultiGrpAction<AFields,
-                                                                  StorePrtHomogeneous<AFields, Tdata>>
+    class StorePrtHomogeneous :
+        virtual public Callback<AFields>,
+        private grp_action::MultiGrpAction<AFields, StorePrtHomogeneous<AFields, Tdata>>
     {// {{{
         friend grp_action::MultiGrpAction<AFields, StorePrtHomogeneous<AFields, Tdata>>;
         using typename Callback<AFields>::GrpProperties;

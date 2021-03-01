@@ -19,7 +19,8 @@ namespace chunk {
     /*! @brief there is a single file containing all groups.
      */
     template<typename AFields>
-    class SingleGrp : virtual public Callback<AFields>
+    class SingleGrp :
+        virtual public Callback<AFields>
     {// {{{
         const std::string grp_fname;
     public :
@@ -39,7 +40,8 @@ namespace chunk {
     /*! @brief there is a single file containing all particles.
      */
     template<typename AFields>
-    class SinglePrt : virtual public Callback<AFields>
+    class SinglePrt :
+        virtual public Callback<AFields>
     {// {{{
         const std::string prt_fname;
     public :
@@ -58,7 +60,8 @@ namespace chunk {
     /*! @brief there are multiple group chunks.
      */
     template<typename AFields>
-    class MultiGrp : virtual public Callback<AFields>
+    class MultiGrp :
+        virtual public Callback<AFields>
     {// {{{
         const std::string grp_fname;
         const size_t max_idx;
@@ -84,7 +87,8 @@ namespace chunk {
     /*! @brief there are multiple particle chunks.
      */
     template<typename AFields>
-    class MultiPrt : virtual public Callback<AFields>
+    class MultiPrt :
+        virtual public Callback<AFields>
     {// {{{
         const std::string prt_fname;
         const size_t max_idx;
@@ -110,8 +114,9 @@ namespace chunk {
     /*! @brief wrapper for the common case that there is one group chunk and one particle chunk
      */
     template<typename AFields>
-    struct Single : virtual public Callback<AFields>,
-                    public SingleGrp<AFields>, public SinglePrt<AFields>
+    struct Single :
+        virtual public Callback<AFields>,
+        public SingleGrp<AFields>, public SinglePrt<AFields>
     {// {{{
         /*! see the constructors for #SingleGrp and #SinglePrt
          */
@@ -123,8 +128,9 @@ namespace chunk {
     /*! @brief wrapper for the common case that there are multiple group chunks and multiple particle chunks
      */
     template<typename AFields>
-    struct Multi : virtual public Callback<AFields>,
-                   public MultiGrp<AFields>, public MultiPrt<AFields>
+    struct Multi :
+        virtual public Callback<AFields>,
+        public MultiGrp<AFields>, public MultiPrt<AFields>
     {// {{{
         /*! see the constructors for #MultiGrp and #MultiPrt
          */

@@ -27,7 +27,8 @@ namespace meta_init
      * but rather through the #CallbackUtils::meta_init::MultiPrtMetaInit class.
      */
     template<typename AFields>
-    class MultiPrtMetaInitBase : virtual public Callback<AFields>
+    class MultiPrtMetaInitBase :
+        virtual public Callback<AFields>
     {// {{{
         static constexpr size_t buf_size = 64UL;
         size_t N_inits = 0UL;
@@ -53,8 +54,9 @@ namespace meta_init
      * See #CallbackUtils::meta_init::IllustrisCosmology for an example.
      */
     template<typename AFields, typename Child>
-    class MultiPrtMetaInit : virtual public Callback<AFields>,
-                             virtual private MultiPrtMetaInitBase<AFields>
+    class MultiPrtMetaInit :
+        virtual public Callback<AFields>,
+        virtual private MultiPrtMetaInitBase<AFields>
     {// {{{
         static void this_prt_meta_init_static (void *obj, std::shared_ptr<H5::H5File> fptr)
         {
@@ -76,8 +78,9 @@ namespace meta_init
     /*! @brief stores some cosmology-related meta-data from an Illustris-type header.
      */
     template<typename AFields>
-    class IllustrisCosmology : virtual public Callback<AFields>,
-                               public MultiPrtMetaInit<AFields, IllustrisCosmology<AFields>>
+    class IllustrisCosmology :
+        virtual public Callback<AFields>,
+        private MultiPrtMetaInit<AFields, IllustrisCosmology<AFields>>
     {// {{{
         friend MultiPrtMetaInit<AFields, IllustrisCosmology<AFields>>;
         void this_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
@@ -104,8 +107,9 @@ namespace meta_init
     /*! @brief stores the MassTable from an Illustris-type header.
      */
     template<typename AFields>
-    class IllustrisMassTable : virtual public Callback<AFields>,
-                               public MultiPrtMetaInit<AFields, IllustrisMassTable<AFields>>
+    class IllustrisMassTable :
+        virtual public Callback<AFields>,
+        private MultiPrtMetaInit<AFields, IllustrisMassTable<AFields>>
     {// {{{
         void this_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
         {
