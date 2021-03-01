@@ -130,7 +130,7 @@ public :
 class y_prof::grp_store_P :
     virtual public Callback<y_prof::AF>,
     public CallbackUtils::meta_init::IllustrisCosmology<AF>,
-    public CallbackUtils::action::StoreGrpHomogeneous<AF, y_prof::grp_P_t>
+    public CallbackUtils::grp_action::StoreGrpHomogeneous<AF, y_prof::grp_P_t>
 {// {{{
     static constexpr y_prof::grp_P_t GNewton    = 4.30091e4, // (kpc/1e10 Msun) (km/s)^2
                                      rho_crit_0 = 2.775e-8;  // 1e10 Msun/h / (kpc/h)^3
@@ -148,7 +148,7 @@ class y_prof::grp_store_P :
     }
 public :
     grp_store_P (std::vector<y_prof::grp_P_t> &data) :
-        CallbackUtils::action::StoreGrpHomogeneous<AF, y_prof::grp_P_t> { data }
+        CallbackUtils::grp_action::StoreGrpHomogeneous<AF, y_prof::grp_P_t> { data }
     { }
 };// }}}
 
