@@ -36,8 +36,8 @@ namespace prt_action {
                                 public grp_action::MultiGrpAction<AFields,
                                                                   StorePrtHomogeneous<AFields, Tdata>>
     {// {{{
-        typedef typename Callback<AFields>::GrpProperties GrpProperties;
-        typedef typename Callback<AFields>::PrtProperties PrtProperties;
+        using typename Callback<AFields>::GrpProperties;
+        using typename Callback<AFields>::PrtProperties;
         std::vector<Tdata> &data;
         void this_grp_action (const GrpProperties &grp) override final
         {

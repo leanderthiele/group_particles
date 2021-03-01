@@ -28,7 +28,7 @@ namespace grp_action {
     template<typename AFields>
     class MultiGrpActionBase : virtual public Callback<AFields>
     {// {{{
-        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        using typename Callback<AFields>::GrpProperties;
         static constexpr size_t buf_size = 64UL;
         size_t N_actions = 0UL;
         std::pair<void *, std::function<void(void *, const GrpProperties &)>> grp_actions[buf_size];
@@ -56,7 +56,7 @@ namespace grp_action {
     class MultiGrpAction : virtual public Callback<AFields>,
                            virtual private MultiGrpActionBase<AFields>
     {// {{{
-        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        using typename Callback<AFields>::GrpProperties;
         static void this_grp_action_static (void *obj, const GrpProperties &grp)
         {
             Child *p = (Child *)obj;
@@ -82,7 +82,7 @@ namespace grp_action {
     class StoreGrpHomogeneous : virtual public Callback<AFields>,
                                 public MultiGrpAction<AFields, StoreGrpHomogeneous<AFields, Tdata>>
     {// {{{
-        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        using typename Callback<AFields>::GrpProperties;
         std::vector<Tdata> &data;
         void this_grp_action (const GrpProperties &grp) override final
         {

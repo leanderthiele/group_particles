@@ -27,7 +27,7 @@ namespace select
     template<typename AFields>
     class MultiSelectBase : virtual public Callback<AFields>
     {// {{{
-        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        using typename Callback<AFields>::GrpProperties;
         static constexpr size_t buf_size = 64UL;
         size_t N_selects = 0UL;
         std::pair<void *, std::function<bool(void *, const GrpProperties &)>> selectors[buf_size];
@@ -57,7 +57,7 @@ namespace select
     class MultiSelect : virtual public Callback<AFields>,
                         virtual private MultiSelectBase<AFields>
     {// {{{
-        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        using typename Callback<AFields>::GrpProperties;
         static bool this_grp_select_static (void *obj, const GrpProperties &grp)
         {
             Child *p = (Child *)obj;
@@ -83,7 +83,7 @@ namespace select
     class Window : virtual public Callback<AFields>,
                    public MultiSelect<AFields, Window<AFields, Field>>
     {// {{{
-        typedef typename Callback<AFields>::GrpProperties GrpProperties;
+        using typename Callback<AFields>::GrpProperties;
         static_assert(Field::dim == 1);
         static_assert(Field::type == FieldTypes::GrpFld);
         static_assert(std::is_floating_point_v<typename Field::value_type>);
