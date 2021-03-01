@@ -1,0 +1,5 @@
+<map id="CallbackUtils::meta_init::MultiPrtMetaInit&lt; AFields, Child &gt;" name="CallbackUtils::meta_init::MultiPrtMetaInit&lt; AFields, Child &gt;">
+<area shape="rect" id="node1" title="interface class to add an action to be performed during Callback::read_prt_meta_init" alt="" coords="5,184,168,240"/>
+<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="9,5,164,32"/>
+<area shape="rect" id="node3" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init_base.html" title="base class to have multiple actions performed in Callback::read_prt_meta_init" alt="" coords="57,80,252,136"/>
+</map>

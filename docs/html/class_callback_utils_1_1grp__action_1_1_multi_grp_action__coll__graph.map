@@ -1,0 +1,5 @@
+<map id="CallbackUtils::grp_action::MultiGrpAction&lt; AFields, Child &gt;" name="CallbackUtils::grp_action::MultiGrpAction&lt; AFields, Child &gt;">
+<area shape="rect" id="node1" title="interface class to add an action to be performed during Callback::grp_action" alt="" coords="5,184,180,240"/>
+<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="15,5,170,32"/>
+<area shape="rect" id="node3" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action_base.html" title="base class to have multiple actions performed in Callback::grp_action" alt="" coords="60,80,267,136"/>
+</map>

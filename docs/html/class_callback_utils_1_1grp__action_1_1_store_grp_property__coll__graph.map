@@ -1,0 +1,7 @@
+<map id="CallbackUtils::grp_action::StoreGrpProperty&lt; AFields, Field, storeasT &gt;" name="CallbackUtils::grp_action::StoreGrpProperty&lt; AFields, Field, storeasT &gt;">
+<area shape="rect" id="node1" title="implements the common case of storing a single group property for each group." alt="" coords="1029,5,1232,61"/>
+<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,59,160,85"/>
+<area shape="rect" id="node3" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title=" " alt="" coords="753,34,981,105"/>
+<area shape="rect" id="node4" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="463,84,705,169"/>
+<area shape="rect" id="node5" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action_base.html" title="base class to have multiple actions performed in Callback::grp_action" alt="" coords="208,135,415,191"/>
+</map>

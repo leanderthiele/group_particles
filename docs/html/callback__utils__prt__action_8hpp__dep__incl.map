@@ -1,0 +1,5 @@
+<map id="callback_utils_prt_action.hpp" name="callback_utils_prt_action.hpp">
+<area shape="rect" id="node1" title="Some common ways to override Callback::prt_action." alt="" coords="8,5,144,47"/>
+<area shape="rect" id="node2" href="$callback__utils_8hpp.html" title="Collects some pre&#45;implemented functionality that makes it easier to construct a subclass of the Callb..." alt="" coords="7,95,145,121"/>
+<area shape="rect" id="node3" href="$halo__particles_8hpp.html" title="For convenience, the user can just include this single header file. It contains the single routine to..." alt="" coords="5,169,147,196"/>
+</map>

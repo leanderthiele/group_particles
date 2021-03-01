@@ -1,0 +1,15 @@
+<map id="fields.hpp" name="fields.hpp">
+<area shape="rect" id="node1" title="Templates to construct types that tell the code which data fields are to to be read from the group an..." alt="" coords="1021,5,1107,32"/>
+<area shape="rect" id="node2" href="$callback_8hpp.html" title="Contains the abstract base class that the user should subclass from in order to define the desired fu..." alt="" coords="465,80,569,107"/>
+<area shape="rect" id="node5" href="$halo__particles_8hpp.html" title="For convenience, the user can just include this single header file. It contains the single routine to..." alt="" coords="968,408,1109,435"/>
+<area shape="rect" id="node13" href="$common__fields_8hpp.html" title="Contains some common field types that can be used as template arguments for the GrpFields and PrtFiel..." alt="" coords="1101,251,1251,278"/>
+<area shape="rect" id="node3" href="$callback__utils__chunk_8hpp.html" title="Some common ways to override Callback::grp_chunk and Callback::prt_chunk." alt="" coords="781,251,966,278"/>
+<area shape="rect" id="node6" href="$callback__utils__grp__action_8hpp.html" title="Some common ways to override Callback::grp_action." alt="" coords="5,155,144,196"/>
+<area shape="rect" id="node7" href="$callback__utils__prt__action_8hpp.html" title="Some common ways to override Callback::prt_action." alt="" coords="27,244,163,285"/>
+<area shape="rect" id="node8" href="$callback__utils__meta_8hpp.html" title="Some common ways to override Callback::read_grp_meta and Callback::read_prt_meta." alt="" coords="187,251,367,278"/>
+<area shape="rect" id="node9" href="$callback__utils__meta__init_8hpp.html" title="Some common ways to override Callback::read_grp_meta_init and Callback::read_prt_meta_init." alt="" coords="392,244,544,285"/>
+<area shape="rect" id="node10" href="$callback__utils__name_8hpp.html" title="Some common ways to override Callback::grp_name and Callback::prt_name." alt="" coords="321,162,503,189"/>
+<area shape="rect" id="node11" href="$callback__utils__radius_8hpp.html" title="Some common ways to override Callback::grp_radius." alt="" coords="528,162,715,189"/>
+<area shape="rect" id="node12" href="$callback__utils__select_8hpp.html" title="Some common ways to override Callback::grp_select." alt="" coords="739,162,925,189"/>
+<area shape="rect" id="node4" href="$callback__utils_8hpp.html" title="Collects some pre&#45;implemented functionality that makes it easier to construct a subclass of the Callb..." alt="" coords="512,333,651,360"/>
+</map>

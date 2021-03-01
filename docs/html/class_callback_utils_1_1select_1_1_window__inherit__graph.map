@@ -1,0 +1,8 @@
+<map id="CallbackUtils::select::Window&lt; AFields, Field &gt;" name="CallbackUtils::select::Window&lt; AFields, Field &gt;">
+<area shape="rect" id="node1" title="select only groups that have some 1&#45;dimensional property fall into an interval." alt="" coords="725,53,924,94"/>
+<area shape="rect" id="node5" href="$struct_callback_utils_1_1select_1_1_high_cutoff.html" title="select only groups that have some 1&#45;dimensional property below a certain value." alt="" coords="972,5,1137,61"/>
+<area shape="rect" id="node6" href="$struct_callback_utils_1_1select_1_1_low_cutoff.html" title="select only groups that have some 1&#45;dimensional property above a certain value." alt="" coords="974,85,1135,141"/>
+<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,77,160,104"/>
+<area shape="rect" id="node3" href="$class_callback_utils_1_1select_1_1_multi_select.html" title=" " alt="" coords="468,77,677,133"/>
+<area shape="rect" id="node4" href="$class_callback_utils_1_1select_1_1_multi_select_base.html" title="base class to apply multiple selection functions in Callback::grp_select." alt="" coords="208,129,420,170"/>
+</map>
