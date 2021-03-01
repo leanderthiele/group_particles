@@ -1,5 +1,5 @@
-// This code is a useful test whether the halo_particles stuff is working correctly.
-#include "halo_particles.hpp"
+// This code is a useful test whether the group_particles stuff is working correctly.
+#include "group_particles.hpp"
 #include "common_fields.hpp"
 
 namespace NullTest
@@ -21,13 +21,13 @@ namespace NullTest
         name;
     typedef CallbackUtils::meta::Illustris<AF, PartType>
         meta;
-    typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::Group_M_Crit200>
+    typedef CallbackUtils::select::LowCutoff<AF, IllustrisFields::Group_M_Crit200>
         grp_select;
     typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
         grp_radius;
-    typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
+    typedef CallbackUtils::grp_action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
         grp_store_M;
-    typedef CallbackUtils::action::StorePrtHomogeneous<AF, grp_N_t>
+    typedef CallbackUtils::prt_action::StorePrtHomogeneous<AF, grp_N_t>
         prt_count_prt;
 } // namespace NullTest
 
@@ -79,7 +79,7 @@ int main ()
 {
     NullTest_Callback n;
     
-    halo_particles<> ( n );
+    group_particles<> ( n );
 
     // save data to files
     vec_to_f<>(n.grp_M, "./null_test_result_Feb13/grp_M.bin");

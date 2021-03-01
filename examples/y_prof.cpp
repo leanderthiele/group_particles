@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <cmath>
 
-#include "halo_particles.hpp"
+#include "group_particles.hpp"
 #include "common_fields.hpp"
 
 namespace y_prof
@@ -43,11 +43,11 @@ namespace y_prof
         grp_select_R;
     typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
         grp_radius;
-    typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
+    typedef CallbackUtils::grp_action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
         grp_store_M;
-    typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::Group_R_Crit200, grp_R_t>
+    typedef CallbackUtils::grp_action::StoreGrpProperty<AF, IllustrisFields::Group_R_Crit200, grp_R_t>
         grp_store_R;
-    typedef CallbackUtils::action::StorePrtHomogeneous<AF, grp_Y_t>
+    typedef CallbackUtils::prt_action::StorePrtHomogeneous<AF, grp_Y_t>
         prt_compute_Y;
 } // namespace y_prof }}}
 
@@ -213,7 +213,7 @@ int main ()
 {
     y_prof_callback y;
     
-    halo_particles<> ( y );
+    group_particles<> ( y );
 
     // save data to files
     #define ROOT "y_prof_results_Feb23"

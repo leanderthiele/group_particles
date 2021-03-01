@@ -1,7 +1,7 @@
 /*! @file callback.hpp
  *
  * @brief Contains the abstract base class that the user should subclass from
- *        in order to define the desired functionality of the #halo_particles function.
+ *        in order to define the desired functionality of the #group_particles function.
  *
  */
 
@@ -23,7 +23,7 @@
  *
  * By overriding this classes methods, the user defines the functionality of the code.
  *
- * See the documentation for #halo_particles for the order in which the non-const
+ * See the documentation for #group_particles for the order in which the non-const
  * methods are called.
  */
 template<typename AFields>

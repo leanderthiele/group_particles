@@ -2,7 +2,7 @@
 #include <string>
 #include <cstdio>
 
-#include "halo_particles.hpp"
+#include "group_particles.hpp"
 #include "common_fields.hpp"
 
 namespace Y_Delta
@@ -27,13 +27,13 @@ namespace Y_Delta
         name;
     typedef CallbackUtils::meta::Illustris<AF, PartType>
         meta;
-    typedef CallbackUtils::select::GrpMassLowCutoff<AF, IllustrisFields::Group_M_Crit200>
+    typedef CallbackUtils::select::LowCutoff<AF, IllustrisFields::Group_M_Crit200>
         grp_select;
     typedef CallbackUtils::radius::Simple<AF, IllustrisFields::Group_R_Crit200>
         grp_radius;
-    typedef CallbackUtils::action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
+    typedef CallbackUtils::grp_action::StoreGrpProperty<AF, IllustrisFields::Group_M_Crit200, grp_M_t>
         grp_store_M;
-    typedef CallbackUtils::action::StorePrtHomogeneous<AF, grp_Y_t>
+    typedef CallbackUtils::prt_action::StorePrtHomogeneous<AF, grp_Y_t>
         prt_compute_Y;
 } // namespace Y_Delta
 
@@ -97,7 +97,7 @@ int main ()
 {
     Y_Delta_Callback y;
     
-    halo_particles<> ( y );
+    group_particles<> ( y );
 
     // save data to files
     vec_to_f<>(y.grp_M, "./Y_Delta_results_Feb22/grp_M.bin");
