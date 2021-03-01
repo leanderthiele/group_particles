@@ -55,6 +55,8 @@ namespace select
      *
      * @tparam Child        the inheriting type
      *
+     * @note Child has to make this class friend.
+     *
      * See #CallbackUtils::select::Window for an example.
      */
     template<typename AFields, typename Child>

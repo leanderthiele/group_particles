@@ -140,7 +140,8 @@ typedef <a class="el" href="class_callback_1_1_base_properties.html">BasePropert
 class CallbackUtils::select::MultiSelectBase&lt; AFields &gt;</h3>
 
 <p>base class to apply multiple selection functions in <a class="el" href="struct_callback.html#aa5c688875c5f4676b5246ceb251f1639" title="Inform the code whether a group should be considered.">Callback::grp_select</a>. </p>
-<p>The user should not inherit directly from this class but rather through the <a class="el" href="class_callback_utils_1_1select_1_1_multi_select.html" title="interface class to include a selection function in Callback::grp_select.">CallbackUtils::select::MultiSelect</a> class. </p>
+<p>The user should not inherit directly from this class but rather through the <a class="el" href="class_callback_utils_1_1select_1_1_multi_select.html" title="interface class to include a selection function in Callback::grp_select.">CallbackUtils::select::MultiSelect</a> class.</p>
+<p>The selection functions included in this base are connected by logical <code>and</code>, i.e. all selection functions must return true for a group to be considered. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="callback__utils__select_8hpp_source.html">callback_utils_select.hpp</a></li>
 </ul>

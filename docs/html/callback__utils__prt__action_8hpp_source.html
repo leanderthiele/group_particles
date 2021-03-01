@@ -81,52 +81,55 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="namespace_callback_utils_1_1prt__action.html">   17</a></span>&#160;<span class="keyword">namespace </span>prt_action {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> AFields, <span class="keyword">typename</span> Tdata&gt;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html">   35</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html">StorePrtHomogeneous</a> : <span class="keyword">virtual</span> <span class="keyword">public</span> <a class="code" href="struct_callback.html">Callback</a>&lt;AFields&gt;,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                                <span class="keyword">public</span> <a class="code" href="class_callback_utils_1_1grp__action_1_1_multi_grp_action.html">grp_action::MultiGrpAction</a>&lt;AFields,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                                                                  StorePrtHomogeneous&lt;AFields, Tdata&gt;&gt;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html">   35</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html">StorePrtHomogeneous</a> :</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">public</span> <a class="code" href="struct_callback.html">Callback</a>&lt;AFields&gt;,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keyword">private</span> <a class="code" href="class_callback_utils_1_1grp__action_1_1_multi_grp_action.html">grp_action::MultiGrpAction</a>&lt;AFields, StorePrtHomogeneous&lt;AFields, Tdata&gt;&gt;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    {<span class="comment">// {{{</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">using</span> <span class="keyword">typename</span> <a class="code" href="class_callback_1_1_base_properties.html">Callback&lt;AFields&gt;::GrpProperties</a>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">using</span> <span class="keyword">typename</span> <a class="code" href="class_callback_1_1_base_properties.html">Callback&lt;AFields&gt;::PrtProperties</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        std::vector&lt;Tdata&gt; &amp;data;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">void</span> this_grp_action (<span class="keyword">const</span> <a class="code" href="class_callback_1_1_base_properties.html">GrpProperties</a> &amp;grp) <span class="keyword">override</span> <span class="keyword">final</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> constexpr (std::is_constructible_v&lt;Tdata, const GrpProperties &amp;&gt;)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                static_assert(!std::is_default_constructible_v&lt;Tdata&gt;);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                data.emplace_back(grp);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                data.emplace_back();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    protected :</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a6b4f3afd81bacc52fecb31101913018b">prt_insert</a> (<span class="keywordtype">size_t</span> grp_idx, <span class="keyword">const</span> <a class="code" href="class_callback_1_1_base_properties.html">GrpProperties</a> &amp;grp,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                 <span class="keyword">const</span> <a class="code" href="class_callback_1_1_base_properties.html">PrtProperties</a> &amp;prt, <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> Rsq,</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                 Tdata &amp;data_item) = 0;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    public :</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a33242e93d8d47829d9642074d80d6e2c">   78</a></span>&#160;        <a class="code" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a33242e93d8d47829d9642074d80d6e2c">StorePrtHomogeneous</a> (std::vector&lt;Tdata&gt; &amp;data_) :</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            data(data_)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            assert(data.empty());</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">void</span> prt_action (<span class="keywordtype">size_t</span> grp_idx, <span class="keyword">const</span> <a class="code" href="struct_callback.html#a62ae4e185bfa350189e7b4590c9748ac">GrpProperties</a> &amp;grp,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                         <span class="keyword">const</span> <a class="code" href="struct_callback.html#a5c0addc51a9f9032acb686307b2bcb40">PrtProperties</a> &amp;prt, <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> Rsq) <span class="keyword">override</span> <span class="keyword">final</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <a class="code" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a6b4f3afd81bacc52fecb31101913018b">prt_insert</a>(grp_idx, grp, prt, Rsq, data[grp_idx]);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    };<span class="comment">// }}}</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;} <span class="comment">// namespace prt_action</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keyword">friend</span> <a class="code" href="class_callback_utils_1_1grp__action_1_1_multi_grp_action.html">grp_action::MultiGrpAction&lt;AFields, StorePrtHomogeneous&lt;AFields, Tdata&gt;</a>&gt;;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">using</span> <span class="keyword">typename</span> <a class="code" href="class_callback_1_1_base_properties.html">Callback&lt;AFields&gt;::GrpProperties</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">using</span> <span class="keyword">typename</span> <a class="code" href="class_callback_1_1_base_properties.html">Callback&lt;AFields&gt;::PrtProperties</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std::vector&lt;Tdata&gt; &amp;data;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">void</span> this_grp_action (<span class="keyword">const</span> <a class="code" href="class_callback_1_1_base_properties.html">GrpProperties</a> &amp;grp) <span class="keyword">override</span> <span class="keyword">final</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">if</span> constexpr (std::is_constructible_v&lt;Tdata, const GrpProperties &amp;&gt;)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                static_assert(!std::is_default_constructible_v&lt;Tdata&gt;);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                data.emplace_back(grp);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                data.emplace_back();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    protected :</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a6b4f3afd81bacc52fecb31101913018b">prt_insert</a> (<span class="keywordtype">size_t</span> grp_idx, <span class="keyword">const</span> <a class="code" href="class_callback_1_1_base_properties.html">GrpProperties</a> &amp;grp,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                 <span class="keyword">const</span> <a class="code" href="class_callback_1_1_base_properties.html">PrtProperties</a> &amp;prt, <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> Rsq,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                 Tdata &amp;data_item) = 0;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    public :</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a33242e93d8d47829d9642074d80d6e2c">   81</a></span>&#160;        <a class="code" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a33242e93d8d47829d9642074d80d6e2c">StorePrtHomogeneous</a> (std::vector&lt;Tdata&gt; &amp;data_) :</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            data(data_)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            assert(data.empty());</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordtype">void</span> prt_action (<span class="keywordtype">size_t</span> grp_idx, <span class="keyword">const</span> <a class="code" href="struct_callback.html#a62ae4e185bfa350189e7b4590c9748ac">GrpProperties</a> &amp;grp,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                         <span class="keyword">const</span> <a class="code" href="struct_callback.html#a5c0addc51a9f9032acb686307b2bcb40">PrtProperties</a> &amp;prt, <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> Rsq) <span class="keyword">override</span> <span class="keyword">final</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <a class="code" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a6b4f3afd81bacc52fecb31101913018b">prt_insert</a>(grp_idx, grp, prt, Rsq, data[grp_idx]);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    };<span class="comment">// }}}</span></div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;} <span class="comment">// namespace CallbackUtils</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;} <span class="comment">// namespace prt_action</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#endif // CALLBACK_UTILS_PRT_ACTION_HPP</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;} <span class="comment">// namespace CallbackUtils</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif // CALLBACK_UTILS_PRT_ACTION_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclass_callback_utils_1_1grp__action_1_1_multi_grp_action_html"><div class="ttname"><a href="class_callback_utils_1_1grp__action_1_1_multi_grp_action.html">CallbackUtils::grp_action::MultiGrpAction</a></div><div class="ttdoc">interface class to add an action to be performed during Callback::grp_action</div><div class="ttdef"><b>Definition:</b> callback_utils_grp_action.hpp:56</div></div>
+<div class="ttc" id="aclass_callback_utils_1_1grp__action_1_1_multi_grp_action_html"><div class="ttname"><a href="class_callback_utils_1_1grp__action_1_1_multi_grp_action.html">CallbackUtils::grp_action::MultiGrpAction</a></div><div class="ttdoc">interface class to add an action to be performed during Callback::grp_action</div><div class="ttdef"><b>Definition:</b> callback_utils_grp_action.hpp:59</div></div>
 <div class="ttc" id="aclass_callback_utils_1_1prt__action_1_1_store_prt_homogeneous_html_a6b4f3afd81bacc52fecb31101913018b"><div class="ttname"><a href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a6b4f3afd81bacc52fecb31101913018b">CallbackUtils::prt_action::StorePrtHomogeneous::prt_insert</a></div><div class="ttdeci">virtual void prt_insert(size_t grp_idx, const GrpProperties &amp;grp, const PrtProperties &amp;prt, coord_t Rsq, Tdata &amp;data_item)=0</div></div>
 <div class="ttc" id="acallback__utils__grp__action_8hpp_html"><div class="ttname"><a href="callback__utils__grp__action_8hpp.html">callback_utils_grp_action.hpp</a></div><div class="ttdoc">Some common ways to override Callback::grp_action.</div></div>
-<div class="ttc" id="aclass_callback_utils_1_1prt__action_1_1_store_prt_homogeneous_html_a33242e93d8d47829d9642074d80d6e2c"><div class="ttname"><a href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a33242e93d8d47829d9642074d80d6e2c">CallbackUtils::prt_action::StorePrtHomogeneous::StorePrtHomogeneous</a></div><div class="ttdeci">StorePrtHomogeneous(std::vector&lt; Tdata &gt; &amp;data_)</div><div class="ttdef"><b>Definition:</b> callback_utils_prt_action.hpp:78</div></div>
+<div class="ttc" id="aclass_callback_utils_1_1prt__action_1_1_store_prt_homogeneous_html_a33242e93d8d47829d9642074d80d6e2c"><div class="ttname"><a href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html#a33242e93d8d47829d9642074d80d6e2c">CallbackUtils::prt_action::StorePrtHomogeneous::StorePrtHomogeneous</a></div><div class="ttdeci">StorePrtHomogeneous(std::vector&lt; Tdata &gt; &amp;data_)</div><div class="ttdef"><b>Definition:</b> callback_utils_prt_action.hpp:81</div></div>
 <div class="ttc" id="acallback_8hpp_html"><div class="ttname"><a href="callback_8hpp.html">callback.hpp</a></div><div class="ttdoc">Contains the abstract base class that the user should subclass from in order to define the desired fu...</div></div>
 <div class="ttc" id="anamespace_callback_utils_html"><div class="ttname"><a href="namespace_callback_utils.html">CallbackUtils</a></div><div class="ttdoc">contains classes that implement parts of the Callback base.</div><div class="ttdef"><b>Definition:</b> callback_utils_chunk.hpp:13</div></div>
 <div class="ttc" id="aclass_callback_utils_1_1prt__action_1_1_store_prt_homogeneous_html"><div class="ttname"><a href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html">CallbackUtils::prt_action::StorePrtHomogeneous</a></div><div class="ttdoc">implements the common case that each group gets an item of identical type into which the particles be...</div><div class="ttdef"><b>Definition:</b> callback_utils_prt_action.hpp:35</div></div>

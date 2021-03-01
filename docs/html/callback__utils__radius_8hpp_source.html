@@ -81,39 +81,40 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> AFields, <span class="keyword">typename</span> RField&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1radius_1_1_simple.html">   24</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_callback_utils_1_1radius_1_1_simple.html">Simple</a> : <span class="keyword">virtual</span> <span class="keyword">public</span> <a class="code" href="struct_callback.html">Callback</a>&lt;AFields&gt;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    {<span class="comment">// {{{</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        static_assert(RField::dim == 1);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        static_assert(RField::type == FieldTypes::GrpFld);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        static_assert(std::is_floating_point_v&lt;typename RField::value_type&gt;);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">typename</span> RField::value_type scaling;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    public :</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1radius_1_1_simple.html#a1291731dad1c87cad57992f0d5b3997c">   33</a></span>&#160;        <a class="code" href="class_callback_utils_1_1radius_1_1_simple.html#a1291731dad1c87cad57992f0d5b3997c">Simple</a> (<span class="keyword">typename</span> RField::value_type scaling_) :</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            scaling { scaling_ }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        { }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1radius_1_1_simple.html#a66f79a91d173e20b1b1a7ffc5cf8255b">   39</a></span>&#160;        <a class="code" href="class_callback_utils_1_1radius_1_1_simple.html#a66f79a91d173e20b1b1a7ffc5cf8255b">Simple</a> () :</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            scaling { (<span class="keyword">typename</span> RField::value_type)1.0 }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        { }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> grp_radius (<span class="keyword">const</span> <span class="keyword">typename</span> <a class="code" href="class_callback_1_1_base_properties.html">Callback&lt;AFields&gt;::GrpProperties</a> &amp;grp) <span class="keyword">const</span> <span class="keyword">override</span> <span class="keyword">final</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">return</span> scaling * grp.template get&lt;RField&gt;();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    };<span class="comment">// }}}</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;} <span class="comment">// namespace radius</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;} <span class="comment">// namespace CallbackUtils</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif // CALLBACK_UTILS_RADIUS_HPP</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1radius_1_1_simple.html">   24</a></span>&#160;    <span class="keyword">class </span><a class="code" href="class_callback_utils_1_1radius_1_1_simple.html">Simple</a> :</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keyword">virtual</span> <span class="keyword">public</span> <a class="code" href="struct_callback.html">Callback</a>&lt;AFields&gt;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    {<span class="comment">// {{{</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        static_assert(RField::dim == 1);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        static_assert(RField::type == FieldTypes::GrpFld);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        static_assert(std::is_floating_point_v&lt;typename RField::value_type&gt;);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keyword">typename</span> RField::value_type scaling;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    public :</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1radius_1_1_simple.html#a1291731dad1c87cad57992f0d5b3997c">   34</a></span>&#160;        <a class="code" href="class_callback_utils_1_1radius_1_1_simple.html#a1291731dad1c87cad57992f0d5b3997c">Simple</a> (<span class="keyword">typename</span> RField::value_type scaling_) :</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            scaling { scaling_ }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        { }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="class_callback_utils_1_1radius_1_1_simple.html#a66f79a91d173e20b1b1a7ffc5cf8255b">   40</a></span>&#160;        <a class="code" href="class_callback_utils_1_1radius_1_1_simple.html#a66f79a91d173e20b1b1a7ffc5cf8255b">Simple</a> () :</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            scaling { (<span class="keyword">typename</span> RField::value_type)1.0 }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        { }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> grp_radius (<span class="keyword">const</span> <span class="keyword">typename</span> <a class="code" href="class_callback_1_1_base_properties.html">Callback&lt;AFields&gt;::GrpProperties</a> &amp;grp) <span class="keyword">const</span> <span class="keyword">override</span> <span class="keyword">final</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">return</span> scaling * grp.template get&lt;RField&gt;();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    };<span class="comment">// }}}</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;} <span class="comment">// namespace radius</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;} <span class="comment">// namespace CallbackUtils</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif // CALLBACK_UTILS_RADIUS_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="acallback_8hpp_html"><div class="ttname"><a href="callback_8hpp.html">callback.hpp</a></div><div class="ttdoc">Contains the abstract base class that the user should subclass from in order to define the desired fu...</div></div>
 <div class="ttc" id="anamespace_callback_utils_html"><div class="ttname"><a href="namespace_callback_utils.html">CallbackUtils</a></div><div class="ttdoc">contains classes that implement parts of the Callback base.</div><div class="ttdef"><b>Definition:</b> callback_utils_chunk.hpp:13</div></div>
-<div class="ttc" id="aclass_callback_utils_1_1radius_1_1_simple_html_a66f79a91d173e20b1b1a7ffc5cf8255b"><div class="ttname"><a href="class_callback_utils_1_1radius_1_1_simple.html#a66f79a91d173e20b1b1a7ffc5cf8255b">CallbackUtils::radius::Simple::Simple</a></div><div class="ttdeci">Simple()</div><div class="ttdef"><b>Definition:</b> callback_utils_radius.hpp:39</div></div>
+<div class="ttc" id="aclass_callback_utils_1_1radius_1_1_simple_html_a66f79a91d173e20b1b1a7ffc5cf8255b"><div class="ttname"><a href="class_callback_utils_1_1radius_1_1_simple.html#a66f79a91d173e20b1b1a7ffc5cf8255b">CallbackUtils::radius::Simple::Simple</a></div><div class="ttdeci">Simple()</div><div class="ttdef"><b>Definition:</b> callback_utils_radius.hpp:40</div></div>
 <div class="ttc" id="afields_8hpp_html_ab6f4d03ec72b362c4d0173181fa15ea7"><div class="ttname"><a href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a></div><div class="ttdeci">float coord_t</div><div class="ttdoc">Internal coordinate type.</div><div class="ttdef"><b>Definition:</b> fields.hpp:27</div></div>
 <div class="ttc" id="aclass_callback_1_1_base_properties_html"><div class="ttname"><a href="class_callback_1_1_base_properties.html">Callback::BaseProperties</a></div><div class="ttdoc">Type describing either a group or a particle.</div><div class="ttdef"><b>Definition:</b> callback.hpp:45</div></div>
-<div class="ttc" id="aclass_callback_utils_1_1radius_1_1_simple_html_a1291731dad1c87cad57992f0d5b3997c"><div class="ttname"><a href="class_callback_utils_1_1radius_1_1_simple.html#a1291731dad1c87cad57992f0d5b3997c">CallbackUtils::radius::Simple::Simple</a></div><div class="ttdeci">Simple(typename RField::value_type scaling_)</div><div class="ttdef"><b>Definition:</b> callback_utils_radius.hpp:33</div></div>
+<div class="ttc" id="aclass_callback_utils_1_1radius_1_1_simple_html_a1291731dad1c87cad57992f0d5b3997c"><div class="ttname"><a href="class_callback_utils_1_1radius_1_1_simple.html#a1291731dad1c87cad57992f0d5b3997c">CallbackUtils::radius::Simple::Simple</a></div><div class="ttdeci">Simple(typename RField::value_type scaling_)</div><div class="ttdef"><b>Definition:</b> callback_utils_radius.hpp:34</div></div>
 <div class="ttc" id="astruct_callback_html"><div class="ttname"><a href="struct_callback.html">Callback</a></div><div class="ttdoc">The abstract base class the user should inherit from.</div><div class="ttdef"><b>Definition:</b> callback.hpp:30</div></div>
 <div class="ttc" id="aclass_callback_utils_1_1radius_1_1_simple_html"><div class="ttname"><a href="class_callback_utils_1_1radius_1_1_simple.html">CallbackUtils::radius::Simple</a></div><div class="ttdoc">radius is propertional to one of the group properties.</div><div class="ttdef"><b>Definition:</b> callback_utils_radius.hpp:24</div></div>
 <!-- start footer part -->

@@ -51,6 +51,8 @@ namespace grp_action {
      *
      * @tparam Child        the inheriting type
      *
+     * @note Child has to make this class friend.
+     *
      * See #CallbackUtils::grp_action::StoreGrpHomogeneous for an example.
      */
     template<typename AFields, typename Child>
