@@ -3,16 +3,16 @@
 
 Many analyses of cosmological simulations will have to perform a step along
 the lines of:
-	1. read group and particle catalogs,
-	2. select some or all of the groups and store some of their properties,
-	3. for each group, find the particles (of some type, e.g. dark matter or gas)
-           that fall within a certain distance from the group's center,
-	4. process those particles' properties in some way.
+1. read group and particle catalogs,
+2. select some or all of the groups and store some of their properties,
+3. for each group, find the particles (of some type, e.g. dark matter or gas)
+   that fall within a certain distance from the group's center,
+4. process those particles' properties in some way.
 
 Examples for this sort of algorithm include the computation of
-	+ profiles (pressure, gas temperature, density, ...),
-	+ cumulative group properties (integrated Compton-Y, ...)
-	+ ...
++ profiles (pressure, gas temperature, density, ...),
++ cumulative group properties (integrated Compton-Y, ...)
++ ...
 
 The provided code lets you skip many of the implementation details, so that you can
 quickly write routines to extract the data you need.
