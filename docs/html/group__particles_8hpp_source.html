@@ -85,28 +85,28 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;grp_loop.hpp&quot;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;prt_loop.hpp&quot;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> AFields&gt;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">   59</a></span>&#160;<a class="code" href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">group_particles</a> (<a class="code" href="struct_callback.html">Callback&lt;AFields&gt;</a> &amp;callback)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">    #ifndef NDEBUG</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    AFields::print_field_info();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">    #endif // NDEBUG</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    Workspace&lt;AFields&gt; ws { callback };</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    ws.meta_init();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    ws.grp_loop();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    ws.prt_loop();</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif // HALO_PARTICLES_HPP</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> AFields&gt;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">  129</a></span>&#160;<a class="code" href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">group_particles</a> (<a class="code" href="struct_callback.html">Callback&lt;AFields&gt;</a> &amp;callback)</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;{</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor">    #ifndef NDEBUG</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    AFields::print_field_info();</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">    #endif // NDEBUG</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    Workspace&lt;AFields&gt; ws { callback };</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    ws.meta_init();</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    ws.grp_loop();</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    ws.prt_loop();</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="preprocessor">#endif // HALO_PARTICLES_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="acallback__utils_8hpp_html"><div class="ttname"><a href="callback__utils_8hpp.html">callback_utils.hpp</a></div><div class="ttdoc">Collects some pre-implemented functionality that makes it easier to construct a subclass of the Callb...</div></div>
 <div class="ttc" id="acallback_8hpp_html"><div class="ttname"><a href="callback_8hpp.html">callback.hpp</a></div><div class="ttdoc">Contains the abstract base class that the user should subclass from in order to define the desired fu...</div></div>
-<div class="ttc" id="agroup__particles_8hpp_html_aef8b14cf95a9ae20a6d50db2b1d501fa"><div class="ttname"><a href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">group_particles</a></div><div class="ttdeci">void group_particles(Callback&lt; AFields &gt; &amp;callback)</div><div class="ttdef"><b>Definition:</b> group_particles.hpp:59</div></div>
+<div class="ttc" id="agroup__particles_8hpp_html_aef8b14cf95a9ae20a6d50db2b1d501fa"><div class="ttname"><a href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">group_particles</a></div><div class="ttdeci">void group_particles(Callback&lt; AFields &gt; &amp;callback)</div><div class="ttdoc">Runs the code.</div><div class="ttdef"><b>Definition:</b> group_particles.hpp:129</div></div>
 <div class="ttc" id="afields_8hpp_html"><div class="ttname"><a href="fields_8hpp.html">fields.hpp</a></div><div class="ttdoc">Templates to construct types that tell the code which data fields are to to be read from the group an...</div></div>
 <div class="ttc" id="acommon__fields_8hpp_html"><div class="ttname"><a href="common__fields_8hpp.html">common_fields.hpp</a></div><div class="ttdoc">Contains some common field types that can be used as template arguments for the GrpFields and PrtFiel...</div></div>
 <div class="ttc" id="astruct_callback_html"><div class="ttname"><a href="struct_callback.html">Callback</a></div><div class="ttdoc">The abstract base class the user should inherit from.</div><div class="ttdef"><b>Definition:</b> callback.hpp:30</div></div>

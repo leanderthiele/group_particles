@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>group_particles: Main Page</title>
+<title>group_particles: Overview</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -60,12 +60,46 @@ $(function() {
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">group_particles Documentation</div>  </div>
+<div class="title">Overview </div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p>The code is header-only, which can be accessed by including the file <a class="el" href="group__particles_8hpp.html" title="For convenience, the user can just include this single header file. It contains the single routine to...">group_particles.hpp</a> in the user's source code.</p>
+<p>The single exposed routine is <a class="el" href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa" title="Runs the code.">group_particles</a>, with the signature </p><div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> AFields&gt;</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">group_particles</a> (<a class="code" href="struct_callback.html">Callback&lt;AFields&gt;</a> &amp;callback);</div>
+</div><!-- fragment --><p> This routine will load the group and particle catalog(s) from disk and perform the user defined actions on them.</p>
+<p>The template parameter <code>AFields</code> defines which data fields from the group and particle catalogs should be loaded into memory and made accessible. The <code>AFields</code> type should be constructed using the <a class="el" href="struct_all_fields.html" title="Convenience type that bundles the group and particle fields.">AllFields</a> template, with signature </p><div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> GroupFields, <span class="keyword">typename</span> ParticleFields&gt;</div>
+<div class="line"><span class="keyword">struct </span><a class="code" href="struct_all_fields.html">AllFields</a>;</div>
+</div><!-- fragment --><p> Here, <code>GroupFields</code> and <code>ParticleFields</code> should be constructed using the <code>GrpFields</code> and <code>PrtFields</code> types. These have signatures </p><div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Fields&gt;</div>
+<div class="line"><span class="keyword">struct </span><a class="code" href="class_field_collection.html">GrpFields</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Fields&gt;</div>
+<div class="line"><span class="keyword">struct </span><a class="code" href="class_field_collection.html">PrtFields</a>;</div>
+</div><!-- fragment --><p> The template parameter packs are chosen by the user. The types passed can be constructed using the <a class="el" href="fields_8hpp.html#ad0aa774ba6ad755c9296979774e6a087" title="Macro to define a new field type.">FIELD</a> macro; a number of examples for Illustris- and Gadget-type simulations are provided in <a class="el" href="common__fields_8hpp.html" title="Contains some common field types that can be used as template arguments for the GrpFields and PrtFiel...">common_fields.hpp</a>.</p>
+<p>Having specified which data fields are to be read from the simulation files, we now need to specify which actions are to be performed on them. To this end, the user should inherit from the <a class="el" href="struct_callback.html" title="The abstract base class the user should inherit from.">Callback</a> class and override the methods defined there. Thus, we obtain an implemented <a class="el" href="struct_callback.html" title="The abstract base class the user should inherit from.">Callback</a>-subclass which can then be passed to the <a class="el" href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa" title="Runs the code.">group_particles</a> routine.</p>
+<p>Some of the methods in the <a class="el" href="struct_callback.html" title="The abstract base class the user should inherit from.">Callback</a> class are simply meant to inform the code of the layout of the data files, namely</p><ul>
+<li><a class="el" href="struct_callback.html#a0769db4ca89e3f36600aab651d37d4d3" title="Where to find the group files.">Callback::grp_chunk</a>, <a class="el" href="struct_callback.html#a5c45d2cd7051cf91e4b4ac5e75d828ba" title="Where to find the particle files.">Callback::prt_chunk</a> for the file names,</li>
+<li><a class="el" href="struct_callback.html#aee19dc84ca6e000d263a1291468896fa" title="Where to find the group fields in the hdf5 file.">Callback::grp_name</a>, <a class="el" href="struct_callback.html#aa729207049327b34a06e0eb64c83d7c0" title="Where to find the particle fields in the hdf5 file.">Callback::prt_name</a> for the internal file layout,</li>
+<li><a class="el" href="struct_callback.html#a19c69daf07f5eb00cad227e24240936d" title="Inform the code how many groups there are in a group chunk.">Callback::read_grp_meta</a>, <a class="el" href="struct_callback.html#ab6ec7e6e7626d2c87b3f2730425ab2fb" title="Inform the code how large the box is and how many particles there are in a particle chunk.">Callback::read_prt_meta</a> for some meta-data the code requires.</li>
+</ul>
+<p>The code also allows the user to initially read some meta-data (probably cosmological parameters, mass tables, etc.) from the data files and store them in their own <a class="el" href="struct_callback.html" title="The abstract base class the user should inherit from.">Callback</a> subclass instance. These routines are</p><ul>
+<li><a class="el" href="struct_callback.html#a092f03cc2b24d547c31310423a45aa48" title="Allows the user to read meta-data from the 0th group chunk.">Callback::read_grp_meta_init</a>, <a class="el" href="struct_callback.html#a9532186b15b39db2bbe65ad6aab57aae" title="Allows the user to read meta-data from the 0th particle chunk.">Callback::read_prt_meta_init</a>.</li>
+</ul>
+<p>Now, we need to define specifically what to do wih the groups and particles. This is accomplished by overriding the following methods:</p><ul>
+<li><a class="el" href="struct_callback.html#aa5c688875c5f4676b5246ceb251f1639" title="Inform the code whether a group should be considered.">Callback::grp_select</a> defines which groups should be considered,</li>
+<li><a class="el" href="struct_callback.html#a8de674b091b75b0dbc64f795e203ed07" title="Action to take for each group for which grp_select returned true.">Callback::grp_action</a> lets the user do something with a group's data (typically store some group properties for later use),</li>
+<li><a class="el" href="struct_callback.html#a1e0a8093ac75d5b566f659872da6cd2f" title="Inform the code how large this group is.">Callback::grp_radius</a> defines how to compute a group's radius,</li>
+<li><a class="el" href="struct_callback.html#abbe9064a38b332a4ad3499b9990cdd50" title="Action to take for each particle that falls within grp_radius from a group.">Callback::prt_action</a> defines what to do with the particles that fall into a group's radius.</li>
+</ul>
+<p>All these methods take at least one of the two auxiliary types <a class="el" href="struct_callback.html#a62ae4e185bfa350189e7b4590c9748ac" title="Specialization of the Callback::BaseProperties type to groups.">Callback::GrpProperties</a> and <a class="el" href="struct_callback.html#a5c0addc51a9f9032acb686307b2bcb40" title="Specialization of the Callback::BaseProperties type to particles.">Callback::PrtProperties</a>. These types contain the data fields defined by the <code>AFields</code> type above. From the user's side, the only interface that should be used to these types is the <code>get</code> template method (<a class="el" href="class_callback_1_1_base_properties.html#abbb5e1a2ce425b069bda1538c186b3ef">Callback::BaseProperties::get</a>). It allows to retrieve individual properties of a group or particle.</p>
+<p>Because many applications will require very similar implementations of many of the <a class="el" href="struct_callback.html" title="The abstract base class the user should inherit from.">Callback</a> methods, we provide a number of them in the <a class="el" href="namespace_callback_utils.html" title="contains classes that implement parts of the Callback base.">CallbackUtils</a> namespace. </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
+<div class="ttc" id="astruct_all_fields_html"><div class="ttname"><a href="struct_all_fields.html">AllFields</a></div><div class="ttdoc">Convenience type that bundles the group and particle fields.</div><div class="ttdef"><b>Definition:</b> fields.hpp:243</div></div>
+<div class="ttc" id="agroup__particles_8hpp_html_aef8b14cf95a9ae20a6d50db2b1d501fa"><div class="ttname"><a href="group__particles_8hpp.html#aef8b14cf95a9ae20a6d50db2b1d501fa">group_particles</a></div><div class="ttdeci">void group_particles(Callback&lt; AFields &gt; &amp;callback)</div><div class="ttdoc">Runs the code.</div><div class="ttdef"><b>Definition:</b> group_particles.hpp:129</div></div>
+<div class="ttc" id="aclass_field_collection_html"><div class="ttname"><a href="class_field_collection.html">FieldCollection</a></div><div class="ttdoc">Template to define a &quot;bundle&quot; of fields.</div><div class="ttdef"><b>Definition:</b> fields.hpp:83</div></div>
+<div class="ttc" id="astruct_callback_html"><div class="ttname"><a href="struct_callback.html">Callback</a></div><div class="ttdoc">The abstract base class the user should inherit from.</div><div class="ttdef"><b>Definition:</b> callback.hpp:30</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

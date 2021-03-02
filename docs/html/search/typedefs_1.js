@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['grpfields_197',['GrpFields',['../fields_8hpp.html#ae96acd6538928bef620b69185123053b',1,'fields.hpp']]],
-  ['grpproperties_198',['GrpProperties',['../struct_callback.html#a62ae4e185bfa350189e7b4590c9748ac',1,'Callback']]]
+  ['coord_5ft_215',['coord_t',['../fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7',1,'fields.hpp']]]
 ];

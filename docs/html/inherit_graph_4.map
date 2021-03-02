@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_field_collection.html" title=" " alt="" coords="5,5,207,47"/>
-<area shape="rect" id="node2" href="$struct_grp_fields.html" title="Specialization of the FieldCollection to group fields." alt="" coords="255,13,405,39"/>
+<area shape="rect" id="node1" href="$class_callback_utils_1_1_multi_action_1_1_abstract_interface.html" title="class that provides an interface into the Base class" alt="" coords="5,5,200,61"/>
+<area shape="rect" id="node2" href="$class_callback_utils_1_1_multi_action_1_1_concrete_interface.html" title="class that user&#45;defined types should inherit from." alt="" coords="248,5,447,61"/>
 </map>

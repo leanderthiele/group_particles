@@ -19,7 +19,77 @@
 #include "grp_loop.hpp"
 #include "prt_loop.hpp"
 
-/*! Runs the code.
+/*! @mainpage Overview
+ *
+ * The code is header-only, which can be accessed by including the file group_particles.hpp
+ * in the user's source code.
+ *
+ * The single exposed routine is #group_particles, with the signature
+ * @code
+ * template<typename AFields>
+ * void group_particles (Callback<AFields> &callback);
+ * @endcode
+ * This routine will load the group and particle catalog(s) from disk and perform the user defined
+ * actions on them.
+ *
+ * The template parameter `AFields` defines which data fields from the group and particle catalogs
+ * should be loaded into memory and made accessible.
+ * The `AFields` type should be constructed using the #AllFields template, with signature
+ * @code
+ * template<typename GroupFields, typename ParticleFields>
+ * struct AllFields;
+ * @endcode
+ * Here, `GroupFields` and `ParticleFields` should be constructed using the `GrpFields` and `PrtFields`
+ * types. These have signatures
+ * @code
+ * template<typename... Fields>
+ * struct GrpFields;
+ *
+ * template<typename... Fields>
+ * struct PrtFields;
+ * @endcode
+ * The template parameter packs are chosen by the user. The types passed can be constructed using the
+ * #FIELD macro; a number of examples for Illustris- and Gadget-type simulations are provided in
+ * common_fields.hpp.
+ * 
+ * Having specified which data fields are to be read from the simulation files, we now need to specify
+ * which actions are to be performed on them.
+ * To this end, the user should inherit from the #Callback class and override the methods defined there.
+ * Thus, we obtain an implemented #Callback-subclass which can then be passed to the #group_particles
+ * routine.
+ * 
+ * Some of the methods in the #Callback class are simply meant to inform the code of the layout of the
+ * data files, namely
+ *      - #Callback::grp_chunk, #Callback::prt_chunk for the file names,
+ *      - #Callback::grp_name, #Callback::prt_name for the internal file layout,
+ *      - #Callback::read_grp_meta, #Callback::read_prt_meta for some meta-data the code requires.
+ *
+ * The code also allows the user to initially read some meta-data (probably cosmological parameters,
+ * mass tables, etc.) from the data files and store them in their own #Callback subclass instance.
+ * These routines are
+ *      - #Callback::read_grp_meta_init, #Callback::read_prt_meta_init.
+ *
+ * Now, we need to define specifically what to do wih the groups and particles.
+ * This is accomplished by overriding the following methods:
+ *      - #Callback::grp_select defines which groups should be considered,
+ *      - #Callback::grp_action lets the user do something with a group's data
+ *                              (typically store some group properties for later use),
+ *      - #Callback::grp_radius defines how to compute a group's radius,
+ *      - #Callback::prt_action defines what to do with the particles that fall into a group's radius.
+ *
+ * All these methods take at least one of the two auxiliary types
+ * #Callback::GrpProperties and #Callback::PrtProperties.
+ * These types contain the data fields defined by the `AFields` type above.
+ * From the user's side, the only interface that should be used to these types is the `get` template method
+ * (#Callback::BaseProperties::get).
+ * It allows to retrieve individual properties of a group or particle.
+ *
+ * Because many applications will require very similar implementations of many of the #Callback methods,
+ * we provide a number of them in the #CallbackUtils namespace.
+ *
+ */
+
+/*! @brief Runs the code.
  *
  * @tparam AFields      a type constructed from the #AllFields template,
  *                      defines which fields the code should read from the data files.

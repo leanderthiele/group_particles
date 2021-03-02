@@ -6,10 +6,11 @@ var indexSectionsWithContent =
   3: "cfg",
   4: "cghlmprstw",
   5: "hmnort",
-  6: "cgp",
+  6: "acgprs",
   7: "f",
   8: "gp",
-  9: "f"
+  9: "f",
+  10: "o"
 };
 
 var indexSectionNames =
@@ -23,7 +24,8 @@ var indexSectionNames =
   6: "typedefs",
   7: "enums",
   8: "enumvalues",
-  9: "defines"
+  9: "defines",
+  10: "pages"
 };
 
 var indexSectionLabels =
@@ -37,6 +39,7 @@ var indexSectionLabels =
   6: "Typedefs",
   7: "Enumerations",
   8: "Enumerator",
-  9: "Macros"
+  9: "Macros",
+  10: "Pages"
 };
 
