@@ -32,8 +32,14 @@ Please read the
 [Documentation](https://leanderthiele.github.io/group_particles/html/).
 Some examples that I wrote for my own research are collected in the
 [examples](examples)
-directory.
+directory ([examples/y\_prof](examples/y_prof) being the cleanest and best documented).
 
 In order to compile, HDF5 with C++ bindings is required.
 I experienced problems when trying to compile the examples with the Intel compiler;
 the GNU compiler works fine.
+
+A simple compile script [compile.sh](compile.sh) is provided, test that everything
+is set up correctly by typing
+```shell
+sh compile.sh examples/y_prof
+```

@@ -132,7 +132,7 @@ $(function() {
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                 <span class="keyword">const</span> <a class="code" href="class_callback_1_1_base_properties.html">PrtProperties</a> &amp;prt, <a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> Rsq,</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                                 Tdata &amp;data_item)</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            assert(<span class="keyword">false</span>); <span class="comment">// if this function is called, it must be overriden</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            assert((<span class="stringliteral">&quot;Need to override CallbackUtils::StorePrtHomogeneous&lt;AFields,Tdata&gt;::prt_insert if Tdata does not implement prt_insert method.&quot;</span>, <span class="keyword">false</span>));</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        }</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    public :</div>
