@@ -7,7 +7,7 @@
 #include <array>
 #include <type_traits>
 
-namespace detail {
+namespace grp_prt_detail {
 
 namespace GeomUtils {
 
@@ -83,7 +83,7 @@ periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2
 
 } // namespace GeomUtils
 
-} // namespace detail
+} // namespace grp_prt_detail
 
 
 #endif // GEOM_UTILS_HPP

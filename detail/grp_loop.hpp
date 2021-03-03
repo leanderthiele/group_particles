@@ -9,10 +9,10 @@
 
 #include "workspace.hpp"
 #include "workspace_memory.hpp"
-#include "hdf5_utils.hpp"
+#include "hdf5_fields.hpp"
 #include "callback.hpp"
 
-namespace detail {
+namespace grp_prt_detail {
 
 template<typename AFields>
 void
@@ -89,7 +89,7 @@ Workspace<AFields>::grp_loop ()
     #endif // NDEBUG
 }
 
-} // namspace detail
+} // namspace grp_prt_detail
 
 
 #endif // GRP_LOOP_HPP

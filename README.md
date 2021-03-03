@@ -18,7 +18,7 @@ The provided code lets you skip many of the implementation details, so that you 
 quickly write routines to extract the data you need.
 
 It is sufficiently flexible to accomodate a wide range of possible applications,
-while providing a number of pre-implemented building blocks that accomodate for the
+while providing a number of pre-implemented building blocks that accommodate for the
 most common use cases.
 
 Currently, only simulation data stored in the hdf5 format are supported.

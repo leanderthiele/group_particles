@@ -6,7 +6,7 @@
 #include "callback.hpp"
 #include "fields.hpp"
 
-namespace detail {
+namespace grp_prt_detail {
 
 template<typename AFields>
 class Workspace
@@ -79,6 +79,6 @@ public :
     //        The caller should simply not use these.
 };
 
-} // namespace detail
+} // namespace grp_prt_detail
 
 #endif // WORKSPACE_HPP

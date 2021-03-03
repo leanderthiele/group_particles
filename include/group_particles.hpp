@@ -135,7 +135,7 @@ group_particles (Callback<AFields> &callback)
     AFields::print_field_info();
     #endif // NDEBUG
 
-    detail::Workspace<AFields> ws { callback };
+    grp_prt_detail::Workspace<AFields> ws { callback };
 
     ws.meta_init();
 

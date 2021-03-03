@@ -9,14 +9,14 @@
 
 #include "callback.hpp"
 #include "fields.hpp"
-#include "hdf5_utils.hpp"
+#include "hdf5_fields.hpp"
 #include "workspace.hpp"
 #include "workspace_memory.hpp"
 #include "workspace_sorting.hpp"
 #include "geom_utils.hpp"
 #include "timing.hpp"
 
-namespace detail {
+namespace grp_prt_detail {
 
 template<typename AFields>
 void
@@ -234,6 +234,6 @@ Workspace<AFields>::prt_loop_inner
     callback.prt_action(grp_idx, grp, prt, Rsq);
 }// }}}
 
-} // namespace detail
+} // namespace grp_prt_detail
 
 #endif // PRT_LOOP_HPP
