@@ -69,7 +69,7 @@
  * These routines are
  *      - #Callback::read_grp_meta_init, #Callback::read_prt_meta_init.
  *
- * Now, we need to define specifically what to do wih the groups and particles.
+ * Now, we need to define specifically what to do with the groups and particles.
  * This is accomplished by overriding the following methods:
  *      - #Callback::grp_select defines which groups should be considered,
  *      - #Callback::grp_action lets the user do something with a group's data
