@@ -30,6 +30,7 @@ namespace grp_action {
         virtual public Callback<AFields>
     {// {{{
         using typename Callback<AFields>::GrpProperties;
+
         static constexpr size_t buf_size = 64UL;
         size_t N_actions = 0UL;
         std::pair<void *, std::function<void(void *, const GrpProperties &)>> grp_actions[buf_size];

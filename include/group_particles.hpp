@@ -87,6 +87,9 @@
  * Because many applications will require very similar implementations of many of the #Callback methods,
  * we provide a number of them in the #CallbackUtils namespace.
  *
+ * See the file y_prof.cpp in the examples/ directory for a complete, documented
+ * real-world example that illustrates most aspects of the code.
+ *
  */
 
 /*! @brief Runs the code.
@@ -132,7 +135,7 @@ group_particles (Callback<AFields> &callback)
     AFields::print_field_info();
     #endif // NDEBUG
 
-    Workspace<AFields> ws { callback };
+    detail::Workspace<AFields> ws { callback };
 
     ws.meta_init();
 

@@ -22,6 +22,8 @@
 //
 // choose Ncells dynamically depending on box size / group radii ratio?
 
+namespace detail {
+
 template<typename AFields>
 class Workspace<AFields>::Sorting
 {// {{{
@@ -300,5 +302,7 @@ Workspace<AFields>::Sorting::Geometry::mod_reflections
         if (cub_coord[ii] < (coord_t)-0.5)
             cub_coord[ii] = - ( cub_coord[ii] + (coord_t)1.0 );
 }// }}}
+
+} // namespace detail
 
 #endif // WORKSPACE_SORTING_HPP

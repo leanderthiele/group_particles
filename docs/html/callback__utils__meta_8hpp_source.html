@@ -78,7 +78,7 @@ $(function() {
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_callback_utils.html">CallbackUtils</a> {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="namespace_callback_utils_1_1meta.html">   17</a></span>&#160;<span class="keyword">namespace </span>meta</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="namespace_callback_utils_1_1meta.html">   17</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacey__prof.html#a8bce4f73e68ae4b21aae6d8101e01cf6">meta</a></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> AFields, u<span class="keywordtype">int</span>8_t PartType&gt;</div>
@@ -93,11 +93,11 @@ $(function() {
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">void</span> read_prt_meta (<span class="keywordtype">size_t</span> chunk_idx, std::shared_ptr&lt;H5::H5File&gt; fptr,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                            <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> &amp;Bsize, <span class="keywordtype">size_t</span> &amp;Npart) <span class="keyword">const</span> <span class="keyword">override</span> <span class="keyword">final</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                            <a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> &amp;Bsize, <span class="keywordtype">size_t</span> &amp;Npart) <span class="keyword">const</span> <span class="keyword">override</span> <span class="keyword">final</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        {</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keyword">auto</span> header = fptr-&gt;openGroup(<span class="stringliteral">&quot;/Header&quot;</span>);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            Bsize = hdf5Utils::read_scalar_attr&lt;double,coord_t&gt;(header, <span class="stringliteral">&quot;BoxSize&quot;</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            Npart = hdf5Utils::read_vector_attr&lt;int32_t,size_t&gt;(header, <span class="stringliteral">&quot;NumPart_ThisFile&quot;</span>, PartType);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            Npart = hdf5Utils::read_vector_attr&lt;int32_t,size_t&gt;(header, <span class="stringliteral">&quot;NumPart_ThisFile&quot;</span>, <a class="code" href="namespacey__prof.html#ab26476cbf64fb75a60f1bc138bc2e220">PartType</a>);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    };<span class="comment">// }}}</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
@@ -113,10 +113,12 @@ $(function() {
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif // CALLBACK_UTILS_META_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="anamespacey__prof_html_a8bce4f73e68ae4b21aae6d8101e01cf6"><div class="ttname"><a href="namespacey__prof.html#a8bce4f73e68ae4b21aae6d8101e01cf6">y_prof::meta</a></div><div class="ttdeci">CallbackUtils::meta::Illustris&lt; AF, PartType &gt; meta</div><div class="ttdoc">meta-data required by code are according to Illustris conventions</div><div class="ttdef"><b>Definition:</b> y_prof.cpp:186</div></div>
+<div class="ttc" id="anamespacey__prof_html_ab26476cbf64fb75a60f1bc138bc2e220"><div class="ttname"><a href="namespacey__prof.html#ab26476cbf64fb75a60f1bc138bc2e220">y_prof::PartType</a></div><div class="ttdeci">constexpr const uint8_t PartType</div><div class="ttdoc">gas particles</div><div class="ttdef"><b>Definition:</b> y_prof.cpp:19</div></div>
 <div class="ttc" id="astruct_callback_utils_1_1meta_1_1_illustris_html"><div class="ttname"><a href="struct_callback_utils_1_1meta_1_1_illustris.html">CallbackUtils::meta::Illustris</a></div><div class="ttdoc">retrieves meta-data from an Illustris-type simulation.</div><div class="ttdef"><b>Definition:</b> callback_utils_meta.hpp:25</div></div>
 <div class="ttc" id="acallback_8hpp_html"><div class="ttname"><a href="callback_8hpp.html">callback.hpp</a></div><div class="ttdoc">Contains the abstract base class that the user should subclass from in order to define the desired fu...</div></div>
 <div class="ttc" id="anamespace_callback_utils_html"><div class="ttname"><a href="namespace_callback_utils.html">CallbackUtils</a></div><div class="ttdoc">contains classes that implement parts of the Callback base.</div><div class="ttdef"><b>Definition:</b> callback_utils_chunk.hpp:13</div></div>
-<div class="ttc" id="afields_8hpp_html_ab6f4d03ec72b362c4d0173181fa15ea7"><div class="ttname"><a href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a></div><div class="ttdeci">float coord_t</div><div class="ttdoc">Internal coordinate type.</div><div class="ttdef"><b>Definition:</b> fields.hpp:27</div></div>
+<div class="ttc" id="afields_8hpp_html_a8a71bb4e06ace0f0ff0577d238aa0dc4"><div class="ttname"><a href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a></div><div class="ttdeci">float coord_t</div><div class="ttdoc">Internal coordinate type.</div><div class="ttdef"><b>Definition:</b> fields.hpp:27</div></div>
 <div class="ttc" id="astruct_callback_html"><div class="ttname"><a href="struct_callback.html">Callback</a></div><div class="ttdoc">The abstract base class the user should inherit from.</div><div class="ttdef"><b>Definition:</b> callback.hpp:30</div></div>
 <div class="ttc" id="astruct_callback_utils_1_1meta_1_1_gadget_html"><div class="ttname"><a href="struct_callback_utils_1_1meta_1_1_gadget.html">CallbackUtils::meta::Gadget</a></div><div class="ttdoc">retrieves meta-data from a Gadget-type simulation.</div><div class="ttdef"><b>Definition:</b> callback_utils_meta.hpp:49</div></div>
 <!-- start footer part -->

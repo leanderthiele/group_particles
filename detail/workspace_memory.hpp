@@ -7,6 +7,7 @@
 
 #include "workspace.hpp"
 
+namespace detail {
 
 template<typename AFields>
 Workspace<AFields>::Workspace (Callback<AFields> &callback_) :
@@ -85,5 +86,7 @@ void Workspace<AFields>::shrink_grp_storage ()
     alloced_grp = Ngrp + 1UL;
     realloc_grp_storage(alloced_grp);
 }// }}}
+
+} // namespace detail
 
 #endif // WORKSPACE_MEMORY_HPP

@@ -5,6 +5,8 @@
 
 #include "workspace.hpp"
 
+namespace detail {
+
 template<typename AFields>
 void
 Workspace<AFields>::meta_init ()
@@ -24,5 +26,6 @@ Workspace<AFields>::meta_init ()
     fptr_prt->close();
 }
 
+} // namespace detail
 
 #endif // WORKSPACE_META_INIT_HPP

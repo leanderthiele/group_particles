@@ -24,7 +24,7 @@
  * #Callback::grp_radius method and the fact that the #Callback::BaseProperties::get method
  * will return a #coord_t-pointer if a coordinate field is requested.
  */
-typedef float coord_t;
+using coord_t = float;
 
 /*! @brief Fields fall into two categories, group and particle fields.
  */
@@ -60,7 +60,7 @@ enum class FieldTypes
             = dim_ * size_fcoord;                                     \
         static constexpr const FieldTypes type = type_;               \
         static constexpr const bool coord = coord_;                   \
-        typedef value_type_ value_type;                               \
+        using value_type = value_type_;                               \
         static_assert(!coord_ || dim_==3,                             \
                       "Non-3dimensional coordinate field "#name_);    \
         static_assert(!coord_                                         \
@@ -133,7 +133,7 @@ class FieldCollection
     template<typename first_field, typename... other_fields>
     struct extract_coord_type
     {// {{{
-        typedef typename first_field::value_type value_type;
+        using value_type = typename first_field::value_type;
     };// }}}
 public :
     // this is only a type, no instances of it can be created
@@ -150,7 +150,7 @@ public :
         = { Fields::stride_fcoord ... };
 
     // we need to do arithmetic with the coordinate values, so we need to know their type
-    typedef typename extract_coord_type<Fields...>::value_type sim_coord_t;
+    using sim_coord_t = typename extract_coord_type<Fields...>::value_type;
 
     // store this information so we can use it to check order
     static constexpr const FieldTypes field_type = field_type_;
@@ -242,8 +242,8 @@ using PrtFields = FieldCollection<FieldTypes::PrtFld, Fields...>;
 template<typename GroupFields_, typename ParticleFields_>
 struct AllFields
 {
-    typedef GroupFields_    GroupFields;
-    typedef ParticleFields_ ParticleFields;
+    using GroupFields    = GroupFields_;
+    using ParticleFields = ParticleFields_;
 
     static_assert( GroupFields::field_type == FieldTypes::GrpFld,
                    "First template parameter for AllFields must be a GrpFields type" );

@@ -40,6 +40,32 @@ namespace prt_action {
         using typename Callback<AFields>::GrpProperties;
         using typename Callback<AFields>::PrtProperties;
 
+        // some functionality to figure out whether Tdata has the method
+        // void prt_insert (size_t grp_idx, const GrpProperties &grp,
+        //                  const PrtProperties &prt, coord_t Rsq)
+        // from https://stackoverflow.com/questions/87372/check-if-a-class-has-a-member-function-of-a-given-signature
+        template<typename, typename T>
+        struct has_prt_insert { static_assert(std::integral_constant<T, false>::value); };
+
+        template<typename C, typename Ret, typename... Args>
+        class has_prt_insert<C, Ret(Args...)>
+        {
+            template<typename T>
+            static constexpr auto check (T *)
+                -> typename std::is_same<
+                                decltype(std::declval<T>().prt_insert(std::declval<Args>()...)),
+                                Ret
+                            >::type;
+            
+            template<typename>
+            static constexpr std::false_type check(...);
+
+            using type = decltype(check<C>(0));
+        public :
+            static constexpr bool value = type::value;
+        };
+
+
         std::vector<Tdata> &data;
 
         void this_grp_action (const GrpProperties &grp) override final
@@ -56,20 +82,34 @@ namespace prt_action {
         /*! The user should override this function to implement how a particle should be inserted
          *  into a Tdata item in the data vector.
          *
-         * @param[in] grp_idx           index of this group, corresponding to the order of #Callback::grp_action calls.
+         * @note Alternatively, in case `Tdata` is a composite type, you can implement a function
+         *       @code
+         *       void Tdata::prt_insert (size_t grp_idx, const GrpProperties &grp,
+         *                               const PrtProperties &prt, coord_t Rsq);
+         *       @endcode
+         *       In that case, this method does not need to be overriden.
+         *
+         * @param[in] grp_idx           index of this group, corresponding to the order of
+         *                              #Callback::grp_action calls.
          * @param[in] grp               properties of this group.
          * @param[in] prt               properties of this particle.
-         * @param[in] Rsq               squared distance between the particle's coordinate and the group's coordinate.
-         * @param[in,out] data_item     element in the data vector corresponding to this group that is to be modified.
+         * @param[in] Rsq               squared distance between the particle's coordinate
+         *                              and the group's coordinate.
+         * @param[in,out] data_item     element in the data vector corresponding to this group
+         *                              that is to be modified.
          *
          * @note Well-designed code should not require the grp_idx and grp arguments.
          *       Rather, if some properties of the groups are required in order to insert the particles,
-         *       Tdata should store them by implementing a custom constructor as mentioned in the class docs.
+         *       `Tdata` should store them by implementing a custom constructor as mentioned in the class docs.
          *
          */
         virtual void prt_insert (size_t grp_idx, const GrpProperties &grp,
                                  const PrtProperties &prt, coord_t Rsq,
-                                 Tdata &data_item) = 0;
+                                 Tdata &data_item)
+        {
+            assert(false);
+        }
+
     public :
         /*! @param data     a zero-length vector whose elements will be constructed
          *                  (depending on which constructors Tdata has, see class docs)
@@ -87,7 +127,11 @@ namespace prt_action {
         void prt_action (size_t grp_idx, const GrpProperties &grp,
                          const PrtProperties &prt, coord_t Rsq) override final
         {
-            prt_insert(grp_idx, grp, prt, Rsq, data[grp_idx]);
+            if constexpr (has_prt_insert<Tdata, void(size_t, const GrpProperties &,
+                                                     const PrtProperties &, coord_t)>::value)
+                data[grp_idx].prt_insert(grp_idx, grp, prt, Rsq);
+            else
+                prt_insert(grp_idx, grp, prt, Rsq, data[grp_idx]);
         }
     };// }}}
 

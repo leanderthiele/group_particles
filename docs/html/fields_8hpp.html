@@ -97,9 +97,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ab6f4d03ec72b362c4d0173181fa15ea7"><td class="memItemLeft" align="right" valign="top">typedef float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a></td></tr>
-<tr class="memdesc:ab6f4d03ec72b362c4d0173181fa15ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal coordinate type.  <a href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">More...</a><br /></td></tr>
-<tr class="separator:ab6f4d03ec72b362c4d0173181fa15ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a71bb4e06ace0f0ff0577d238aa0dc4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> = float</td></tr>
+<tr class="memdesc:a8a71bb4e06ace0f0ff0577d238aa0dc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal coordinate type.  <a href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">More...</a><br /></td></tr>
+<tr class="separator:a8a71bb4e06ace0f0ff0577d238aa0dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae96acd6538928bef620b69185123053b"><td class="memTemplParams" colspan="2">template&lt;typename... Fields&gt; </td></tr>
 <tr class="memitem:ae96acd6538928bef620b69185123053b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="fields_8hpp.html#ae96acd6538928bef620b69185123053b">GrpFields</a> = <a class="el" href="class_field_collection.html">FieldCollection</a>&lt; <a class="el" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a>, Fields... &gt;</td></tr>
 <tr class="memdesc:ae96acd6538928bef620b69185123053b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of the <a class="el" href="class_field_collection.html" title="Template to define a &quot;bundle&quot; of fields.">FieldCollection</a> to group fields.  <a href="fields_8hpp.html#ae96acd6538928bef620b69185123053b">More...</a><br /></td></tr>
@@ -180,20 +180,20 @@ Enumerations</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a id="ab6f4d03ec72b362c4d0173181fa15ea7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6f4d03ec72b362c4d0173181fa15ea7">&#9670;&nbsp;</a></span>coord_t</h2>
+<a id="a8a71bb4e06ace0f0ff0577d238aa0dc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a71bb4e06ace0f0ff0577d238aa0dc4">&#9670;&nbsp;</a></span>coord_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef float <a class="el" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a></td>
+          <td class="memname">using <a class="el" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> =  float</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Internal coordinate type. </p>
-<p>Internally, the code converts all coordinates to a common type for efficiency. The user will not need to consider this, apart from the return type of the <a class="el" href="struct_callback.html#a1e0a8093ac75d5b566f659872da6cd2f" title="Inform the code how large this group is.">Callback::grp_radius</a> method and the fact that the <a class="el" href="class_callback_1_1_base_properties.html#abbb5e1a2ce425b069bda1538c186b3ef">Callback::BaseProperties::get</a> method will return a <a class="el" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7" title="Internal coordinate type.">coord_t</a>-pointer if a coordinate field is requested. </p>
+<p>Internally, the code converts all coordinates to a common type for efficiency. The user will not need to consider this, apart from the return type of the <a class="el" href="struct_callback.html#a1e0a8093ac75d5b566f659872da6cd2f" title="Inform the code how large this group is.">Callback::grp_radius</a> method and the fact that the <a class="el" href="class_callback_1_1_base_properties.html#abbb5e1a2ce425b069bda1538c186b3ef">Callback::BaseProperties::get</a> method will return a <a class="el" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4" title="Internal coordinate type.">coord_t</a>-pointer if a coordinate field is requested. </p>
 
 </div>
 </div>

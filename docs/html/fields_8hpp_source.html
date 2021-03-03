@@ -82,7 +82,7 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#   include &lt;cstdio&gt;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#endif // NDEBUG</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">   27</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">float</span> <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">   27</a></span>&#160;<span class="keyword">using</span> <a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> = float;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8">   31</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8">FieldTypes</a></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div>
@@ -104,7 +104,7 @@ $(function() {
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">            = dim_ * size_fcoord;                                     \</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">        static constexpr const FieldTypes type = type_;               \</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">        static constexpr const bool coord = coord_;                   \</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">        typedef value_type_ value_type;                               \</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">        using value_type = value_type_;                               \</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">        static_assert(!coord_ || dim_==3,                             \</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">                      &quot;Non-3dimensional coordinate field &quot;#name_);    \</span></div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">        static_assert(!coord_                                         \</span></div>
@@ -167,14 +167,14 @@ $(function() {
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> first_field, <span class="keyword">typename</span>... other_fields&gt;</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">struct </span>extract_coord_type</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    {<span class="comment">// {{{</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> first_field::value_type value_type;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keyword">using</span> value_type = <span class="keyword">typename</span> first_field::value_type;</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    };<span class="comment">// }}}</span></div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;public :</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="comment">// this is only a type, no instances of it can be created</span></div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <a class="code" href="class_field_collection.html">FieldCollection</a> () = <span class="keyword">delete</span>;</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">size_t</span> Nfields   = <span class="keyword">sizeof</span>...(Fields);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">char</span>  *names[]   = { Fields::name ... };</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">char</span>  *names[]   = { <a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">Fields::name</a> ... };</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">size_t</span> sizes[]   = { Fields::size ... };</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <span class="keywordtype">size_t</span> sizes_fcoord[]</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        = { Fields::size_fcoord ... };</div>
@@ -184,7 +184,7 @@ $(function() {
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        = { Fields::stride_fcoord ... };</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">// we need to do arithmetic with the coordinate values, so we need to know their type</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">typename</span> extract_coord_type&lt;Fields...&gt;::value_type sim_coord_t;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keyword">using</span> sim_coord_t = <span class="keyword">typename</span> extract_coord_type&lt;Fields...&gt;::value_type;</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="comment">// store this information so we can use it to check order</span></div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">const</span> <a class="code" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8">FieldTypes</a> field_type = field_type_;</div>
@@ -217,38 +217,38 @@ $(function() {
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    {</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="keywordflow">if</span> constexpr (!std::is_same_v&lt;sim_coord_t, coord_t&gt;)</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        {</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">if</span> constexpr (<span class="keyword">sizeof</span>(<a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a>) &lt;= <span class="keyword">sizeof</span>(sim_coord_t))</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">if</span> constexpr (<span class="keyword">sizeof</span>(<a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a>) &lt;= <span class="keyword">sizeof</span>(sim_coord_t))</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="comment">// we can work in the original buffer</span></div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            {</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                <span class="comment">// get some accessor-type pointers</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> *coords_global_type = (<a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> *)coords;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> *coords_global_type = (<a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> *)coords;</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                sim_coord_t *coords_sim_type = (sim_coord_t *)coords;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                <span class="comment">// do the conversion</span></div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> ii=0; ii != Nitems * dims[0]; ++ii)</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                    coords_global_type[ii] = (<a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a>)(coords_sim_type[ii]);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                    coords_global_type[ii] = (<a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a>)(coords_sim_type[ii]);</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                <span class="comment">// resize to save memory</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                coords = std::realloc(coords, Nitems * dims[0] * <span class="keyword">sizeof</span>(<a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a>));</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                coords = std::realloc(coords, Nitems * dims[0] * <span class="keyword">sizeof</span>(<a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a>));</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            }</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="comment">// we need to enlarge the new buffer</span></div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            {</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                <span class="comment">// make more space, preserving the data</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                coords = std::realloc(coords, Nitems * dims[0] * <span class="keyword">sizeof</span>(<a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a>));</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                coords = std::realloc(coords, Nitems * dims[0] * <span class="keyword">sizeof</span>(<a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a>));</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <span class="comment">// get some accessor-type pointers</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                <a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> *coords_global_type = (<a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a> *)coords;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                <a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> *coords_global_type = (<a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> *)coords;</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                sim_coord_t *coords_sim_type</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                    = (sim_coord_t *)((<span class="keywordtype">char</span> *)coords + Nitems * dims[0]</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                                                       * (<span class="keyword">sizeof</span>(<a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a>)-<span class="keyword">sizeof</span>(sim_coord_t)));</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                                                       * (<span class="keyword">sizeof</span>(<a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a>)-<span class="keyword">sizeof</span>(sim_coord_t)));</div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                </div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                <span class="comment">// move the data to the back of the buffer</span></div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                std::memmove(coords_sim_type, coords, Nitems * dims[0] * <span class="keyword">sizeof</span>(sim_coord_t));</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                <span class="comment">// do the conversion</span></div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> ii=0; ii != Nitems * dims[0]; ++ii)</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                    coords_global_type[ii] = (<a class="code" href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a>)(coords_sim_type[ii]);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                    coords_global_type[ii] = (<a class="code" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a>)(coords_sim_type[ii]);</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            }</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        }</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    }</div>
@@ -263,8 +263,8 @@ $(function() {
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> GroupFields_, <span class="keyword">typename</span> ParticleFields_&gt;</div>
 <div class="line"><a name="l00243"></a><span class="lineno"><a class="line" href="struct_all_fields.html">  243</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_all_fields.html">AllFields</a></div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;{</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keyword">typedef</span> GroupFields_    GroupFields;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keyword">typedef</span> ParticleFields_ ParticleFields;</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keyword">using</span> GroupFields    = GroupFields_;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keyword">using</span> ParticleFields = ParticleFields_;</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    static_assert( GroupFields::field_type == <a class="code" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a>,</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                   <span class="stringliteral">&quot;First template parameter for AllFields must be a GrpFields type&quot;</span> );</div>
@@ -297,7 +297,8 @@ $(function() {
 <div class="ttc" id="astruct_all_fields_html"><div class="ttname"><a href="struct_all_fields.html">AllFields</a></div><div class="ttdoc">Convenience type that bundles the group and particle fields.</div><div class="ttdef"><b>Definition:</b> fields.hpp:243</div></div>
 <div class="ttc" id="afields_8hpp_html_ad282183b327c04b54b4d83706212f9c8a11e5696cde6ca4479893210561dab9c0"><div class="ttname"><a href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8a11e5696cde6ca4479893210561dab9c0">FieldTypes::PrtFld</a></div><div class="ttdeci">@ PrtFld</div></div>
 <div class="ttc" id="afields_8hpp_html_ad282183b327c04b54b4d83706212f9c8"><div class="ttname"><a href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8">FieldTypes</a></div><div class="ttdeci">FieldTypes</div><div class="ttdoc">Fields fall into two categories, group and particle fields.</div><div class="ttdef"><b>Definition:</b> fields.hpp:31</div></div>
-<div class="ttc" id="afields_8hpp_html_ab6f4d03ec72b362c4d0173181fa15ea7"><div class="ttname"><a href="fields_8hpp.html#ab6f4d03ec72b362c4d0173181fa15ea7">coord_t</a></div><div class="ttdeci">float coord_t</div><div class="ttdoc">Internal coordinate type.</div><div class="ttdef"><b>Definition:</b> fields.hpp:27</div></div>
+<div class="ttc" id="anamespacey__prof_html_a291a65963794a1b16b68e8365607fc5a"><div class="ttname"><a href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">y_prof::name</a></div><div class="ttdeci">CallbackUtils::name::Illustris&lt; AF, PartType &gt; name</div><div class="ttdoc">internal file layout is according to Illustris naming conventions</div><div class="ttdef"><b>Definition:</b> y_prof.cpp:183</div></div>
+<div class="ttc" id="afields_8hpp_html_a8a71bb4e06ace0f0ff0577d238aa0dc4"><div class="ttname"><a href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a></div><div class="ttdeci">float coord_t</div><div class="ttdoc">Internal coordinate type.</div><div class="ttdef"><b>Definition:</b> fields.hpp:27</div></div>
 <div class="ttc" id="aclass_field_collection_html"><div class="ttname"><a href="class_field_collection.html">FieldCollection</a></div><div class="ttdoc">Template to define a &quot;bundle&quot; of fields.</div><div class="ttdef"><b>Definition:</b> fields.hpp:83</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

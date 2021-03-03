@@ -61,7 +61,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>y_prof</b></li><li class="navelem"><a class="el" href="classy__prof_1_1_y_profile.html">YProfile</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespacey__prof.html">y_prof</a></li><li class="navelem"><a class="el" href="classy__prof_1_1_y_profile.html">YProfile</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -72,21 +72,148 @@ $(function() {
 <div class="title">y_prof::YProfile Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>stores a single electron pressure profile  
+ <a href="classy__prof_1_1_y_profile.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad81de0af7a66316d15ae1483a04eab39"><td class="memItemLeft" align="right" valign="top"><a id="ad81de0af7a66316d15ae1483a04eab39"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>YProfile</b> (const GrpProperties &amp;grp)</td></tr>
+<tr class="memitem:ad81de0af7a66316d15ae1483a04eab39"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy__prof_1_1_y_profile.html#ad81de0af7a66316d15ae1483a04eab39">YProfile</a> (const GrpProperties &amp;grp)</td></tr>
+<tr class="memdesc:ad81de0af7a66316d15ae1483a04eab39"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructs from group properties (we need to read the radius)  <a href="classy__prof_1_1_y_profile.html#ad81de0af7a66316d15ae1483a04eab39">More...</a><br /></td></tr>
 <tr class="separator:ad81de0af7a66316d15ae1483a04eab39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad22a7d5ea4454ad23e57c6140097e947"><td class="memItemLeft" align="right" valign="top"><a id="ad22a7d5ea4454ad23e57c6140097e947"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>add</b> (const PrtProperties &amp;prt, coord_t Rsq)</td></tr>
-<tr class="separator:ad22a7d5ea4454ad23e57c6140097e947"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe0de553c00b03d1e81c26acc8d3423e"><td class="memItemLeft" align="right" valign="top"><a id="afe0de553c00b03d1e81c26acc8d3423e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (std::FILE *fpressure, std::FILE *fnum_part)</td></tr>
+<tr class="memitem:abadba8e181990b655abe18cb4e0a9b09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy__prof_1_1_y_profile.html#abadba8e181990b655abe18cb4e0a9b09">prt_insert</a> (size_t, const GrpProperties &amp;, const PrtProperties &amp;prt, <a class="el" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a> Rsq)</td></tr>
+<tr class="memdesc:abadba8e181990b655abe18cb4e0a9b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds a particle to the profile  <a href="classy__prof_1_1_y_profile.html#abadba8e181990b655abe18cb4e0a9b09">More...</a><br /></td></tr>
+<tr class="separator:abadba8e181990b655abe18cb4e0a9b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe0de553c00b03d1e81c26acc8d3423e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classy__prof_1_1_y_profile.html#afe0de553c00b03d1e81c26acc8d3423e">save</a> (std::FILE *fpressure, std::FILE *fnum_part)</td></tr>
+<tr class="memdesc:afe0de553c00b03d1e81c26acc8d3423e"><td class="mdescLeft">&#160;</td><td class="mdescRight">append this electron pressure profile to file.  <a href="classy__prof_1_1_y_profile.html#afe0de553c00b03d1e81c26acc8d3423e">More...</a><br /></td></tr>
 <tr class="separator:afe0de553c00b03d1e81c26acc8d3423e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>stores a single electron pressure profile </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ad81de0af7a66316d15ae1483a04eab39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad81de0af7a66316d15ae1483a04eab39">&#9670;&nbsp;</a></span>YProfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">y_prof::YProfile::YProfile </td>
+          <td>(</td>
+          <td class="paramtype">const GrpProperties &amp;&#160;</td>
+          <td class="paramname"><em>grp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>constructs from group properties (we need to read the radius) </p>
+<p>As explained in the documentation for <a class="el" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html" title="implements the common case that each group gets an item of identical type into which the particles be...">CallbackUtils::prt_action::StorePrtHomogeneous</a>, if the data type stored for each group has a constructor from a <code>const GrpProperties &amp;</code>, this constructor will be called during the calls to <a class="el" href="struct_callback.html#a8de674b091b75b0dbc64f795e203ed07" title="Action to take for each group for which grp_select returned true.">Callback::grp_action</a>. We use this fact to read the group radius. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="abadba8e181990b655abe18cb4e0a9b09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abadba8e181990b655abe18cb4e0a9b09">&#9670;&nbsp;</a></span>prt_insert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void y_prof::YProfile::prt_insert </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const GrpProperties &amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PrtProperties &amp;&#160;</td>
+          <td class="paramname"><em>prt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="fields_8hpp.html#a8a71bb4e06ace0f0ff0577d238aa0dc4">coord_t</a>&#160;</td>
+          <td class="paramname"><em>Rsq</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>adds a particle to the profile </p>
+<p>This function computes the electron pressure associated with a particle and adds it (weighted with its volume) to the appropriate profile bin.</p>
+<p>Note that this exact signature and function name is required, as explained in the documentation for <a class="el" href="class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html" title="implements the common case that each group gets an item of identical type into which the particles be...">CallbackUtils::prt_action::StorePrtHomogeneous</a>. </p>
+
+</div>
+</div>
+<a id="afe0de553c00b03d1e81c26acc8d3423e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe0de553c00b03d1e81c26acc8d3423e">&#9670;&nbsp;</a></span>save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void y_prof::YProfile::save </td>
+          <td>(</td>
+          <td class="paramtype">std::FILE *&#160;</td>
+          <td class="paramname"><em>fpressure</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::FILE *&#160;</td>
+          <td class="paramname"><em>fnum_part</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>append this electron pressure profile to file. </p>
+<dl class="section attention"><dt>Attention</dt><dd>it is assumed that this instance is "dead" after this function is called! </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>examples/y_prof.cpp</li>
+<li><a class="el" href="y__prof_8cpp.html">y_prof.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

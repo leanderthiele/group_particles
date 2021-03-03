@@ -3,10 +3,12 @@
 <area shape="rect" id="node3" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title="interface class to add an action to be performed during Callback::grp_action" alt="" coords="469,5,644,61"/>
 <area shape="rect" id="node4" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="463,85,651,141"/>
 <area shape="rect" id="node6" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="463,166,651,237"/>
-<area shape="rect" id="node9" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="464,261,649,317"/>
+<area shape="rect" id="node10" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="464,261,649,317"/>
 <area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,144,160,171"/>
 <area shape="rect" id="node5" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title="implements the common case of storing a data item of identical type for each group." alt="" coords="699,85,927,141"/>
 <area shape="rect" id="node7" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title=" " alt="" coords="699,166,927,237"/>
 <area shape="rect" id="node8" href="$class_callback_utils_1_1grp__action_1_1_store_grp_property.html" title="implements the common case of storing a single group property for each group." alt="" coords="975,173,1177,229"/>
-<area shape="rect" id="node10" href="$class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html" title="implements the common case that each group gets an item of identical type into which the particles be..." alt="" coords="701,261,924,317"/>
+<area shape="rect" id="node9" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="1225,188,1349,215"/>
+<area shape="rect" id="node11" href="$class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html" title="implements the common case that each group gets an item of identical type into which the particles be..." alt="" coords="701,261,924,317"/>
+<area shape="rect" id="node12" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="996,269,1156,310"/>
 </map>

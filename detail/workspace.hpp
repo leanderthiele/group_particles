@@ -6,6 +6,8 @@
 #include "callback.hpp"
 #include "fields.hpp"
 
+namespace detail {
+
 template<typename AFields>
 class Workspace
 {
@@ -76,5 +78,7 @@ public :
     //        despite explicit memory management.
     //        The caller should simply not use these.
 };
+
+} // namespace detail
 
 #endif // WORKSPACE_HPP

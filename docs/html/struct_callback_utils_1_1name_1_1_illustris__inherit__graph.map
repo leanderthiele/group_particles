@@ -1,4 +1,5 @@
 <map id="CallbackUtils::name::Illustris&lt; AFields, PartType &gt;" name="CallbackUtils::name::Illustris&lt; AFields, PartType &gt;">
-<area shape="rect" id="node1" title="Illustris&#45;type hdf5 format." alt="" coords="6,80,159,136"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,5,160,32"/>
+<area shape="rect" id="node1" title="Illustris&#45;type hdf5 format." alt="" coords="9,80,162,136"/>
+<area shape="rect" id="node3" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="5,184,165,225"/>
+<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="8,5,163,32"/>
 </map>

@@ -16,6 +16,8 @@
 #include "geom_utils.hpp"
 #include "timing.hpp"
 
+namespace detail {
+
 template<typename AFields>
 void
 Workspace<AFields>::prt_loop ()
@@ -231,5 +233,7 @@ Workspace<AFields>::prt_loop_inner
     // particle belongs to group: do the user-defined thing with it
     callback.prt_action(grp_idx, grp, prt, Rsq);
 }// }}}
+
+} // namespace detail
 
 #endif // PRT_LOOP_HPP

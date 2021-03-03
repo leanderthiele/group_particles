@@ -45,7 +45,6 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -60,6 +59,11 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">hdf5_utils.hpp</div>  </div>
@@ -82,10 +86,10 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> TH5, <span class="keyword">typename</span> Trequ&gt;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">static</span> Trequ</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;read_scalar_attr (H5::Group &amp;header, <span class="keyword">const</span> std::string &amp;name)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;read_scalar_attr (H5::Group &amp;header, <span class="keyword">const</span> std::string &amp;<a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">name</a>)</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{<span class="comment">// {{{</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    TH5 out;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">auto</span> attr = header.openAttribute(name);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">auto</span> attr = header.openAttribute(<a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">name</a>);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    assert (attr.getDataType().getSize() == <span class="keyword">sizeof</span>(TH5));</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    attr.read(attr.getDataType(), &amp;out);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">return</span> (Trequ)(out);</div>
@@ -93,9 +97,9 @@ $(function() {
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> TH5, <span class="keyword">typename</span> Trequ&gt;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">static</span> Trequ</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;read_vector_attr (H5::Group &amp;header, <span class="keyword">const</span> std::string &amp;name, <span class="keywordtype">size_t</span> idx)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;read_vector_attr (H5::Group &amp;header, <span class="keyword">const</span> std::string &amp;<a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">name</a>, <span class="keywordtype">size_t</span> idx)</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{<span class="comment">// {{{</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">auto</span> attr = header.openAttribute(name);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">auto</span> attr = header.openAttribute(<a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">name</a>);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">auto</span> aspace = attr.getSpace();</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    hsize_t dim_lenghts[16];</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">auto</span> Ndims = aspace.getSimpleExtentDims(dim_lenghts);</div>
@@ -109,9 +113,9 @@ $(function() {
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> TH5, <span class="keyword">typename</span> Trequ&gt;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">static</span> <span class="keywordtype">size_t</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;read_vector_attr (H5::Group &amp;header, <span class="keyword">const</span> std::string &amp;name, Trequ *out)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;read_vector_attr (H5::Group &amp;header, <span class="keyword">const</span> std::string &amp;<a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">name</a>, Trequ *out)</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;{<span class="comment">// {{{</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">auto</span> attr = header.openAttribute(name);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">auto</span> attr = header.openAttribute(<a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">name</a>);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">auto</span> aspace = attr.getSpace();</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    hsize_t dim_lenghts[16];</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">auto</span> Ndims = aspace.getSimpleExtentDims(dim_lenghts);</div>
@@ -133,12 +137,12 @@ $(function() {
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">// It is assumed that data is already allocated storage of the required size</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;read_field (std::shared_ptr&lt;H5::H5File&gt; fptr, <span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;read_field (std::shared_ptr&lt;H5::H5File&gt; fptr, <span class="keyword">const</span> std::string &amp;<a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">name</a>,</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="comment">// these are only for debugging purposes</span></div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordtype">size_t</span> element_size, <span class="keywordtype">size_t</span> Nitems, <span class="keywordtype">size_t</span> dim,</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordtype">void</span> * data)</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{<span class="comment">// {{{</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">auto</span> dset   = fptr-&gt;openDataSet(name);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">auto</span> dset   = fptr-&gt;openDataSet(<a class="code" href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">name</a>);</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">auto</span> dspace = dset.getSpace();</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    hsize_t dim_lengths[16];</div>
@@ -165,7 +169,7 @@ $(function() {
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;{<span class="comment">// {{{</span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">// where to find our data sets in the hdf5 file</span></div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    std::string name_prefix;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> constexpr (T::field_type == FieldTypes::GrpFld)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> constexpr (T::field_type == <a class="code" href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a>)</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        name_prefix = callback.<a class="code" href="struct_callback.html#aee19dc84ca6e000d263a1291468896fa">grp_name</a>();</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        name_prefix = callback.<a class="code" href="struct_callback.html#aa729207049327b34a06e0eb64c83d7c0">prt_name</a>();</div>
@@ -182,11 +186,13 @@ $(function() {
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#endif // READ_FIELDS_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="afields_8hpp_html_ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617"><div class="ttname"><a href="fields_8hpp.html#ad282183b327c04b54b4d83706212f9c8af90bc67be906278ec84081359deef617">FieldTypes::GrpFld</a></div><div class="ttdeci">@ GrpFld</div></div>
 <div class="ttc" id="acallback_8hpp_html"><div class="ttname"><a href="callback_8hpp.html">callback.hpp</a></div><div class="ttdoc">Contains the abstract base class that the user should subclass from in order to define the desired fu...</div></div>
-<div class="ttc" id="astruct_callback_html_aee19dc84ca6e000d263a1291468896fa"><div class="ttname"><a href="struct_callback.html#aee19dc84ca6e000d263a1291468896fa">Callback::grp_name</a></div><div class="ttdeci">virtual std::string grp_name() const =0</div></div>
-<div class="ttc" id="astruct_callback_html_aa729207049327b34a06e0eb64c83d7c0"><div class="ttname"><a href="struct_callback.html#aa729207049327b34a06e0eb64c83d7c0">Callback::prt_name</a></div><div class="ttdeci">virtual std::string prt_name() const =0</div></div>
+<div class="ttc" id="astruct_callback_html_aee19dc84ca6e000d263a1291468896fa"><div class="ttname"><a href="struct_callback.html#aee19dc84ca6e000d263a1291468896fa">Callback::grp_name</a></div><div class="ttdeci">virtual std::string grp_name() const =0</div><div class="ttdoc">Where to find the group fields in the hdf5 file.</div></div>
+<div class="ttc" id="anamespacey__prof_html_a291a65963794a1b16b68e8365607fc5a"><div class="ttname"><a href="namespacey__prof.html#a291a65963794a1b16b68e8365607fc5a">y_prof::name</a></div><div class="ttdeci">CallbackUtils::name::Illustris&lt; AF, PartType &gt; name</div><div class="ttdoc">internal file layout is according to Illustris naming conventions</div><div class="ttdef"><b>Definition:</b> y_prof.cpp:183</div></div>
+<div class="ttc" id="astruct_callback_html_aa729207049327b34a06e0eb64c83d7c0"><div class="ttname"><a href="struct_callback.html#aa729207049327b34a06e0eb64c83d7c0">Callback::prt_name</a></div><div class="ttdeci">virtual std::string prt_name() const =0</div><div class="ttdoc">Where to find the particle fields in the hdf5 file.</div></div>
 <div class="ttc" id="afields_8hpp_html"><div class="ttname"><a href="fields_8hpp.html">fields.hpp</a></div><div class="ttdoc">Templates to construct types that tell the code which data fields are to to be read from the group an...</div></div>
-<div class="ttc" id="astruct_callback_html"><div class="ttname"><a href="struct_callback.html">Callback</a></div><div class="ttdef"><b>Definition:</b> callback.hpp:26</div></div>
+<div class="ttc" id="astruct_callback_html"><div class="ttname"><a href="struct_callback.html">Callback</a></div><div class="ttdoc">The abstract base class the user should inherit from.</div><div class="ttdef"><b>Definition:</b> callback.hpp:30</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

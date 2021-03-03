@@ -97,7 +97,7 @@ namespace meta_init
             READ(Time);
             #undef READ
         }
-    public :
+    protected :
         double HubbleParam, /*!< @brief Hubble parameter */
                Omega0, /*!< @brief matter density */
                OmegaLambda, /*!< @brief dark energy density */
@@ -118,7 +118,7 @@ namespace meta_init
             auto header = fptr->openGroup("/Header");
             Ntypes = hdf5Utils::read_vector_attr<double,double>(header, "MassTable", MassTable);
         }
-    public :
+    protected :
         double MassTable[16]; /*!< @brief the mass table (length #Ntypes), indices corresponding to particle types */
         size_t Ntypes; /*!< @brief length of the mass table */
     };// }}}

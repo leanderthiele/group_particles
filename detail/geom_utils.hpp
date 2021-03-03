@@ -7,8 +7,9 @@
 #include <array>
 #include <type_traits>
 
-namespace GeomUtils
-{
+namespace detail {
+
+namespace GeomUtils {
 
 // wraps idx with period N
 static inline size_t
@@ -81,6 +82,8 @@ periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2
 }// }}}
 
 } // namespace GeomUtils
+
+} // namespace detail
 
 
 #endif // GEOM_UTILS_HPP

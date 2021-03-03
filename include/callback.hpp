@@ -79,15 +79,11 @@ struct Callback
         auto get () const;
     };// }}}
 
-    /*! @brief Specialization of the #Callback::BaseProperties type to groups.
-     */
-    typedef BaseProperties<typename AFields::GroupFields>
-        GrpProperties;
+    /*! @brief Specialization of the #Callback::BaseProperties type to groups. */
+    using GrpProperties = BaseProperties<typename AFields::GroupFields>;
 
-    /*! @brief Specialization of the #Callback::BaseProperties type to particles.
-     */
-    typedef BaseProperties<typename AFields::ParticleFields>
-        PrtProperties;
+    /*! @brief Specialization of the #Callback::BaseProperties type to particles. */
+    using PrtProperties = BaseProperties<typename AFields::ParticleFields>;
 
     /*! @brief Where to find the group files.
      *

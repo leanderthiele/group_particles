@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['omega0_209',['Omega0',['../class_callback_utils_1_1meta__init_1_1_illustris_cosmology.html#afffa5a6379bc3f5923d697da4229d9df',1,'CallbackUtils::meta_init::IllustrisCosmology']]],
-  ['omegabaryon_210',['OmegaBaryon',['../class_callback_utils_1_1meta__init_1_1_illustris_cosmology.html#af464d7134d68cd64dafb7aecc66caef9',1,'CallbackUtils::meta_init::IllustrisCosmology']]],
-  ['omegalambda_211',['OmegaLambda',['../class_callback_utils_1_1meta__init_1_1_illustris_cosmology.html#afc8c26da67d190057bfbcd1eb12a3bd6',1,'CallbackUtils::meta_init::IllustrisCosmology']]]
+  ['ntypes_244',['Ntypes',['../class_callback_utils_1_1meta__init_1_1_illustris_mass_table.html#ab22b71daa9501d91ae299c24dfa3e340',1,'CallbackUtils::meta_init::IllustrisMassTable']]]
 ];

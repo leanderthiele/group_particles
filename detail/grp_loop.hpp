@@ -12,6 +12,8 @@
 #include "hdf5_utils.hpp"
 #include "callback.hpp"
 
+namespace detail {
+
 template<typename AFields>
 void
 Workspace<AFields>::grp_loop ()
@@ -86,6 +88,8 @@ Workspace<AFields>::grp_loop ()
     std::fprintf(stderr, "Ended Workspace::grp_loop, %lu groups loaded.\n", Ngrp);
     #endif // NDEBUG
 }
+
+} // namspace detail
 
 
 #endif // GRP_LOOP_HPP
