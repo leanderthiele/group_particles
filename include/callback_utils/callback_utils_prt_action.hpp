@@ -107,7 +107,7 @@ namespace prt_action {
                                  const PrtProperties &prt, coord_t Rsq,
                                  Tdata &data_item)
         {
-            assert(false);
+            assert(("Need to override CallbackUtils::StorePrtHomogeneous<AFields,Tdata>::prt_insert if Tdata does not implement prt_insert method.", false));
         }
 
     public :
