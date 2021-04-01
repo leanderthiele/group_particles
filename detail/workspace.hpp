@@ -14,9 +14,6 @@ class Workspace
     // where to find the user's functions
     Callback<AFields> &callback;
 
-    // metadata we need to store permanently
-    coord_t Bsize;
-
     // data we need to store permanently
     // (acoording to user-defined selection and radius calculation)
     size_t Ngrp = 0UL;

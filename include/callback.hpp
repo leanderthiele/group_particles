@@ -16,6 +16,7 @@
 #include "H5Cpp.h"
 
 #include "fields.hpp"
+#include "geom_utils.hpp"
 
 /*! @brief The abstract base class the user should inherit from.
  * 
@@ -67,7 +68,7 @@ struct Callback
          */
         auto coord () const;
         
-        /*! The only member function the user should need to call.
+        /*! @brief Returns the individual properties.
          *
          * @tparam Field    the field whose value should be retrieved.
          *
@@ -80,10 +81,23 @@ struct Callback
     };// }}}
 
     /*! @brief Specialization of the #Callback::BaseProperties type to groups. */
-    using GrpProperties = BaseProperties<typename AFields::GroupFields>;
+    class GrpProperties : BaseProperties<typename AFields::GroupFields>
+    { };
 
     /*! @brief Specialization of the #Callback::BaseProperties type to particles. */
-    using PrtProperties = BaseProperties<typename AFields::ParticleFields>;
+    class PrtProperties : BaseProperties<typename AFields::ParticleFields>
+    {
+    public :
+        /*! @brief Returns relative position of particle with respect to a group,
+         *         respecting periodic boundary conditions
+         *
+         *  @param[in] grp      the group with respect to which the particle's position
+         *                      should be computed.
+         *
+         *  @return The relative position.
+         */
+        std::array<coord_t, 3> coord (const GrpProperties &grp) const;
+    };
 
     /*! @brief Where to find the group files.
      *
@@ -234,6 +248,9 @@ struct Callback
      */
     virtual void prt_action (size_t grp_idx, const GrpProperties &grp,
                              const PrtProperties &prt, coord_t Rsq) = 0;
+
+private :
+    coord_t Bsize; /*!< @brief do not touch! */
 };
 
 
@@ -302,6 +319,21 @@ Callback<AFields>::BaseProperties<T>::get () const
             return (coord_t *)data[idx];
         else
             return (typename Field::value_type *)data[idx];
+}
+
+template<typename AFields>
+inline std::array<coord_t, 3>
+Callback<AFields>::PrtProperties::coord (const GrpProperties &grp) const
+{
+    std::array<coord_t, 3> out;
+
+    coord_t * grp_coord = grp.coord();
+    coord_t * prt_coord = coord();
+
+    for (size_t ii=0; ii != 3; ++ii)
+        out[ii] = grp_prt_detail::GeomUtils::periodic_dist(grp_coord[ii], prt_coord[ii], Bsize);
+
+    return out;
 }
 
 #endif // CALLBACK_HPP

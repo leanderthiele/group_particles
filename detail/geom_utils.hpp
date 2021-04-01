@@ -43,6 +43,20 @@ abs_periodic_dist (coord_t x1, coord_t x2, coord_t periodicity)
     return out;
 }// }}}
 
+// computes the signed distance x2-x1, taking into account the periodicity
+static inline coord_t
+periodic_dist (coord_t x1, coord_t x2, coord_t periodicity)
+{
+    auto out = x2 - x1;
+
+    if (out > (coord_t)(0.5) * periodicity)
+        out -= periodicity;
+    else if (out < (coord_t)(-0.5) * periodicity)
+        out += periodicity;
+
+    return out;
+}
+
 // equal action to previous function, but uses precomputed periodicity
 // (and does not use absolute value)
 __attribute__((hot))
