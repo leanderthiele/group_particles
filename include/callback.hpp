@@ -91,12 +91,11 @@ struct Callback
         /*! @brief Returns relative position of particle with respect to a group,
          *         respecting periodic boundary conditions
          *
-         *  @param[in] grp      the group with respect to which the particle's position
-         *                      should be computed.
+         *  @param[in] grp_coord    the group's coordinates (3 coord_t values)
          *
          *  @return The relative position.
          */
-        std::array<coord_t, 3> coord (const GrpProperties &grp) const;
+        std::array<coord_t, 3> coord (const coord_t *grp_coord) const;
     };
 
     /*! @brief Where to find the group files.
@@ -323,11 +322,10 @@ Callback<AFields>::BaseProperties<T>::get () const
 
 template<typename AFields>
 inline std::array<coord_t, 3>
-Callback<AFields>::PrtProperties::coord (const GrpProperties &grp) const
+Callback<AFields>::PrtProperties::coord (const coord_t *grp_coord) const
 {
     std::array<coord_t, 3> out;
 
-    coord_t * grp_coord = grp.coord();
     coord_t * prt_coord = coord();
 
     for (size_t ii=0; ii != 3; ++ii)
