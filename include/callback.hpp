@@ -81,21 +81,22 @@ struct Callback
     };// }}}
 
     /*! @brief Specialization of the #Callback::BaseProperties type to groups. */
-    class GrpProperties : BaseProperties<typename AFields::GroupFields>
+    class GrpProperties : public BaseProperties<typename AFields::GroupFields>
     { };
 
     /*! @brief Specialization of the #Callback::BaseProperties type to particles. */
-    class PrtProperties : BaseProperties<typename AFields::ParticleFields>
+    class PrtProperties : public BaseProperties<typename AFields::ParticleFields>
     {
     public :
         /*! @brief Returns relative position of particle with respect to a group,
          *         respecting periodic boundary conditions
          *
          *  @param[in] grp_coord    the group's coordinates (3 coord_t values)
+         *  @param[in] Bsize        the box size (periodicity)
          *
          *  @return The relative position.
          */
-        std::array<coord_t, 3> coord (const coord_t *grp_coord) const;
+        std::array<coord_t, 3> coord (const coord_t *grp_coord, coord_t Bsize) const;
     };
 
     /*! @brief Where to find the group files.
@@ -247,9 +248,6 @@ struct Callback
      */
     virtual void prt_action (size_t grp_idx, const GrpProperties &grp,
                              const PrtProperties &prt, coord_t Rsq) = 0;
-
-private :
-    coord_t Bsize; /*!< @brief do not touch! */
 };
 
 
@@ -322,7 +320,7 @@ Callback<AFields>::BaseProperties<T>::get () const
 
 template<typename AFields>
 inline std::array<coord_t, 3>
-Callback<AFields>::PrtProperties::coord (const coord_t *grp_coord) const
+Callback<AFields>::PrtProperties::coord (const coord_t *grp_coord, coord_t Bsize) const
 {
     std::array<coord_t, 3> out;
 

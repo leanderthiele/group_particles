@@ -45,9 +45,9 @@ Workspace<AFields>::prt_loop ()
         callback.read_prt_meta(chunk_idx, fptr, Bsize_this_file, Nprt_this_file);
 
         if (chunk_idx==0)
-            callback.Bsize = Bsize_this_file;
+            Bsize = Bsize_this_file;
         else
-            assert(std::fabs(callback.Bsize/Bsize_this_file - 1.0F) < 1e-5F);
+            assert(std::fabs(Bsize/Bsize_this_file - 1.0F) < 1e-5F);
 
         if (!Nprt_this_file) continue;
 
@@ -143,7 +143,7 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
     TIME_PT(t1);
     #endif // NDEBUG
 
-    Sorting prt_sort (Nprt_this_file, callback.Bsize, tmp_prt_properties);
+    Sorting prt_sort (Nprt_this_file, Bsize, tmp_prt_properties);
 
     #ifndef NDEBUG
     TIME_MSG(t1, "initialization of Sorting instance (Nprt=%lu)", Nprt_this_file);
@@ -208,9 +208,9 @@ Workspace<AFields>::prt_loop_inner
     for (size_t ii=0; ii != 3; ++ii)
     {
         #ifdef NAIVE
-        coord_t dx = GeomUtils::abs_periodic_dist(rgrp[ii], rprt[ii], callback.Bsize);
+        coord_t dx = GeomUtils::abs_periodic_dist(rgrp[ii], rprt[ii], Bsize);
         #else // NAIVE
-        coord_t dx = std::fabs(GeomUtils::periodic_dist_whint(rgrp[ii], rprt[ii], callback.Bsize, periodic_to_add[ii]));
+        coord_t dx = std::fabs(GeomUtils::periodic_dist_whint(rgrp[ii], rprt[ii], Bsize, periodic_to_add[ii]));
         #endif // NAIVE
 
         if (dx > grp_radii[grp_idx])
@@ -220,9 +220,9 @@ Workspace<AFields>::prt_loop_inner
     }
     #else // EARLY_RETURN
     #ifndef NAIVE
-    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, callback.Bsize, periodic_to_add);
+    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
     #else // NAIVE
-    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, callback.Bsize);
+    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize);
     #endif // NAIVE
     #endif // EARLY_RETURN
 
