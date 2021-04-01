@@ -119,7 +119,7 @@ template<typename AFields>
 void
 Workspace<AFields>::prt_loop_naive (size_t Nprt_this_file)
 {// {{{
-    typename Callback<AFields>::PrtProperties prt (tmp_prt_properties);
+    typename Callback<AFields>::PrtProperties prt (Bsize, tmp_prt_properties);
 
     // loop over particles
     for (size_t prt_idx=0; prt_idx != Nprt_this_file; ++prt_idx, prt.advance())
@@ -170,7 +170,8 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
             // loop over cells
             for (auto &prt_idx_range : prt_idx_ranges)
             {
-                typename Callback<AFields>::PrtProperties prt (prt_sort.tmp_prt_properties_sorted,
+                typename Callback<AFields>::PrtProperties prt (Bsize,
+                                                               prt_sort.tmp_prt_properties_sorted,
                                                                std::get<0>(prt_idx_range));
 
                 // loop over particles

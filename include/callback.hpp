@@ -87,7 +87,11 @@ struct Callback
     /*! @brief Specialization of the #Callback::BaseProperties type to particles. */
     class PrtProperties : public BaseProperties<typename AFields::ParticleFields>
     {
+        coord_t Bsize;
     public :
+        
+        PrtProperties (coord_t Bsize_, void **data_in_memory, size_t offset=0UL);
+
         /*! @brief Returns relative position of particle with respect to a group,
          *         respecting periodic boundary conditions
          *
@@ -96,7 +100,7 @@ struct Callback
          *
          *  @return The relative position.
          */
-        std::array<coord_t, 3> coord (const coord_t *grp_coord, coord_t Bsize) const;
+        std::array<coord_t, 3> coord (const coord_t *grp_coord) const;
     };
 
     /*! @brief Where to find the group files.
@@ -319,8 +323,14 @@ Callback<AFields>::BaseProperties<T>::get () const
 }
 
 template<typename AFields>
+Callback<AFields>::PrtProperties::PrtProperties (coord_t Bsize_, void **data_in_memory, size_t offset) :
+    Callback<AFields>::BaseProperties<typename AFields::ParticleFields> { data_in_memory, offset },
+    Bsize { Bsize_ }
+{ }
+
+template<typename AFields>
 inline std::array<coord_t, 3>
-Callback<AFields>::PrtProperties::coord (const coord_t *grp_coord, coord_t Bsize) const
+Callback<AFields>::PrtProperties::coord (const coord_t *grp_coord) const
 {
     std::array<coord_t, 3> out;
 
