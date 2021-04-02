@@ -11,6 +11,7 @@
 #include <functional>
 #include <vector>
 #include <type_traits>
+#include <cstdio>
 
 #include "callback.hpp"
 
@@ -108,9 +109,7 @@ namespace grp_action {
          */
         StoreGrpHomogeneous (std::vector<Tdata> &data_) :
             data(data_)
-        {
-            assert(data.empty());
-        }
+        { }
     };// }}}
 
     /*! @brief implements the common case of storing a single group property for each group.

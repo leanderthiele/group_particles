@@ -120,9 +120,7 @@ namespace prt_action {
          */
         StorePrtHomogeneous (std::vector<Tdata> &data_) :
             data(data_)
-        {
-            assert(data.empty());
-        }
+        { }
 
         void prt_action (size_t grp_idx, const GrpProperties &grp,
                          const PrtProperties &prt, coord_t Rsq) override final
