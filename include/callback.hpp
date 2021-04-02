@@ -82,15 +82,20 @@ struct Callback
 
     /*! @brief Specialization of the #Callback::BaseProperties type to groups. */
     class GrpProperties : public BaseProperties<typename AFields::GroupFields>
-    { };
+    {
+        using BaseProperties<typename AFields::GroupFields>::BaseProperties;
+    };
 
     /*! @brief Specialization of the #Callback::BaseProperties type to particles. */
     class PrtProperties : public BaseProperties<typename AFields::ParticleFields>
     {
         coord_t Bsize;
+
     public :
-        
         PrtProperties (coord_t Bsize_, void **data_in_memory, size_t offset=0UL);
+
+        // get around the name hiding issue
+        using BaseProperties<typename AFields::ParticleFields>::coord;
 
         /*! @brief Returns relative position of particle with respect to a group,
          *         respecting periodic boundary conditions
@@ -324,7 +329,7 @@ Callback<AFields>::BaseProperties<T>::get () const
 
 template<typename AFields>
 Callback<AFields>::PrtProperties::PrtProperties (coord_t Bsize_, void **data_in_memory, size_t offset) :
-    Callback<AFields>::BaseProperties<typename AFields::ParticleFields> { data_in_memory, offset },
+    Callback<AFields>::template BaseProperties<typename AFields::ParticleFields> { data_in_memory, offset },
     Bsize { Bsize_ }
 { }
 
@@ -334,7 +339,7 @@ Callback<AFields>::PrtProperties::coord (const coord_t *grp_coord) const
 {
     std::array<coord_t, 3> out;
 
-    coord_t * prt_coord = coord();
+    coord_t * prt_coord = Callback<AFields>::template BaseProperties<typename AFields::ParticleFields>::coord();
 
     for (size_t ii=0; ii != 3; ++ii)
         out[ii] = grp_prt_detail::GeomUtils::periodic_dist(grp_coord[ii], prt_coord[ii], Bsize);
