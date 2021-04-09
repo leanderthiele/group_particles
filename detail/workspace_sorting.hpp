@@ -217,21 +217,21 @@ Workspace<AFields>::Sorting::prt_idx_ranges
     const coord_t R_normalized = R / acell;
     const coord_t Rsq_normalized = Rsq / (acell*acell);
 
-    for (int  xx  = (int)(grp_coord_normalized[0]-R_normalized) - 1L;
+    for (int  xx  = (int)(grp_coord_normalized[0]-R_normalized) - 1;
               xx <= (int)(grp_coord_normalized[0]+R_normalized);
             ++xx)
     {
         size_t idx_x = Ncells_side * Ncells_side
                        * GeomUtils::periodic_idx(xx, Ncells_side);
 
-        for (int  yy  = (int)(grp_coord_normalized[1]-R_normalized) - 1L;
+        for (int  yy  = (int)(grp_coord_normalized[1]-R_normalized) - 1;
                   yy <= (int)(grp_coord_normalized[1]+R_normalized);
                 ++yy)
         {
             size_t idx_y = idx_x + Ncells_side
                                    * GeomUtils::periodic_idx(yy, Ncells_side);
 
-            for (int  zz  = (int)(grp_coord_normalized[2]-R_normalized) - 1L;
+            for (int  zz  = (int)(grp_coord_normalized[2]-R_normalized) - 1;
                       zz <= (int)(grp_coord_normalized[2]+R_normalized);
                     ++zz)
             {
