@@ -129,7 +129,7 @@ Workspace<AFields>::Sorting::Sorting (size_t Nprt_,
     compute_offsets();
     #ifndef NDEBUG
     TIME_MSG(t5, "Sorting::compute_offsets");
-    #endif
+    #endif // NDEBUG
 }// }}}
 
 template<typename AFields>
@@ -175,7 +175,7 @@ Workspace<AFields>::Sorting::reorder_prt_properties ()
 
     for (size_t ii=0; ii != AFields::ParticleFields::Nfields; ++ii)
     {
-        char *dest = (char *)tmp_prt_properties_sorted[ii];
+        char *dest = (char *)(tmp_prt_properties_sorted[ii]);
 
         for (size_t prt_idx=0; prt_idx != Nprt; ++prt_idx, dest += AFields::ParticleFields::strides_fcoord[ii])
             std::memcpy(dest, (char *)(tmp_prt_properties[ii])
@@ -273,7 +273,7 @@ Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
     (const coord_t grp_coord[3],
      coord_t cub_coord[3],
      coord_t grp_Rsq)
-{
+{// {{{
     mod_translations(grp_coord, cub_coord);
     mod_reflections(cub_coord);
 
@@ -281,7 +281,7 @@ Workspace<AFields>::Sorting::Geometry::sph_cub_intersect
                               std::max((coord_t)0.0, cub_coord[1]),
                               std::max((coord_t)0.0, cub_coord[2])
                              ) < grp_Rsq;
-}
+}// }}}
 
 // no periodic boudary conditions!!!
 template<typename AFields>
