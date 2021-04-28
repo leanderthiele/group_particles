@@ -58,12 +58,14 @@ class Workspace
                          const std::array<int,3> &periodic_to_add);
     #endif // NAIVE
     
+    #ifdef NAIVE
     // the simple loop over all particles
     void prt_loop_naive (size_t Nprt_this_file);
-
+    #else // NAIVE
     // the more sophisticated loop grouping particles into cells
     // and considering only a subset for each group
     void prt_loop_sorted (size_t Nprt_this_file);
+    #endif // NAIVE
 
 public :
     void meta_init ();

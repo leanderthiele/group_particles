@@ -146,7 +146,7 @@ Workspace<AFields>::Sorting::compute_prt_indices ()
     prt_indices.reserve(Nprt);
     auto *prt_coord = (coord_t *)tmp_prt_properties[0];
 
-    #define GRID(x, dir) ((size_t)(x[dir] / acell))
+    #define GRID(x, dir) (std::min((size_t)(x[dir] / acell), Ncells_side-1UL))
 
     for (size_t prt_idx=0; prt_idx != Nprt;
          ++prt_idx, prt_coord += 3)

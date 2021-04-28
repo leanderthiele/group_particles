@@ -115,6 +115,7 @@ Workspace<AFields>::prt_loop ()
     realloc_tmp_storage<typename AFields::ParticleFields>(1, tmp_prt_properties);
 }// }}}
 
+#ifdef NAIVE
 template<typename AFields>
 void
 Workspace<AFields>::prt_loop_naive (size_t Nprt_this_file)
@@ -132,7 +133,7 @@ Workspace<AFields>::prt_loop_naive (size_t Nprt_this_file)
             prt_loop_inner(grp_idx, grp, prt);
     }// for prt_idx
 }// }}}
-
+#else // NAIVE
 template<typename AFields>
 void
 Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
@@ -148,6 +149,8 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
     #ifndef NDEBUG
     TIME_MSG(t1, "initialization of Sorting instance (Nprt=%lu)", Nprt_this_file);
     #endif // NDEBUG
+
+    bool out = false;
 
     #pragma omp parallel
     {
@@ -178,12 +181,15 @@ Workspace<AFields>::prt_loop_sorted (size_t Nprt_this_file)
                 for (size_t prt_idx=std::get<0>(prt_idx_range);
                             prt_idx != std::get<1>(prt_idx_range);
                             ++prt_idx, prt.advance())
-                    prt_loop_inner(grp_idx, grp, prt, std::get<2>(prt_idx_range));
+                    out |= prt_loop_inner(grp_idx, grp, prt, std::get<2>(prt_idx_range));
             }// for prt_idx_range
         }// for grp_idx
 
     } // parallel
+
+    return out;
 }// }}}
+#endif // NAIVE
 
 template<typename AFields>
 __attribute__((hot))
@@ -201,8 +207,8 @@ Workspace<AFields>::prt_loop_inner
      const std::array<int, 3> &periodic_to_add)
 #endif // NAIVE
 {// {{{
-    coord_t *rgrp = grp.coord();
-    coord_t *rprt = prt.coord();
+    const coord_t *rgrp = grp.coord();
+    const coord_t *rprt = prt.coord();
 
     #ifdef EARLY_RETURN
     coord_t Rsq = (coord_t)0.0;
