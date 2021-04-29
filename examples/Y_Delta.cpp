@@ -100,8 +100,10 @@ int main ()
     group_particles<> ( y );
 
     // save data to files
-    vec_to_f<>(y.grp_M, "./Y_Delta_results_Feb22/grp_M.bin");
-    vec_to_f<>(y.grp_Y, "./Y_Delta_results_Feb22/grp_Y.bin");
+    #define ROOT "Y_Delta_results_Apr29"
+    vec_to_f<>(y.grp_M, ROOT"/grp_M.bin");
+    vec_to_f<>(y.grp_Y, ROOT"/grp_Y.bin");
+    #undef ROOT
 
     return 0;
 };
