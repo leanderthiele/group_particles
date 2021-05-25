@@ -101,7 +101,6 @@ struct Callback
          *         respecting periodic boundary conditions
          *
          *  @param[in] grp_coord    the group's coordinates (3 coord_t values)
-         *  @param[in] Bsize        the box size (periodicity)
          *
          *  @return The relative position.
          */
