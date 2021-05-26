@@ -72,7 +72,7 @@ periodic_dist_whint (coord_t x1, coord_t x2, coord_t periodicity, int periodic_t
 // taking into acount the periodicity
 static inline coord_t
 periodic_hypotsq (const coord_t *__restrict__ r1, const coord_t *__restrict__ r2,
-                   coord_t periodicity)
+                  coord_t periodicity)
 {// {{{
     auto dx0 = abs_periodic_dist(r1[0], r2[0], periodicity);
     auto dx1 = abs_periodic_dist(r1[1], r2[1], periodicity);
