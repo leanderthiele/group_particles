@@ -7,9 +7,6 @@
  * in the compilation script.
  */
 
-#define DM
-
-
 #include "group_particles.hpp"
 #include "common_fields.hpp"
 
@@ -104,7 +101,10 @@ namespace CM
 
 struct CM_callback :
     virtual public Callback<CM::AF>,
-    public CM::chunk, public CM::name, public CM::meta, public CM::masstab,
+    public CM::chunk, public CM::name, public CM::meta,
+    #ifdef DM
+    public CM::masstab,
+    #endif // DM
     public CM::grp_select_M, public CM::grp_radius,
     public CM::prt_compute_CM
 {

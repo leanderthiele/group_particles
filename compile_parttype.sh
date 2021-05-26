@@ -1,5 +1,5 @@
 # set to one of GAS, DM, STARS, BH
-PartType=DM
+PartType=$2
 
 g++ -std=c++17 -O3 -ffast-math -funroll-loops \
   -D$PartType \

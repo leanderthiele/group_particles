@@ -7,9 +7,6 @@
  * in the compilation script.
  */
 
-#define DM
-
-
 #include "group_particles.hpp"
 #include "common_fields.hpp"
 
@@ -129,7 +126,10 @@ namespace Mtens
 
 struct Mtens_callback :
     virtual public Callback<Mtens::AF>,
-    public Mtens::chunk, public Mtens::name, public Mtens::meta, public Mtens::masstab,
+    public Mtens::chunk, public Mtens::name, public Mtens::meta,
+    #ifdef DM
+    public Mtens::masstab,
+    #endif // DM
     public Mtens::grp_select_M, public Mtens::grp_radius,
     public Mtens::prt_compute_Mtens
 {
