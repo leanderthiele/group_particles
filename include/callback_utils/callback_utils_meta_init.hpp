@@ -113,6 +113,7 @@ namespace meta_init
         virtual public Callback<AFields>,
         private MultiPrtMetaInit<AFields, IllustrisMassTable<AFields>>
     {// {{{
+        friend MultiPrtMetaInit<AFields, IllustrisCosmology<AFields>>;
         void this_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
         {
             auto header = fptr->openGroup("/Header");
