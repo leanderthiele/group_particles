@@ -2,6 +2,8 @@
  *
  * @brief Example for using the group_particles code,
  *        computing the electron pressure (Compton-y) profiles of halos in an Illustris TNG simulation.
+ *
+ * @attention This is only a test script that *only* works on the second group in the simulation
  */
 
 #include <memory>
@@ -189,8 +191,8 @@ namespace y_prof
     // maximum radius (in units of R_200c) -- from Battaglia's plots
     constexpr IllustrisFields::Group_R_Crit200::value_type Rscale = 2.5;
 
-    /*! @brief group and particle files are in multiple chunks */
-    using chunk = CallbackUtils::chunk::Multi<AF>;
+    /*! @brief group and particle files are in a single chunk respectively */
+    using chunk = CallbackUtils::chunk::Single<AF>;
 
     /*! @brief internal file layout is according to Illustris naming conventions */
     using name = CallbackUtils::name::Illustris<AF, PartType>;
@@ -231,7 +233,7 @@ struct y_prof_callback :
     public y_prof::prt_compute_Y
 {// {{{
     y_prof_callback () :
-        y_prof::chunk { fgrp, grp_max_idx, fprt, prt_max_idx },
+        y_prof::chunk { fgrp, fprt },
         y_prof::grp_select_M { Mmin },
         y_prof::grp_select_R { Rmin },
         y_prof::grp_radius { y_prof::Rscale },
@@ -258,10 +260,8 @@ private :
     
     // files
     #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output/"
-    static constexpr const char fgrp[]        = ROOT"groups_099/fof_subhalo_tab_099.%d.hdf5";
-    static constexpr const size_t grp_max_idx = 599;
-    static constexpr const char fprt[]        = ROOT"snapdir_099/snap_099.%d.hdf5";
-    static constexpr const size_t prt_max_idx = 599;
+    static constexpr const char fgrp[] = ROOT"groups_099/fof_subhalo_tab_099.2.hdf5";
+    static constexpr const char fprt[] = ROOT"snapdir_099/snap_099.1.hdf5";
     #undef ROOT
 };// }}}
 
@@ -280,7 +280,7 @@ int main ()
     group_particles<> ( y );
 
     // save data to files
-    #define ROOT "y_prof_results_Jun7"
+    #define ROOT "y_prof_TEST_results_Jun8"
     vec_to_f<>(y.grp_M, ROOT"/grp_M200c.bin");
     vec_to_f<>(y.grp_R, ROOT"/grp_R200c.bin");
     vec_to_f<>(y.grp_P, ROOT"/grp_P200c.bin");
