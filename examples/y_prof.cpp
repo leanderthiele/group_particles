@@ -94,7 +94,7 @@ namespace y_prof
         void prt_insert (size_t, const GrpProperties &,
                          const PrtProperties &prt, coord_t Rsq)
         {// {{{
-            coord_t logR = 0.5 * std::log(Rsq);
+            coord_t logR = (coord_t)0.5 * std::log(Rsq);
             if (logR > logRmax)
                 return;
 
@@ -118,7 +118,7 @@ namespace y_prof
             static constexpr const value_type gamma = 5.0/3.0, XH = 0.76;
 
             // this is electron pressure * particle volume
-            auto Y = 2.0 * (1.0+XH) / (1.0+3.0*XH+4.0*XH*x)
+            auto Y = 4.0 * x * XH / (1.0+3.0*XH+4.0*XH*x)
                          * (gamma-1.0) * m * e;
 
             pressure[idx] += Y;
