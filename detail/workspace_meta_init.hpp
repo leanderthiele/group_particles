@@ -19,7 +19,7 @@ Workspace<AFields>::meta_init ()
     callback.read_grp_meta_init(fptr_grp);
     fptr_grp->close();
 
-    // look at the first group chunk
+    // look at the first particle chunk
     callback.prt_chunk(0, fname);
     auto fptr_prt = std::make_shared<H5::H5File>(fname, H5F_ACC_RDONLY);
     callback.read_prt_meta_init(fptr_prt);

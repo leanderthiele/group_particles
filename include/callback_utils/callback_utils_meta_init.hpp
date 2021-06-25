@@ -47,6 +47,32 @@ namespace meta_init
         }
     };// }}}
 
+    /*! @brief base class to have multiple actions performed in #Callback::read_grp_meta_init
+     *
+     * The user should not inherit directly from this class
+     * but rather through the #CallbackUtils::meta_init::MultiGrpMetaInit class.
+     */
+    template<typename AFields>
+    class MultiGrpMetaInitBase :
+        virtual public Callback<AFields>
+    {// {{{
+        static constexpr size_t buf_size = 64UL;
+        size_t N_inits = 0UL;
+        std::pair<void *, std::function<void(void *, std::shared_ptr<H5::H5File>)>> inits[buf_size];
+    protected :
+        void register_init (void *obj, std::function<void(void *, std::shared_ptr<H5::H5File>)> fct)
+        {
+            inits[N_inits++] = std::make_pair(obj, fct);
+            assert(N_inits < buf_size);
+        }
+    public :
+        void read_grp_meta_init (std::shared_ptr<H5::H5File> fptr) override final
+        {
+            for (size_t ii=0; ii != N_inits; ++ii)
+                inits[ii].second(inits[ii].first, fptr);
+        }
+    };// }}}
+
     /*! @brief interface class to add an action to be performed during #Callback::read_prt_meta_init
      *
      * @tparam Child        the inheriting type
@@ -77,6 +103,36 @@ namespace meta_init
         }
     };// }}}
 
+    /*! @brief interface class to add an action to be performed during #Callback::read_grp_meta_init
+     *
+     * @tparam Child        the inheriting type
+     *
+     * @note Child has to make this class friend.
+     *
+     * See #CallbackUtils::meta_init::SIMBACosmology for an example.
+     */
+    template<typename AFields, typename Child>
+    class MultiGrpMetaInit :
+        virtual public Callback<AFields>,
+        virtual private MultiGrpMetaInitBase<AFields>
+    {// {{{
+        static void this_grp_meta_init_static (void *obj, std::shared_ptr<H5::H5File> fptr)
+        {
+            Child *p = (Child *)obj;
+            p->this_grp_meta_init(fptr);
+        }
+    protected :
+        /*! The user should override this function with the desired action that is to be performed
+         *  as part of the call to #Callback::read_grp_meta_init.
+         */
+        virtual void this_grp_meta_init (std::shared_ptr<H5::H5File> fptr) = 0;
+    public :
+        MultiGrpMetaInit ()
+        {
+            MultiGrpMetaInitBase<AFields>::register_init(this, this_grp_meta_init_static);
+        }
+    };// }}}
+
     /*! @brief stores some cosmology-related meta-data from an Illustris-type header.
      */
     template<typename AFields>
@@ -87,14 +143,56 @@ namespace meta_init
         friend MultiPrtMetaInit<AFields, IllustrisCosmology<AFields>>;
         void this_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
         {
-            auto header = fptr->openGroup("/Header");
             #define READ(x) x = hdf5Utils::read_scalar_attr<double,double>(header, #x)
+            auto header = fptr->openGroup("/Header");
             READ(HubbleParam);
             READ(Omega0);
             READ(OmegaLambda);
             READ(OmegaBaryon);
             READ(Redshift);
             READ(Time);
+            header.close();
+            #undef READ
+        }
+    protected :
+        double HubbleParam, /*!< @brief Hubble parameter */
+               Omega0, /*!< @brief matter density */
+               OmegaLambda, /*!< @brief dark energy density */
+               OmegaBaryon, /*!< @brief baryonic density */
+               Redshift, /*!< @brief redshift */
+               Time; /*!< @brief scale factor */
+    };// }}}
+
+    /*! @brief stores some cosmology-related meta-data from a SIMBA-type header.
+     */
+    template<typename AFields>
+    class SIMBACosmology :
+        virtual public Callback<AFields>,
+        private MultiGrpMetaInit<AFields, SIMBACosmology<AFields>>
+    {// {{{
+        friend MultiGrpMetaInit<AFields, SIMBACosmology<AFields>>;
+        void this_grp_meta_init (std::shared_ptr<H5::H5File> fptr) override final
+        {
+            // for some reason SIMBA does not store OmegaBaryon in the particle chunk headers,
+            // and Redshift and Time are in the Header group of the group chunk...
+            #define READ(x) x = hdf5Utils::read_scalar_attr<double,double>(header, #x)
+
+            {
+                auto header = fptr->openGroup("/Parameters");
+                READ(HubbleParam);
+                READ(Omega0);
+                READ(OmegaLambda);
+                READ(OmegaBaryon);
+                header.close();
+            }
+
+            {
+                auto header = fptr->openGroup("/Header");
+                READ(Redshift);
+                READ(Time);
+                header.close();
+            }
+
             #undef READ
         }
     protected :
@@ -118,6 +216,7 @@ namespace meta_init
         {
             auto header = fptr->openGroup("/Header");
             Ntypes = hdf5Utils::read_vector_attr<double,double>(header, "MassTable", MassTable);
+            header.close();
         }
     protected :
         double MassTable[16]; /*!< @brief the mass table (length #Ntypes), indices corresponding to particle types */

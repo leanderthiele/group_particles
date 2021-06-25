@@ -44,6 +44,39 @@ namespace IllustrisFields
     // TODO
 } // namespace IllustrisFields
 
+/*! @brief Some fields contained in the SIMBA simulation data products.
+ *
+ * These are basically the same as the IllustrisFields with the difference
+ * that the Coordinates are stored as 32 bit floats in SIMBA
+ * (same as in the Illustris mini snapshots)
+ */
+namespace SIMBAFields
+{
+    // Particle fields
+    FIELD(CenterOfMass, 3, float, FieldTypes::PrtFld, true);
+    FIELD(Coordinates, 3, float, FieldTypes::PrtFld, true);
+    FIELD(Density, 1, float, FieldTypes::PrtFld, false);
+    FIELD(ElectronAbundance, 1, float, FieldTypes::PrtFld, false);
+    FIELD(Masses, 1, float, FieldTypes::PrtFld, false);
+    FIELD(InternalEnergy, 1, float, FieldTypes::PrtFld, false);
+    // TODO
+
+    // Group fields
+    FIELD(GroupCM, 3, float, FieldTypes::GrpFld, true);
+    FIELD(GroupPos, 3, float, FieldTypes::GrpFld, true);
+    FIELD(GroupMass, 1, float, FieldTypes::GrpFld, false);
+    FIELD(GroupVel, 3, float, FieldTypes::GrpFld, false);
+    FIELD(Group_R_Crit200, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Group_M_Crit200, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Group_R_Crit500, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Group_M_Crit500, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Group_R_Mean200, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Group_M_Mean200, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Group_R_TopHat200, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Group_M_TopHat200, 1, float, FieldTypes::GrpFld, false);
+    // TODO
+} // namespace SIMBAFields
+
 /*! @brief Fields contained in a typical Gadget simulation.
  *
  * Care should be taken with the value types, depending on the Gadget
