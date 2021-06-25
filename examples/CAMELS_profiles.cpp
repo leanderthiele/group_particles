@@ -57,7 +57,7 @@ namespace CAMELS_prof
         using GrpProperties = typename Callback<AF>::GrpProperties;
         using PrtProperties = typename Callback<AF>::PrtProperties;
 
-        // all internal calculations regarding Y in this type
+        // all internal calculations in this type
         using value_type = double;
 
         // number of sample points
