@@ -287,7 +287,7 @@ int main (int argc, char *argv[])
     group_particles<> ( y );
 
     // save data to files
-    #define ROOT "YOUR OUTPUT PATH HERE"
+    #define ROOT "DEFINE YOUR OUTPUT PATH HERE"
     vec_to_f<>(y.grp_M, std::string(std::string(ROOT)+std::string("/grp_M200c_")+std::string(argv[1])+std::string(".bin")).c_str());
     vec_to_f<>(y.grp_R, std::string(std::string(ROOT)+std::string("/grp_R200c_")+std::string(argv[1])+std::string(".bin")).c_str());
     vec_to_f<>(y.grp_P, std::string(std::string(ROOT)+std::string("/grp_P200c_")+std::string(argv[1])+std::string(".bin")).c_str());

@@ -7,8 +7,14 @@
  * in the compilation script.
  */
 
+#include <string>
+
 #include "group_particles.hpp"
 #include "common_fields.hpp"
+
+std::string fgrp, fprt;
+size_t grp_max_idx;
+size_t prt_max_idx;
 
 namespace dens_prof
 {
@@ -160,17 +166,21 @@ private :
     using Callback<dens_prof::AF>::PrtProperties;
 
     static constexpr const IllustrisFields::Group_M_Crit200::value_type Mmin = 1e3F;
-    
-    #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output"
-    static constexpr const char fgrp[] = ROOT"groups_099/fof_subhalo_tab_099.%d.hdf5";
-    static constexpr const char fprt[] = ROOT"snapdir_099/snap_099.%d.hdf5";
-    static constexpr const size_t grp_max_idx = 599;
-    static constexpr const size_t prt_max_idx = 599;
-    #undef ROOT
 };
 
-int main ()
+int main (int argc, char *argv[])
 {
+
+    #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output/"
+    fgrp = std::string(ROOT)+std::string("groups_")+std::string(argv[1])+std::string("/fof_subhalo_tab_")+
+           std::string(argv[1])+std::string(".%d.hdf5");
+    grp_max_idx = 599;
+
+    fprt = std::string(ROOT)+std::string("snapdir_")+std::string(argv[1])+std::string("/snap_")+
+           std::string(argv[1])+std::string(".%d.hdf5");
+    prt_max_idx = 599;
+    #undef ROOT
+
     dens_prof_callback d;
 
     group_particles<> ( d );
@@ -189,9 +199,9 @@ int main ()
     #   define TYPE "BH"
     #endif
 
-    #define ROOT "dens_prof_results"
+    #define ROOT "DEFINE YOUR OUTPUT PATH HERE"
 
-    auto f = std::fopen(ROOT "/dens_prof_" TYPE ".bin", "wb");
+    auto f = std::fopen(std::string(std::string(ROOT)+std::string("/dens_prof_")+std::string(TYPE)+std::string("_")+std::string(argv[1])+std::string(".bin")).c_str(), "wb");
     for (auto &dens_prof_item : d.grp_dens_prof)
         dens_prof_item.save(f);
     std::fclose(f);
