@@ -12,6 +12,10 @@
 #include "group_particles.hpp"
 #include "common_fields.hpp"
 
+std::string fgrp, fprt;
+size_t grp_max_idx;
+size_t prt_max_idx;
+
 /*! @brief assembles some types to use for the pressure profile calculation.
  */
 namespace y_prof
@@ -251,18 +255,10 @@ private :
     using Callback<y_prof::AF>::PrtProperties;
 
     // group mass cutoff
-    static constexpr const IllustrisFields::Group_M_Crit200::value_type Mmin = 1e4F;
+    static constexpr const IllustrisFields::Group_M_Crit200::value_type Mmin = 1e3F;
 
     // group radius cutoff
     static constexpr const IllustrisFields::Group_R_Crit200::value_type Rmin = 0.0F;
-    
-    // files
-    #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output/"
-    static constexpr const char fgrp[]        = ROOT"groups_099/fof_subhalo_tab_099.%d.hdf5";
-    static constexpr const size_t grp_max_idx = 599;
-    static constexpr const char fprt[]        = ROOT"snapdir_099/snap_099.%d.hdf5";
-    static constexpr const size_t prt_max_idx = 599;
-    #undef ROOT
 };// }}}
 
 template<typename T>
@@ -273,20 +269,31 @@ void vec_to_f (const std::vector<T> &v, const char *s)
     std::fclose(f);
 }
 
-int main ()
+int main (int argc, char *argv[])
 {
+
+    #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output/"
+    fgrp = std::string(ROOT)+std::string("groups_")+std::string(argv[1])+std::string("/fof_subhalo_tab_")+
+           std::string(argv[1])+std::string(".%d.hdf5");
+    grp_max_idx = 599;
+
+    fprt = std::string(ROOT)+std::string("snapdir_")+std::string(argv[1])+std::string("/snap_")+
+           std::string(argv[1])+std::string(".%d.hdf5");
+    prt_max_idx = 599;
+    #undef ROOT
+
     y_prof_callback y;
     
     group_particles<> ( y );
 
     // save data to files
-    #define ROOT "y_prof_results_Jun7"
-    vec_to_f<>(y.grp_M, ROOT"/grp_M200c.bin");
-    vec_to_f<>(y.grp_R, ROOT"/grp_R200c.bin");
-    vec_to_f<>(y.grp_P, ROOT"/grp_P200c.bin");
+    #define ROOT "DEFINE YOUR OUTPUT PATH HERE"
+    vec_to_f<>(y.grp_M, std::string(std::string(ROOT)+std::string("/grp_M200c_")+std::string(argv[1])+std::string(".bin")).c_str());
+    vec_to_f<>(y.grp_R, std::string(std::string(ROOT)+std::string("/grp_R200c_")+std::string(argv[1])+std::string(".bin")).c_str());
+    vec_to_f<>(y.grp_P, std::string(std::string(ROOT)+std::string("/grp_P200c_")+std::string(argv[1])+std::string(".bin")).c_str());
     {
-        auto fpressure = std::fopen(ROOT"/grp_pressure_prof.bin", "wb");
-        auto fnum_part = std::fopen(ROOT"/grp_num_part_prof.bin", "wb");
+        auto fpressure = std::fopen(std::string(std::string(ROOT)+std::string("/grp_pressure_prof_")+std::string(argv[1])+std::string(".bin")).c_str(), "wb");
+        auto fnum_part = std::fopen(std::string(std::string(ROOT)+std::string("/grp_num_part_prof_")+std::string(argv[1])+std::string(".bin")).c_str(), "wb");
         for (auto &prof : y.grp_Y)
             prof.save(fpressure, fnum_part);
         std::fclose(fpressure);
