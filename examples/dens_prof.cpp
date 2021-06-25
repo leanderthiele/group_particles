@@ -117,7 +117,7 @@ namespace dens_prof
         }
     };
 
-    constexpr IllustrisFields::Group_R_Crit200::value_type Rscale = 1.0;
+    constexpr IllustrisFields::Group_R_Crit200::value_type Rscale = 2.5;
     using chunk = CallbackUtils::chunk::Multi<AF>;
     using name = CallbackUtils::name::Illustris<AF, PartType>;
     using meta = CallbackUtils::meta::Illustris<AF, PartType>;
