@@ -103,7 +103,7 @@ namespace dens_prof
         #ifdef DM
         void normalize_mass (value_type unit_mass)
         {
-            for (size_t ii=0; ii != 9; ++ii)
+            for (size_t ii=0; ii != N; ++ii)
                 dens[ii] *= unit_mass;
         }
         #endif
