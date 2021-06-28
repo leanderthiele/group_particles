@@ -57,6 +57,20 @@ namespace RockstarFields
     FIELD(ang_mom, 3, float, FieldTypes::GrpFld, false);
     FIELD(Xoff, 1, float, FieldTypes::GrpFld, false);
     FIELD(Voff, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Vmax, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Vrms, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Rs, 1, float, FieldTypes::GrpFld, false);
+    FIELD(vel, 3, float, FieldTypes::GrpFld, false);
+    FIELD(Spin, 1, float, FieldTypes::GrpFld, false);
+    FIELD(rs_klypin, 1, float, FieldTypes::GrpFld, false);
+    FIELD(M200c_all, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Mvir, 1, float, FieldTypes::GrpFld, false);
+    FIELD(M200b, 1, float, FieldTypes::GrpFld, false);
+    FIELD(M500c, 1, float, FieldTypes::GrpFld, false);
+    FIELD(M2500c, 1, float, FieldTypes::GrpFld, false);
+    FIELD(spin_bullock, 1, float, FieldTypes::GrpFld, false);
+    FIELD(b_to_a, 1, float, FieldTypes::GrpFld, false);
+    FIELD(c_to_a, 1, float, FieldTypes::GrpFld, false);
 } // namespace RockstarFields
 
 /*! @brief Some fields contained in the SIMBA simulation data products.
