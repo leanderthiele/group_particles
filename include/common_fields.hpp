@@ -22,6 +22,7 @@ namespace IllustrisFields
     // Particle fields
     FIELD(CenterOfMass, 3, float, FieldTypes::PrtFld, true);
     FIELD(Coordinates, 3, double, FieldTypes::PrtFld, true);
+    FIELD(Velocities, 3, float, FieldTypes::PrtFld, false);
     FIELD(Density, 1, float, FieldTypes::PrtFld, false);
     FIELD(ElectronAbundance, 1, float, FieldTypes::PrtFld, false);
     FIELD(Masses, 1, float, FieldTypes::PrtFld, false);
