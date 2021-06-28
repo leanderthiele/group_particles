@@ -26,6 +26,7 @@ namespace IllustrisFields
     FIELD(ElectronAbundance, 1, float, FieldTypes::PrtFld, false);
     FIELD(Masses, 1, float, FieldTypes::PrtFld, false);
     FIELD(InternalEnergy, 1, float, FieldTypes::PrtFld, false);
+    FIELD(Potential, 1, float, FieldTypes::PrtFld, false);
     // TODO
 
     // Group fields
