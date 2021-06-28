@@ -55,6 +55,8 @@ namespace RockstarFields
     FIELD(M200c, 1, float, FieldTypes::GrpFld, false);
     FIELD(R200c, 1, float, FieldTypes::GrpFld, false);
     FIELD(ang_mom, 3, float, FieldTypes::GrpFld, false);
+    FIELD(Xoff, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Voff, 1, float, FieldTypes::GrpFld, false);
 } // namespace RockstarFields
 
 /*! @brief Some fields contained in the SIMBA simulation data products.
