@@ -44,6 +44,16 @@ namespace IllustrisFields
     // TODO
 } // namespace IllustrisFields
 
+/*! @brief Fields contained in my hacky Rockstar data products -- not for public use.
+ */
+namespace RockstarFields
+{
+    FIELD(pos, 3, float, FieldTypes::GrpFld, true);
+    FIELD(M200c, 1, float, FieldTypes::GrpFld, false);
+    FIELD(R200c, 1, float, FieldTypes::GrpFld, false);
+    FIELD(ang_mom, 3, float, FieldTypes::GrpFld, false);
+} // namespace RockstarFields
+
 /*! @brief Some fields contained in the SIMBA simulation data products.
  *
  * These are basically the same as the IllustrisFields with the difference
