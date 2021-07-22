@@ -141,7 +141,7 @@ namespace mass_prof
             value_type m = 1.0;
             #endif // MASSES_AVAIL
 
-            for (size_t ii=0; ii <= idx; ++ii)
+            for (size_t ii=idx; ii < N; ++ii)
                 encl_mass[ii] += m;
         }// }}}
 
