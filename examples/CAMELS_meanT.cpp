@@ -82,7 +82,7 @@ private :
     static constexpr const float XH    = 0.76F;
 
     // group mass cutoff
-    static constexpr const float Mmin = 1e3F;
+    static constexpr const float Mmin = 1e12F;
 
     // computation of temperature for a single gas particle
     void prt_insert (size_t grp_idx, const GrpProperties &grp, const PrtProperties &prt,
