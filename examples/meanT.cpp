@@ -84,7 +84,7 @@ private :
         double T = (gamma-1.0) * e * mu;
 
         // get to Kelvin
-        T *= 1.211475e-10; // this is 1e6 * mproton[SI] / kB[SI]
+        T *= 1.211475e2; // this is 1e6 * mproton[SI] / kB[SI]
 
         if (T > 1e5)
         {
