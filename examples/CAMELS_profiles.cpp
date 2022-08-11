@@ -302,8 +302,8 @@ private :
     using Callback<CAMELS_prof::AF>::GrpProperties;
     using Callback<CAMELS_prof::AF>::PrtProperties;
 
-    // group mass cutoff -- choose 10^12.5
-    static constexpr const SimFields::Group_M_Crit200::value_type Mmin = 316.23F;
+    // group mass cutoff -- choose 10^12
+    static constexpr const SimFields::Group_M_Crit200::value_type Mmin = 1e2F;
 
     // group radius cutoff
     static constexpr const SimFields::Group_R_Crit200::value_type Rmin = 0.0F;
