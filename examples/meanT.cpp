@@ -14,11 +14,13 @@ namespace Y_Delta
                       // NOTE using R500 here as maybe more useful for X-ray
                       IllustrisFields::Group_R_Crit500> GrpF;
     typedef PrtFields<IllustrisFields::Coordinates,
+                      IllustrisFields::Density,
+                      IllustrisFields::Masses,
                       IllustrisFields::InternalEnergy,
                       IllustrisFields::ElectronAbundance> PrtF;
     typedef AllFields<GrpF, PrtF> AF;
 
-    typedef std::pair<double, size_t> grp_Y_t;
+    typedef std::pair<double, double> grp_Y_t;
     typedef double grp_M_t;
 
     typedef CallbackUtils::chunk::Multi<AF>
@@ -79,17 +81,20 @@ private :
     {
         auto e = prt.get<IllustrisFields::InternalEnergy>();
         auto x = prt.get<IllustrisFields::ElectronAbundance>();
+        auto m = prt.get<IllustrisFields::Masses>();
+        auto d = prt.get<IllustrisFields::Density>();
 
         double mu = 4.0/(1.0+3.0*XH+4.0*XH*x);
         double T = (gamma-1.0) * e * mu;
+        double v = m / d;
 
         // get to Kelvin
         T *= 1.211475e2; // this is 1e6 * mproton[SI] / kB[SI]
 
         if (T > 1e5)
         {
-            data_item.first += T;
-            ++data_item.second;
+            data_item.first += T * v;
+            data_item.second += v;
         }
     }
 };// }}}
