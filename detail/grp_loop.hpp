@@ -49,7 +49,7 @@ Workspace<AFields>::grp_loop ()
         // convert coordinates to global type
         AFields::GroupFields::convert_coords(Ngrp_this_file, tmp_grp_properties[0]);
 
-        typename Callback<AFields>::GrpProperties grp (tmp_grp_properties);
+        typename Callback<AFields>::GrpProperties grp (chunk_idx, tmp_grp_properties);
 
         // now loop over groups to see which ones belong into permanent storage
         for (size_t grp_idx=0; grp_idx != Ngrp_this_file; ++grp_idx, grp.advance())

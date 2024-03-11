@@ -1,8 +1,11 @@
 #ifndef PRT_LOOP_HPP
 #define PRT_LOOP_HPP
 
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <iterator>
+#include <sys/resource.h>
 #include <tuple>
 #include <array>
 #include <string>
@@ -25,7 +28,7 @@ Workspace<AFields>::prt_loop ()
     #ifndef NDEBUG
     std::fprintf(stderr, "Started Workspace::prt_loop ...\n");
     #endif // NDEBUG
-
+    
     // the file name for the current chunk will be written here
     std::string fname;
 
@@ -81,7 +84,7 @@ Workspace<AFields>::prt_loop ()
         #ifndef NDEBUG
         TIME_MSG(t4, "prt_loop convert coords");
         #endif // NDEBUG
-
+	
         // run the loop
         #ifndef NAIVE
         #   ifndef NDEBUG

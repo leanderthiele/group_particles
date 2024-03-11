@@ -84,6 +84,10 @@ struct Callback
     class GrpProperties : public BaseProperties<typename AFields::GroupFields>
     {
         using BaseProperties<typename AFields::GroupFields>::BaseProperties;
+
+    public :
+        size_t chunk_idx;
+        GrpProperties (size_t chunk_idx_, void **data_in_memory, size_t offset=0UL);
     };
 
     /*! @brief Specialization of the #Callback::BaseProperties type to particles. */
@@ -325,6 +329,12 @@ Callback<AFields>::BaseProperties<T>::get () const
         else
             return (typename Field::value_type *)data[idx];
 }
+
+template<typename AFields>
+Callback<AFields>::GrpProperties::GrpProperties (size_t chunk_idx_, void **data_in_memory, size_t offset) :
+    Callback<AFields>::template BaseProperties<typename AFields::GroupFields> { data_in_memory, offset },
+    chunk_idx { chunk_idx_ }
+{ }
 
 template<typename AFields>
 Callback<AFields>::PrtProperties::PrtProperties (coord_t Bsize_, void **data_in_memory, size_t offset) :
