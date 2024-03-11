@@ -271,6 +271,15 @@ struct Callback
      *  @note primary purpose is to resolve units mismatch between particle and group catalogs. 
      */
     virtual coord_t prt_coord_rescale ( ) const { return 1.0; }
+
+    /*! @brief Modifications to particle properties.
+     *
+     *  @param[in,out] prt      properties of the particle, to be modified
+     *
+     *  @note this is called after coordinate rescaling has been applied
+     *  @note original motivation is to implement RSD
+     */
+    virtual void prt_modify (PrtProperties &prt) { return; }
 };
 
 

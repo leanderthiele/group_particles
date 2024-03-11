@@ -23,6 +23,7 @@
 #include "callback_utils_radius.hpp"
 #include "callback_utils_grp_action.hpp"
 #include "callback_utils_prt_action.hpp"
+#include "callback_utils_prt_modify.hpp"
 
 /*! @brief contains classes that implement parts of the #Callback base.
  *

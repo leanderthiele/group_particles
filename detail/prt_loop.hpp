@@ -87,24 +87,35 @@ Workspace<AFields>::prt_loop ()
         #ifndef NDEBUG
         TIME_MSG(t4, "prt_loop convert coords");
         #endif // NDEBUG
+        
+        // if requested, modify the particle
+        #ifndef NDEBUG
+        TIME_PT(t5);
+        #endif // NDEBUG
+        typename Callback<AFields>::PrtProperties prt (Bsize, tmp_prt_properties);
+        for (size_t prt_idx=0; prt_idx != Nprt_this_file; ++prt_idx, prt.advance())
+            callback.prt_modify(prt);
+        #ifndef NDEBUG
+        TIME_MSG(t5, "prt_loop modify particles");
+        #endif
 	
         // run the loop
         #ifndef NAIVE
         #   ifndef NDEBUG
-        TIME_PT(t5);
+        TIME_PT(t6);
         #   endif // NDEBUG
         prt_loop_sorted(Nprt_this_file);
         #   ifndef NDEBUG
-        TIME_MSG(t5, "prt_loop->prt_loop_sorted");
+        TIME_MSG(t6, "prt_loop->prt_loop_sorted");
         #   endif // NDEBUG
         #else // NAIVE
         #   ifndef NDEBUG
-        TIME_PT(t5);
+        TIME_PT(t6);
         #   endif // NDEBUG
         #   warning "Compiling with the naive particle loop instead of the (much faster) sorted one."
         prt_loop_naive(Nprt_this_file);
         #   ifndef NDEBUG
-        TIME_MSG(t5, "prt_loop->prt_loop_naive");
+        TIME_MSG(t6, "prt_loop->prt_loop_naive");
         #   endif // NDEBUG
         #endif // NAIVE
 
