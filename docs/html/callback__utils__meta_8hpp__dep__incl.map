@@ -1,5 +1,0 @@
-<map id="callback_utils_meta.hpp" name="callback_utils_meta.hpp">
-<area shape="rect" id="node1" title="Some common ways to override Callback::read_grp_meta and Callback::read_prt_meta." alt="" coords="5,5,185,32"/>
-<area shape="rect" id="node2" href="$callback__utils_8hpp.html" title="Collects some pre&#45;implemented functionality that makes it easier to construct a subclass of the Callb..." alt="" coords="26,80,165,107"/>
-<area shape="rect" id="node3" href="$halo__particles_8hpp.html" title="For convenience, the user can just include this single header file. It contains the single routine to..." alt="" coords="25,155,166,181"/>
-</map>

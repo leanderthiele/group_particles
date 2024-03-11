@@ -1,5 +1,7 @@
 <map id="CallbackUtils::meta::Illustris&lt; AFields, PartType &gt;" name="CallbackUtils::meta::Illustris&lt; AFields, PartType &gt;">
-<area shape="rect" id="node1" title="retrieves meta&#45;data from an Illustris&#45;type simulation." alt="" coords="10,80,161,136"/>
-<area shape="rect" id="node3" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="5,184,165,225"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="8,5,163,32"/>
+<area shape="rect" id="Node000001" title="retrieves meta&#45;data from an Illustris&#45;type simulation." alt="" coords="8,79,145,135"/>
+<area shape="rect" id="Node000003" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="5,183,148,223"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="79,150,79,182,74,182,74,150"/>
+<area shape="rect" id="Node000002" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="7,5,146,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,47,79,78,74,78,74,47"/>
 </map>

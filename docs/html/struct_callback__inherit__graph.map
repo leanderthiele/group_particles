@@ -1,47 +1,120 @@
 <map id="Callback&lt; AFields &gt;" name="Callback&lt; AFields &gt;">
-<area shape="rect" id="node1" title="The abstract base class the user should inherit from." alt="" coords="5,953,160,980"/>
-<area shape="rect" id="node2" href="$struct_callback_utils_1_1chunk_1_1_multi.html" title="wrapper for the common case that there are multiple group chunks and multiple particle chunks" alt="" coords="526,62,681,103"/>
-<area shape="rect" id="node4" href="$class_callback_utils_1_1chunk_1_1_multi_grp.html" title="there are multiple group chunks." alt="" coords="241,62,403,103"/>
-<area shape="rect" id="node5" href="$class_callback_utils_1_1chunk_1_1_multi_prt.html" title="there are multiple particle chunks." alt="" coords="243,127,401,169"/>
-<area shape="rect" id="node6" href="$struct_callback_utils_1_1chunk_1_1_single.html" title="wrapper for the common case that there is one group chunk and one particle chunk" alt="" coords="526,245,681,286"/>
-<area shape="rect" id="node7" href="$class_callback_utils_1_1chunk_1_1_single_grp.html" title="there is a single file containing all groups." alt="" coords="237,245,407,286"/>
-<area shape="rect" id="node8" href="$class_callback_utils_1_1chunk_1_1_single_prt.html" title="there is a single file containing all particles." alt="" coords="239,310,405,351"/>
-<area shape="rect" id="node9" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title="interface class to add an action to be performed during Callback::grp_action" alt="" coords="516,409,691,465"/>
-<area shape="rect" id="node10" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action_base.html" title="base class to have multiple actions performed in Callback::grp_action" alt="" coords="219,528,425,584"/>
-<area shape="rect" id="node11" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="509,489,697,545"/>
-<area shape="rect" id="node13" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="509,701,697,771"/>
-<area shape="rect" id="node17" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="511,569,696,625"/>
-<area shape="rect" id="node20" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title="implements the common case of storing a data item of identical type for each group." alt="" coords="208,1131,436,1187"/>
-<area shape="rect" id="node21" href="$class_callback_utils_1_1grp__action_1_1_store_grp_property.html" title="implements the common case of storing a single group property for each group." alt="" coords="1053,1085,1243,1141"/>
-<area shape="rect" id="node22" href="$struct_callback_utils_1_1meta_1_1_gadget.html" title="retrieves meta&#45;data from a Gadget&#45;type simulation." alt="" coords="526,1237,681,1278"/>
-<area shape="rect" id="node23" href="$struct_callback_utils_1_1meta_1_1_illustris.html" title="retrieves meta&#45;data from an Illustris&#45;type simulation." alt="" coords="245,1313,399,1354"/>
-<area shape="rect" id="node25" href="$class_callback_utils_1_1meta__init_1_1_illustris_cosmology.html" title="stores some cosmology&#45;related meta&#45;data from an Illustris&#45;type header." alt="" coords="795,1459,974,1515"/>
-<area shape="rect" id="node26" href="$class_callback_utils_1_1meta__init_1_1_illustris_mass_table.html" title="stores the MassTable from an Illustris&#45;type header." alt="" coords="797,1683,972,1739"/>
-<area shape="rect" id="node27" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title="interface class to add an action to be performed during Callback::read_prt_meta_init" alt="" coords="522,1571,685,1627"/>
-<area shape="rect" id="node28" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init_base.html" title="base class to have multiple actions performed in Callback::read_prt_meta_init" alt="" coords="225,1545,419,1601"/>
-<area shape="rect" id="node29" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="484,1495,723,1537"/>
-<area shape="rect" id="node30" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="486,1661,721,1702"/>
-<area shape="rect" id="node31" href="$struct_callback_utils_1_1name_1_1_gadget.html" title="Gadget&#45;type hdf5 format." alt="" coords="245,1778,399,1819"/>
-<area shape="rect" id="node32" href="$struct_callback_utils_1_1name_1_1_illustris.html" title="Illustris&#45;type hdf5 format." alt="" coords="245,1378,399,1419"/>
-<area shape="rect" id="node33" href="$class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html" title="implements the common case that each group gets an item of identical type into which the particles be..." alt="" coords="773,624,996,680"/>
-<area shape="rect" id="node34" href="$class_callback_utils_1_1radius_1_1_simple.html" title="radius is propertional to one of the group properties." alt="" coords="1070,418,1226,459"/>
-<area shape="rect" id="node35" href="$struct_callback_utils_1_1select_1_1_high_cutoff.html" title="select only groups that have some 1&#45;dimensional property below a certain value." alt="" coords="234,1843,410,1885"/>
-<area shape="rect" id="node36" href="$struct_callback_utils_1_1select_1_1_low_cutoff.html" title="select only groups that have some 1&#45;dimensional property above a certain value." alt="" coords="1062,1019,1234,1061"/>
-<area shape="rect" id="node37" href="$class_callback_utils_1_1select_1_1_multi_select.html" title="interface class to include a selection function in Callback::grp_select." alt="" coords="513,913,693,954"/>
-<area shape="rect" id="node38" href="$class_callback_utils_1_1select_1_1_multi_select_base.html" title="base class to apply multiple selection functions in Callback::grp_select." alt="" coords="216,862,428,903"/>
-<area shape="rect" id="node39" href="$class_callback_utils_1_1select_1_1_multi_select.html" title=" " alt="" coords="499,847,708,889"/>
-<area shape="rect" id="node43" href="$class_callback_utils_1_1select_1_1_window.html" title="select only groups that have some 1&#45;dimensional property fall into an interval." alt="" coords="805,881,964,922"/>
-<area shape="rect" id="node44" href="$struct_callback_utils_1_1meta_1_1_illustris.html" title=" " alt="" coords="241,1261,403,1288"/>
-<area shape="rect" id="node45" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title=" " alt="" coords="798,800,971,856"/>
-<area shape="rect" id="node3" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="799,69,970,96"/>
-<area shape="rect" id="node12" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title="implements the common case of storing a data item of identical type for each group." alt="" coords="771,464,999,520"/>
-<area shape="rect" id="node14" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title=" " alt="" coords="771,705,999,775"/>
-<area shape="rect" id="node15" href="$class_callback_utils_1_1grp__action_1_1_store_grp_property.html" title="implements the common case of storing a single group property for each group." alt="" coords="1047,779,1249,835"/>
-<area shape="rect" id="node16" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="1297,953,1421,980"/>
-<area shape="rect" id="node18" href="$class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html" title="implements the common case that each group gets an item of identical type into which the particles be..." alt="" coords="773,544,996,600"/>
-<area shape="rect" id="node19" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="1068,591,1228,633"/>
-<area shape="rect" id="node24" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="523,1331,683,1373"/>
-<area shape="rect" id="node40" href="$class_callback_utils_1_1select_1_1_window.html" title="select only groups that have some 1&#45;dimensional property fall into an interval." alt="" coords="785,946,984,987"/>
-<area shape="rect" id="node41" href="$struct_callback_utils_1_1select_1_1_high_cutoff.html" title="select only groups that have some 1&#45;dimensional property below a certain value." alt="" coords="1065,859,1231,915"/>
-<area shape="rect" id="node42" href="$struct_callback_utils_1_1select_1_1_low_cutoff.html" title="select only groups that have some 1&#45;dimensional property above a certain value." alt="" coords="1067,939,1229,995"/>
+<area shape="rect" id="Node000001" title="The abstract base class the user should inherit from." alt="" coords="5,1427,145,1452"/>
+<area shape="rect" id="Node000002" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="468,5,688,76"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,1411,82,1152,102,750,118,545,137,363,161,224,175,176,191,147,218,119,250,97,284,78,321,64,396,45,467,37,468,42,397,51,323,69,287,83,253,101,222,123,195,150,180,178,166,225,143,363,123,545,108,751,88,1152,80,1411"/>
+<area shape="rect" id="Node000006" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="468,101,688,186"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="74,1411,82,1162,102,777,117,581,137,408,161,276,175,232,191,204,219,179,251,160,286,145,323,135,397,125,468,126,468,131,398,131,324,140,288,150,254,164,222,183,195,208,180,234,166,277,142,409,122,582,107,777,87,1162,80,1411"/>
+<area shape="rect" id="Node000007" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="470,211,686,281"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="75,1411,86,1188,108,851,124,680,143,529,165,413,177,374,191,349,290,319,469,271,470,276,292,324,194,353,182,376,170,415,148,529,130,680,114,851,91,1188,80,1411"/>
+<area shape="rect" id="Node000010" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="483,305,674,376"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="75,1411,85,1195,108,871,123,707,142,563,164,453,177,416,191,394,211,379,239,368,314,352,400,343,482,339,482,344,400,348,315,357,241,373,213,384,195,397,182,418,170,455,147,564,129,708,113,871,91,1195,80,1411"/>
+<area shape="rect" id="Node000011" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action_base.html" title=" " alt="" coords="193,552,420,593"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="74,1411,77,1247,92,1006,106,880,127,765,154,670,171,633,191,604,205,592,209,596,195,608,176,635,159,672,132,766,112,881,97,1006,82,1247,79,1411"/>
+<area shape="rect" id="Node000012" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title=" " alt="" coords="736,400,944,471"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="75,1411,85,1204,108,897,123,742,142,606,165,503,177,469,191,448,208,436,230,425,287,411,355,403,432,400,594,406,736,419,736,425,593,411,432,405,356,408,287,416,232,430,211,440,195,452,182,471,170,505,148,607,129,743,113,898,91,1205,80,1411"/>
+<area shape="rect" id="Node000013" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title=" " alt="" coords="736,506,944,562"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="75,1410,87,1221,111,943,126,803,145,680,166,588,178,557,191,538,214,532,261,529,405,525,736,529,736,534,405,531,261,534,215,538,194,543,183,560,171,590,150,681,132,804,116,943,92,1221,81,1411"/>
+<area shape="rect" id="Node000015" href="$struct_callback_utils_1_1meta_1_1_illustris.html" title=" " alt="" coords="230,618,383,658"/>
+<area shape="poly" id="edge9_Node000001_Node000015" title=" " alt="" coords="74,1411,80,1259,97,1040,112,926,132,822,158,735,173,701,191,675,208,660,228,649,230,654,211,664,195,678,178,704,163,737,137,823,117,927,103,1040,85,1260,80,1411"/>
+<area shape="rect" id="Node000017" href="$class_callback_utils_1_1meta__init_1_1_illustris_cosmology.html" title=" " alt="" coords="739,652,941,693"/>
+<area shape="poly" id="edge10_Node000001_Node000017" title=" " alt="" coords="74,1411,81,1269,99,1066,113,962,133,866,159,788,174,757,191,733,213,717,244,703,322,684,404,671,468,663,530,658,578,658,688,663,739,665,739,670,688,669,578,663,530,663,468,669,405,676,323,689,246,709,216,722,195,737,178,760,164,790,138,868,119,963,104,1067,86,1270,80,1411"/>
+<area shape="rect" id="Node000018" href="$class_callback_utils_1_1meta__init_1_1_multi_grp_meta_init.html" title=" " alt="" coords="482,1136,674,1207"/>
+<area shape="poly" id="edge11_Node000001_Node000018" title=" " alt="" coords="73,1411,78,1345,94,1259,109,1215,130,1172,157,1134,191,1103,221,1085,248,1075,275,1071,300,1073,355,1085,421,1102,495,1133,493,1138,419,1107,354,1091,300,1078,275,1076,250,1080,223,1089,194,1107,161,1138,134,1175,114,1217,99,1260,83,1345,79,1411"/>
+<area shape="rect" id="Node000020" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="482,757,674,828"/>
+<area shape="poly" id="edge12_Node000001_Node000020" title=" " alt="" coords="75,1411,82,1284,100,1105,115,1014,135,932,160,865,174,839,191,820,212,807,241,798,315,787,400,783,482,785,482,790,400,789,315,792,242,803,214,812,194,824,179,842,165,867,140,933,121,1015,106,1106,87,1284,80,1411"/>
+<area shape="rect" id="Node000022" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="482,852,674,923"/>
+<area shape="poly" id="edge13_Node000001_Node000022" title=" " alt="" coords="77,1411,91,1314,114,1184,130,1119,148,1059,168,1011,191,977,211,963,240,949,314,927,399,909,481,896,482,901,400,914,315,932,242,954,214,967,195,981,173,1013,153,1061,135,1120,119,1185,96,1314,82,1411"/>
+<area shape="rect" id="Node000024" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="484,947,673,1017"/>
+<area shape="poly" id="edge14_Node000001_Node000024" title=" " alt="" coords="78,1411,92,1323,116,1208,132,1151,149,1099,169,1057,191,1029,223,1006,259,989,296,976,335,968,413,962,483,965,483,970,413,967,336,973,298,982,261,994,226,1011,195,1033,174,1060,154,1101,137,1153,122,1209,97,1324,83,1412"/>
+<area shape="rect" id="Node000026" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="497,1041,660,1112"/>
+<area shape="poly" id="edge15_Node000001_Node000026" title=" " alt="" coords="72,1411,75,1339,80,1293,89,1244,104,1194,125,1147,154,1105,191,1069,226,1049,264,1035,305,1028,346,1025,426,1032,496,1047,495,1052,425,1037,346,1030,305,1033,266,1040,229,1053,194,1073,158,1108,130,1150,109,1196,95,1245,85,1294,80,1339,78,1411"/>
+<area shape="rect" id="Node000027" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init_base.html" title=" " alt="" coords="199,1247,414,1288"/>
+<area shape="poly" id="edge16_Node000001_Node000027" title=" " alt="" coords="91,1412,132,1358,160,1329,191,1304,226,1286,228,1291,194,1308,164,1333,136,1361,95,1415"/>
+<area shape="rect" id="Node000028" href="$class_callback_utils_1_1select_1_1_multi_select.html" title=" " alt="" coords="485,1322,672,1378"/>
+<area shape="poly" id="edge17_Node000001_Node000028" title=" " alt="" coords="96,1413,138,1377,164,1360,192,1347,267,1330,344,1323,419,1325,484,1331,484,1336,418,1330,344,1329,268,1335,194,1353,166,1365,141,1381,100,1417"/>
+<area shape="rect" id="Node000032" href="$struct_callback_utils_1_1chunk_1_1_multi.html" title="wrapper for the common case that there are multiple group chunks and multiple particle chunks" alt="" coords="507,1527,649,1568"/>
+<area shape="poly" id="edge18_Node000001_Node000032" title=" " alt="" coords="154,1453,507,1530,506,1535,153,1459"/>
+<area shape="rect" id="Node000034" href="$class_callback_utils_1_1chunk_1_1_multi_grp.html" title="there are multiple group chunks." alt="" coords="234,1527,379,1568"/>
+<area shape="poly" id="edge19_Node000001_Node000034" title=" " alt="" coords="110,1458,149,1483,194,1506,238,1524,236,1529,192,1511,146,1487,107,1463"/>
+<area shape="rect" id="Node000035" href="$class_callback_utils_1_1chunk_1_1_multi_prt.html" title="there are multiple particle chunks." alt="" coords="235,1592,378,1633"/>
+<area shape="poly" id="edge21_Node000001_Node000035" title=" " alt="" coords="94,1464,135,1521,162,1552,194,1577,236,1596,234,1601,191,1582,159,1555,130,1525,89,1467"/>
+<area shape="rect" id="Node000036" href="$struct_callback_utils_1_1chunk_1_1_single.html" title="wrapper for the common case that there is one group chunk and one particle chunk" alt="" coords="507,1707,649,1748"/>
+<area shape="poly" id="edge23_Node000001_Node000036" title=" " alt="" coords="86,1466,100,1506,123,1554,154,1602,173,1624,194,1642,312,1670,507,1710,506,1716,310,1675,191,1647,169,1628,150,1606,118,1557,96,1508,81,1468"/>
+<area shape="rect" id="Node000037" href="$class_callback_utils_1_1chunk_1_1_single_grp.html" title="there is a single file containing all groups." alt="" coords="230,1707,383,1748"/>
+<area shape="poly" id="edge24_Node000001_Node000037" title=" " alt="" coords="84,1467,97,1514,119,1573,151,1634,171,1662,194,1687,211,1699,230,1708,228,1713,208,1703,191,1691,167,1665,146,1637,114,1575,92,1516,79,1468"/>
+<area shape="rect" id="Node000038" href="$class_callback_utils_1_1chunk_1_1_single_prt.html" title="there is a single file containing all particles." alt="" coords="232,1772,381,1813"/>
+<area shape="poly" id="edge26_Node000001_Node000038" title=" " alt="" coords="81,1467,89,1528,108,1606,123,1647,142,1687,166,1725,194,1757,212,1770,233,1779,230,1784,209,1775,191,1761,161,1728,137,1690,118,1649,103,1607,84,1529,76,1468"/>
+<area shape="rect" id="Node000039" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title="interface class to add an action to be performed during Callback::grp_action" alt="" coords="500,452,657,507"/>
+<area shape="poly" id="edge28_Node000001_Node000039" title=" " alt="" coords="75,1411,86,1213,109,921,125,774,144,645,166,547,178,515,191,495,224,470,262,453,302,443,344,438,427,441,500,454,499,459,426,446,344,443,303,448,264,458,227,475,195,499,182,517,171,549,149,646,131,774,115,921,92,1213,80,1411"/>
+<area shape="rect" id="Node000040" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action_base.html" title="base class to have multiple actions performed in Callback::grp_action" alt="" coords="213,218,400,274"/>
+<area shape="poly" id="edge31_Node000001_Node000040" title=" " alt="" coords="75,1411,86,1178,109,823,125,643,144,483,166,360,178,318,191,291,211,272,214,276,195,294,183,320,171,361,149,483,130,643,115,824,91,1179,80,1411"/>
+<area shape="rect" id="Node000041" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title="implements the common case of storing a data item of identical type for each group." alt="" coords="203,1837,410,1893"/>
+<area shape="poly" id="edge37_Node000001_Node000041" title=" " alt="" coords="79,1467,84,1538,101,1633,116,1684,136,1734,162,1781,195,1823,208,1834,205,1838,191,1827,157,1784,131,1736,111,1686,96,1634,79,1539,74,1468"/>
+<area shape="rect" id="Node000042" href="$class_callback_utils_1_1grp__action_1_1_store_grp_property.html" title="implements the common case of storing a single group property for each group." alt="" coords="215,1917,398,1973"/>
+<area shape="poly" id="edge38_Node000001_Node000042" title=" " alt="" coords="83,1467,97,1565,121,1695,154,1821,174,1869,195,1903,216,1920,212,1924,191,1906,169,1872,149,1822,116,1696,92,1566,77,1468"/>
+<area shape="rect" id="Node000043" href="$struct_callback_utils_1_1meta_1_1_gadget.html" title="retrieves meta&#45;data from a Gadget&#45;type simulation." alt="" coords="237,1996,376,2037"/>
+<area shape="poly" id="edge39_Node000001_Node000043" title=" " alt="" coords="81,1467,93,1580,114,1735,130,1813,148,1885,170,1943,195,1983,214,1998,238,2007,236,2012,212,2002,191,1986,165,1946,143,1886,125,1814,109,1735,87,1580,76,1468"/>
+<area shape="rect" id="Node000044" href="$struct_callback_utils_1_1meta_1_1_illustris.html" title="retrieves meta&#45;data from an Illustris&#45;type simulation." alt="" coords="238,2061,375,2117"/>
+<area shape="poly" id="edge40_Node000001_Node000044" title=" " alt="" coords="81,1467,91,1590,112,1764,127,1853,146,1934,168,2001,181,2027,195,2047,215,2063,239,2075,236,2079,212,2068,191,2050,176,2030,163,2003,141,1936,122,1854,106,1765,85,1591,75,1467"/>
+<area shape="rect" id="Node000046" href="$struct_callback_utils_1_1meta_1_1_s_i_m_b_a.html" title="retrieves meta&#45;data from a SIMBA&#45;type simulation." alt="" coords="207,2140,406,2181"/>
+<area shape="poly" id="edge41_Node000001_Node000046" title=" " alt="" coords="80,1467,87,1606,105,1804,120,1906,140,1999,165,2075,179,2105,195,2127,209,2139,205,2143,191,2130,174,2107,160,2077,135,2000,115,1907,100,1805,82,1606,75,1468"/>
+<area shape="rect" id="Node000047" href="$class_callback_utils_1_1meta__init_1_1_gadget_cosmology.html" title="stores some cosmology&#45;related meta&#45;data from a Gadget&#45;type header." alt="" coords="226,2205,387,2261"/>
+<area shape="poly" id="edge42_Node000001_Node000047" title=" " alt="" coords="80,1467,86,1617,103,1833,118,1945,138,2048,163,2133,178,2166,195,2191,209,2204,226,2214,224,2219,206,2208,191,2194,174,2168,158,2135,133,2049,113,1946,98,1834,80,1617,74,1468"/>
+<area shape="rect" id="Node000048" href="$class_callback_utils_1_1meta__init_1_1_illustris_cosmology.html" title="stores some cosmology&#45;related meta&#45;data from an Illustris&#45;type header." alt="" coords="226,2285,387,2341"/>
+<area shape="poly" id="edge43_Node000001_Node000048" title=" " alt="" coords="79,1468,83,1631,99,1871,113,1996,134,2111,160,2206,177,2243,195,2271,209,2284,227,2294,224,2299,206,2289,191,2274,172,2245,155,2208,128,2112,108,1997,93,1872,78,1631,74,1468"/>
+<area shape="rect" id="Node000049" href="$class_callback_utils_1_1meta__init_1_1_illustris_mass_table.html" title="stores the MassTable from an Illustris&#45;type header." alt="" coords="227,2365,386,2421"/>
+<area shape="poly" id="edge44_Node000001_Node000049" title=" " alt="" coords="79,1468,81,1644,85,1771,94,1909,108,2047,129,2174,158,2279,175,2320,195,2351,210,2365,228,2375,225,2380,206,2369,191,2354,170,2322,153,2281,124,2175,103,2048,89,1909,80,1772,75,1645,73,1468"/>
+<area shape="rect" id="Node000050" href="$class_callback_utils_1_1meta__init_1_1_multi_grp_meta_init.html" title="interface class to add an action to be performed during Callback::read_grp_meta_init" alt="" coords="504,1230,653,1286"/>
+<area shape="poly" id="edge45_Node000001_Node000050" title=" " alt="" coords="80,1410,93,1369,115,1319,147,1271,168,1250,191,1233,229,1216,270,1205,311,1200,353,1200,434,1210,504,1228,502,1233,433,1216,353,1205,312,1205,271,1210,231,1221,194,1238,171,1254,151,1274,120,1322,98,1371,85,1412"/>
+<area shape="rect" id="Node000051" href="$class_callback_utils_1_1meta__init_1_1_multi_grp_meta_init_base.html" title="base class to have multiple actions performed in Callback::read_grp_meta_init" alt="" coords="217,1117,396,1173"/>
+<area shape="poly" id="edge46_Node000001_Node000051" title=" " alt="" coords="80,1410,93,1364,115,1305,147,1244,168,1215,191,1189,216,1171,219,1175,194,1193,172,1218,152,1246,120,1307,98,1365,85,1412"/>
+<area shape="rect" id="Node000052" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title="interface class to add an action to be performed during Callback::read_prt_meta_init" alt="" coords="506,678,651,734"/>
+<area shape="poly" id="edge49_Node000001_Node000052" title=" " alt="" coords="75,1411,82,1278,101,1090,116,993,135,905,160,833,175,805,191,784,213,768,245,755,327,733,420,718,505,709,505,714,421,723,328,738,246,760,216,773,195,788,179,808,165,835,140,907,121,994,106,1091,87,1279,80,1411"/>
+<area shape="rect" id="Node000053" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init_base.html" title="base class to have multiple actions performed in Callback::read_prt_meta_init" alt="" coords="219,834,394,890"/>
+<area shape="poly" id="edge51_Node000001_Node000053" title=" " alt="" coords="76,1411,89,1302,113,1152,128,1075,146,1006,167,948,191,907,216,886,220,890,195,910,172,950,151,1007,133,1077,118,1153,95,1302,82,1411"/>
+<area shape="rect" id="Node000054" href="$class_callback_utils_1_1meta__init_1_1_s_i_m_b_a_cosmology.html" title="stores some cosmology&#45;related meta&#45;data from a SIMBA&#45;type header." alt="" coords="226,2445,387,2501"/>
+<area shape="poly" id="edge57_Node000001_Node000054" title=" " alt="" coords="78,1468,78,1658,82,1796,90,1947,104,2098,125,2237,139,2298,155,2352,173,2397,195,2431,209,2445,227,2455,224,2459,206,2449,191,2434,169,2399,150,2354,133,2299,120,2238,98,2098,85,1947,77,1797,73,1658,73,1468"/>
+<area shape="rect" id="Node000055" href="$struct_callback_utils_1_1name_1_1_gadget.html" title="Gadget&#45;type hdf5 format." alt="" coords="237,2524,376,2565"/>
+<area shape="poly" id="edge58_Node000001_Node000055" title=" " alt="" coords="80,1467,91,1687,114,2019,130,2188,149,2337,171,2450,182,2488,195,2511,214,2526,237,2536,235,2541,211,2531,191,2514,178,2490,165,2451,144,2338,125,2189,109,2020,86,1687,75,1468"/>
+<area shape="rect" id="Node000056" href="$struct_callback_utils_1_1name_1_1_illustris.html" title="Illustris&#45;type hdf5 format." alt="" coords="237,2589,376,2645"/>
+<area shape="poly" id="edge59_Node000001_Node000056" title=" " alt="" coords="80,1467,91,1698,114,2051,130,2230,148,2388,170,2509,182,2550,195,2575,214,2592,237,2603,235,2608,211,2596,191,2578,177,2552,165,2511,143,2389,124,2230,108,2051,86,1699,75,1468"/>
+<area shape="rect" id="Node000058" href="$class_callback_utils_1_1prt__action_1_1_store_prt_homogeneous.html" title="implements the common case that each group gets an item of identical type into which the particles be..." alt="" coords="205,2669,408,2725"/>
+<area shape="poly" id="edge60_Node000001_Node000058" title=" " alt="" coords="80,1468,90,1713,111,2091,127,2284,146,2454,169,2584,181,2628,195,2655,206,2667,203,2670,190,2658,177,2630,164,2586,141,2455,122,2284,106,2091,84,1714,75,1468"/>
+<area shape="rect" id="Node000059" href="$class_callback_utils_1_1prt__modify_1_1_prt_r_s_d.html" title="Implement RSD shifting of particle positions along a coordinate." alt="" coords="216,2749,397,2805"/>
+<area shape="poly" id="edge61_Node000001_Node000059" title=" " alt="" coords="80,1467,89,1727,109,2130,125,2337,144,2519,167,2659,181,2706,195,2735,217,2754,214,2758,191,2738,176,2708,162,2660,139,2520,119,2337,104,2131,83,1727,74,1468"/>
+<area shape="rect" id="Node000060" href="$class_callback_utils_1_1radius_1_1_simple.html" title="radius is propertional to one of the group properties." alt="" coords="215,2828,398,2869"/>
+<area shape="poly" id="edge62_Node000001_Node000060" title=" " alt="" coords="79,1467,87,1742,105,2171,121,2391,140,2586,165,2735,179,2785,195,2815,216,2832,213,2836,191,2818,174,2787,160,2736,135,2587,115,2392,100,2172,81,1742,74,1468"/>
+<area shape="rect" id="Node000061" href="$struct_callback_utils_1_1select_1_1_high_cutoff.html" title="select only groups that have some 1&#45;dimensional property below a certain value." alt="" coords="231,2893,382,2949"/>
+<area shape="poly" id="edge63_Node000001_Node000061" title=" " alt="" coords="79,1468,86,1753,105,2202,120,2433,140,2637,165,2794,179,2847,195,2879,211,2894,231,2905,229,2910,208,2899,191,2882,174,2849,160,2795,135,2638,115,2433,100,2203,81,1753,74,1468"/>
+<area shape="rect" id="Node000062" href="$struct_callback_utils_1_1select_1_1_low_cutoff.html" title="select only groups that have some 1&#45;dimensional property above a certain value." alt="" coords="232,2973,381,3029"/>
+<area shape="poly" id="edge64_Node000001_Node000062" title=" " alt="" coords="79,1468,85,1768,103,2242,118,2486,138,2703,150,2794,163,2869,178,2925,195,2959,212,2975,233,2986,231,2991,209,2979,191,2962,173,2927,158,2870,145,2795,133,2704,113,2487,98,2243,80,1768,74,1468"/>
+<area shape="rect" id="Node000063" href="$class_callback_utils_1_1select_1_1_multi_select.html" title="interface class to include a selection function in Callback::grp_select." alt="" coords="502,1408,655,1463"/>
+<area shape="poly" id="edge65_Node000001_Node000063" title=" " alt="" coords="160,1436,501,1433,501,1439,160,1441"/>
+<area shape="rect" id="Node000064" href="$class_callback_utils_1_1select_1_1_multi_select_base.html" title="base class to apply multiple selection functions in Callback::grp_select." alt="" coords="211,1362,402,1402"/>
+<area shape="poly" id="edge66_Node000001_Node000064" title=" " alt="" coords="144,1420,221,1400,222,1406,145,1425"/>
+<area shape="rect" id="Node000065" href="$class_callback_utils_1_1select_1_1_window.html" title="select only groups that have some 1&#45;dimensional property fall into an interval." alt="" coords="217,3052,396,3093"/>
+<area shape="poly" id="edge69_Node000001_Node000065" title=" " alt="" coords="79,1468,83,1781,99,2283,113,2541,134,2770,146,2865,161,2944,177,3003,195,3039,218,3057,215,3061,191,3042,172,3005,155,2946,141,2866,128,2770,108,2541,94,2283,78,1782,74,1468"/>
+<area shape="rect" id="Node000003" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title="implements the common case of storing a data item of identical type for each group." alt="" coords="736,13,944,69"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="704,38,736,38,736,43,704,43"/>
+<area shape="poly" id="edge20_Node000034_Node000032" title=" " alt="" coords="395,1545,507,1545,507,1550,395,1550"/>
+<area shape="poly" id="edge22_Node000035_Node000032" title=" " alt="" coords="392,1589,506,1562,507,1567,393,1595"/>
+<area shape="poly" id="edge25_Node000037_Node000036" title=" " alt="" coords="399,1725,507,1725,507,1730,399,1730"/>
+<area shape="poly" id="edge27_Node000038_Node000036" title=" " alt="" coords="395,1769,506,1742,507,1747,397,1774"/>
+<area shape="poly" id="edge29_Node000039_Node000012" title=" " alt="" coords="672,461,736,450,736,455,673,466"/>
+<area shape="poly" id="edge30_Node000039_Node000013" title=" " alt="" coords="673,496,737,510,735,515,672,501"/>
+<area shape="poly" id="edge32_Node000040_Node000002" title=" " alt="" coords="339,204,395,145,430,114,467,86,487,74,489,79,469,91,433,118,399,149,343,208"/>
+<area shape="poly" id="edge33_Node000040_Node000006" title=" " alt="" coords="395,210,467,182,469,187,397,215"/>
+<area shape="poly" id="edge34_Node000040_Node000007" title=" " alt="" coords="415,243,470,243,470,249,415,249"/>
+<area shape="poly" id="edge35_Node000040_Node000010" title=" " alt="" coords="404,277,483,305,481,310,402,282"/>
+<area shape="poly" id="edge36_Node000040_Node000039" title=" " alt="" coords="352,282,470,385,545,449,541,453,466,389,349,286"/>
+<area shape="poly" id="edge47_Node000051_Node000018" title=" " alt="" coords="412,1152,482,1159,481,1165,411,1158"/>
+<area shape="poly" id="edge48_Node000051_Node000050" title=" " alt="" coords="395,1177,421,1189,469,1216,504,1230,502,1235,467,1220,419,1194,392,1182"/>
+<area shape="poly" id="edge50_Node000052_Node000017" title=" " alt="" coords="666,692,739,683,739,688,667,697"/>
+<area shape="poly" id="edge52_Node000053_Node000020" title=" " alt="" coords="408,833,481,815,482,820,410,839"/>
+<area shape="poly" id="edge53_Node000053_Node000022" title=" " alt="" coords="410,869,482,876,481,881,409,874"/>
+<area shape="poly" id="edge54_Node000053_Node000024" title=" " alt="" coords="386,894,469,932,496,944,494,949,467,936,384,899"/>
+<area shape="poly" id="edge55_Node000053_Node000026" title=" " alt="" coords="340,900,397,964,432,997,470,1026,497,1043,494,1048,466,1031,428,1001,393,967,336,904"/>
+<area shape="poly" id="edge56_Node000053_Node000052" title=" " alt="" coords="350,822,404,781,467,742,504,726,506,730,469,747,407,786,353,826"/>
+<area shape="poly" id="edge67_Node000064_Node000028" title=" " alt="" coords="417,1366,484,1358,484,1364,418,1372"/>
+<area shape="poly" id="edge68_Node000064_Node000063" title=" " alt="" coords="418,1401,501,1418,500,1423,417,1406"/>
 </map>

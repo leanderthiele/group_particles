@@ -1,6 +1,11 @@
 <map id="CallbackUtils::meta_init::IllustrisCosmology&lt; AFields &gt;" name="CallbackUtils::meta_init::IllustrisCosmology&lt; AFields &gt;">
-<area shape="rect" id="node1" title="stores some cosmology&#45;related meta&#45;data from an Illustris&#45;type header." alt="" coords="712,5,891,61"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,33,160,60"/>
-<area shape="rect" id="node3" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="451,34,664,105"/>
-<area shape="rect" id="node4" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init_base.html" title="base class to have multiple actions performed in Callback::read_prt_meta_init" alt="" coords="208,84,403,140"/>
+<area shape="rect" id="Node000001" title="stores some cosmology&#45;related meta&#45;data from an Illustris&#45;type header." alt="" coords="656,5,818,61"/>
+<area shape="rect" id="Node000002" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,34,145,59"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,35,364,20,486,17,608,19,656,22,656,27,608,24,486,22,364,26,160,40"/>
+<area shape="rect" id="Node000003" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="416,34,608,105"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="160,48,416,62,416,67,160,54"/>
+<area shape="rect" id="Node000004" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init_base.html" title="base class to have multiple actions performed in Callback::read_prt_meta_init" alt="" coords="193,84,368,140"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="133,62,193,81,192,86,131,67"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="623,49,655,43,656,49,624,54"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="383,90,415,84,416,90,384,96"/>
 </map>

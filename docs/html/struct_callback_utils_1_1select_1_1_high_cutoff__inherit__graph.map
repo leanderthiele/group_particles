@@ -1,7 +1,14 @@
 <map id="CallbackUtils::select::HighCutoff&lt; AFields, Field &gt;" name="CallbackUtils::select::HighCutoff&lt; AFields, Field &gt;">
-<area shape="rect" id="node1" title="select only groups that have some 1&#45;dimensional property below a certain value." alt="" coords="5,363,171,419"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="19,5,173,32"/>
-<area shape="rect" id="node3" href="$class_callback_utils_1_1select_1_1_window.html" title="select only groups that have some 1&#45;dimensional property fall into an interval." alt="" coords="57,273,255,315"/>
-<area shape="rect" id="node4" href="$class_callback_utils_1_1select_1_1_multi_select.html" title=" " alt="" coords="109,169,318,225"/>
-<area shape="rect" id="node5" href="$class_callback_utils_1_1select_1_1_multi_select_base.html" title="base class to apply multiple selection functions in Callback::grp_select." alt="" coords="158,80,370,121"/>
+<area shape="rect" id="Node000001" title="select only groups that have some 1&#45;dimensional property below a certain value." alt="" coords="5,360,157,416"/>
+<area shape="rect" id="Node000002" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="25,5,164,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,46,67,96,49,162,40,237,41,274,46,311,55,336,66,358,61,361,50,338,41,313,35,275,34,236,44,161,62,94,80,44"/>
+<area shape="rect" id="Node000003" href="$class_callback_utils_1_1select_1_1_window.html" title="select only groups that have some 1&#45;dimensional property fall into an interval." alt="" coords="55,271,235,312"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="92,46,84,127,87,175,97,222,110,248,127,269,123,272,105,251,92,224,81,176,79,127,86,46"/>
+<area shape="rect" id="Node000004" href="$class_callback_utils_1_1select_1_1_multi_select.html" title=" " alt="" coords="106,168,293,223"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="108,44,147,118,180,166,176,169,143,121,104,47"/>
+<area shape="rect" id="Node000005" href="$class_callback_utils_1_1select_1_1_multi_select_base.html" title="base class to apply multiple selection functions in Callback::grp_select." alt="" coords="157,79,349,120"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="133,36,215,76,212,81,131,41"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,326,102,361,97,358,121,323"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="179,238,159,272,154,270,174,236"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="237,135,217,168,213,166,232,132"/>
 </map>

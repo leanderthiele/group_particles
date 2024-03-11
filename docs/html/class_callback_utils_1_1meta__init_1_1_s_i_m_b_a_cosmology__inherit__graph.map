@@ -1,0 +1,11 @@
+<map id="CallbackUtils::meta_init::SIMBACosmology&lt; AFields &gt;" name="CallbackUtils::meta_init::SIMBACosmology&lt; AFields &gt;">
+<area shape="rect" id="Node000001" title="stores some cosmology&#45;related meta&#45;data from a SIMBA&#45;type header." alt="" coords="660,5,822,61"/>
+<area shape="rect" id="Node000002" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,34,145,59"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,35,366,20,489,16,612,19,660,22,660,27,612,24,489,22,366,25,160,40"/>
+<area shape="rect" id="Node000003" href="$class_callback_utils_1_1meta__init_1_1_multi_grp_meta_init.html" title=" " alt="" coords="420,34,612,105"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="161,48,419,62,419,67,160,54"/>
+<area shape="rect" id="Node000004" href="$class_callback_utils_1_1meta__init_1_1_multi_grp_meta_init_base.html" title="base class to have multiple actions performed in Callback::read_grp_meta_init" alt="" coords="193,84,372,140"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="133,62,193,81,191,86,132,67"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="627,49,659,43,660,49,628,54"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="387,90,419,84,420,89,388,95"/>
+</map>

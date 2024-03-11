@@ -1,9 +1,0 @@
-<map id="common_fields.hpp" name="common_fields.hpp">
-<area shape="rect" id="node1" title="Contains some common field types that can be used as template arguments for the GrpFields and PrtFiel..." alt="" coords="214,5,363,32"/>
-<area shape="rect" id="node2" href="$fields_8hpp.html" title="Templates to construct types that tell the code which data fields are to to be read from the group an..." alt="" coords="246,80,331,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,155,116,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="140,155,232,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="256,155,321,181"/>
-<area shape="rect" id="node6" title=" " alt="" coords="346,155,413,181"/>
-<area shape="rect" id="node7" title=" " alt="" coords="437,155,498,181"/>
-</map>

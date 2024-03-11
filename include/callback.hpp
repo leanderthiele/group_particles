@@ -40,7 +40,7 @@ struct Callback
      * User should only use the #get method to retrieve the information
      * they need.
      *
-     * Specializations are in #GrpProperties and #PrtProperties.
+     * Specializations are in #Callback::GrpProperties and #Callback::PrtProperties.
      */
     template<typename T>
     class BaseProperties

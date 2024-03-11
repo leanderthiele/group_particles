@@ -1,6 +1,0 @@
-<map id="CallbackUtils::prt_action::StorePrtHomogeneous&lt; AFields, Tdata &gt;" name="CallbackUtils::prt_action::StorePrtHomogeneous&lt; AFields, Tdata &gt;">
-<area shape="rect" id="node1" title="implements the common case that each group gets an item of identical type into which the particles be..." alt="" coords="749,5,972,61"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,33,160,60"/>
-<area shape="rect" id="node3" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="463,34,701,105"/>
-<area shape="rect" id="node4" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action_base.html" title="base class to have multiple actions performed in Callback::grp_action" alt="" coords="208,84,415,140"/>
-</map>

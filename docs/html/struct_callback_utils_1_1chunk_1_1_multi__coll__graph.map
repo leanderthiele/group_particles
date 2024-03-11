@@ -1,6 +1,0 @@
-<map id="CallbackUtils::chunk::Multi&lt; AFields &gt;" name="CallbackUtils::chunk::Multi&lt; AFields &gt;">
-<area shape="rect" id="node1" title="wrapper for the common case that there are multiple group chunks and multiple particle chunks" alt="" coords="419,25,573,66"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,32,160,59"/>
-<area shape="rect" id="node3" href="$class_callback_utils_1_1chunk_1_1_multi_grp.html" title="there are multiple group chunks." alt="" coords="208,25,371,66"/>
-<area shape="rect" id="node4" href="$class_callback_utils_1_1chunk_1_1_multi_prt.html" title="there are multiple particle chunks." alt="" coords="210,90,369,132"/>
-</map>

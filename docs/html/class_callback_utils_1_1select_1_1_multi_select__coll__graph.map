@@ -1,5 +1,0 @@
-<map id="CallbackUtils::select::MultiSelect&lt; AFields, Child &gt;" name="CallbackUtils::select::MultiSelect&lt; AFields, Child &gt;">
-<area shape="rect" id="node1" title="interface class to include a selection function in Callback::grp_select." alt="" coords="5,169,175,225"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="13,5,167,32"/>
-<area shape="rect" id="node3" href="$class_callback_utils_1_1select_1_1_multi_select_base.html" title="base class to apply multiple selection functions in Callback::grp_select." alt="" coords="56,80,268,121"/>
-</map>

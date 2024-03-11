@@ -1,6 +1,0 @@
-<map id="CallbackUtils::meta_init::IllustrisCosmology&lt; AFields &gt;" name="CallbackUtils::meta_init::IllustrisCosmology&lt; AFields &gt;">
-<area shape="rect" id="node1" title="stores some cosmology&#45;related meta&#45;data from an Illustris&#45;type header." alt="" coords="712,5,891,61"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,33,160,60"/>
-<area shape="rect" id="node3" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init.html" title=" " alt="" coords="451,34,664,105"/>
-<area shape="rect" id="node4" href="$class_callback_utils_1_1meta__init_1_1_multi_prt_meta_init_base.html" title="base class to have multiple actions performed in Callback::read_prt_meta_init" alt="" coords="208,84,403,140"/>
-</map>

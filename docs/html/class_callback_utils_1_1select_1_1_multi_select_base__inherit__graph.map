@@ -1,10 +1,18 @@
 <map id="CallbackUtils::select::MultiSelectBase&lt; AFields &gt;" name="CallbackUtils::select::MultiSelectBase&lt; AFields &gt;">
-<area shape="rect" id="node1" title="base class to apply multiple selection functions in Callback::grp_select." alt="" coords="208,39,420,80"/>
-<area shape="rect" id="node3" href="$class_callback_utils_1_1select_1_1_multi_select.html" title="interface class to include a selection function in Callback::grp_select." alt="" coords="483,5,663,47"/>
-<area shape="rect" id="node4" href="$class_callback_utils_1_1select_1_1_multi_select.html" title=" " alt="" coords="468,71,677,112"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,46,160,73"/>
-<area shape="rect" id="node5" href="$class_callback_utils_1_1select_1_1_window.html" title="select only groups that have some 1&#45;dimensional property fall into an interval." alt="" coords="725,71,924,112"/>
-<area shape="rect" id="node6" href="$struct_callback_utils_1_1select_1_1_high_cutoff.html" title="select only groups that have some 1&#45;dimensional property below a certain value." alt="" coords="972,23,1137,79"/>
-<area shape="rect" id="node7" href="$struct_callback_utils_1_1select_1_1_low_cutoff.html" title="select only groups that have some 1&#45;dimensional property above a certain value." alt="" coords="974,103,1135,159"/>
-<area shape="rect" id="node8" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="1185,118,1309,145"/>
+<area shape="rect" id="Node000001" title="base class to apply multiple selection functions in Callback::grp_select." alt="" coords="193,93,384,134"/>
+<area shape="rect" id="Node000003" href="$class_callback_utils_1_1select_1_1_multi_select.html" title=" " alt="" coords="432,45,619,101"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="399,92,431,86,432,92,400,97"/>
+<area shape="rect" id="Node000008" href="$class_callback_utils_1_1select_1_1_multi_select.html" title="interface class to include a selection function in Callback::grp_select." alt="" coords="449,125,602,181"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="400,129,449,138,448,143,399,134"/>
+<area shape="rect" id="Node000002" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,100,145,126"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,111,192,111,192,116,160,116"/>
+<area shape="rect" id="Node000004" href="$class_callback_utils_1_1select_1_1_window.html" title="select only groups that have some 1&#45;dimensional property fall into an interval." alt="" coords="667,53,847,94"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="634,71,667,71,667,76,634,76"/>
+<area shape="rect" id="Node000005" href="$struct_callback_utils_1_1select_1_1_high_cutoff.html" title="select only groups that have some 1&#45;dimensional property below a certain value." alt="" coords="895,5,1046,61"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="861,51,894,45,895,50,862,56"/>
+<area shape="rect" id="Node000006" href="$struct_callback_utils_1_1select_1_1_low_cutoff.html" title="select only groups that have some 1&#45;dimensional property above a certain value." alt="" coords="896,85,1045,141"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="862,90,896,97,895,102,861,95"/>
+<area shape="rect" id="Node000007" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="1094,100,1206,126"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1060,120,1094,119,1094,124,1060,125"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1060,102,1094,102,1094,107,1060,107"/>
 </map>

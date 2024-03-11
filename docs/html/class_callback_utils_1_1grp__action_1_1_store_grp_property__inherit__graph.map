@@ -1,8 +1,17 @@
 <map id="CallbackUtils::grp_action::StoreGrpProperty&lt; AFields, Field, storeasT &gt;" name="CallbackUtils::grp_action::StoreGrpProperty&lt; AFields, Field, storeasT &gt;">
-<area shape="rect" id="node1" title="implements the common case of storing a single group property for each group." alt="" coords="1029,5,1232,61"/>
-<area shape="rect" id="node6" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="1280,20,1404,47"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,59,160,85"/>
-<area shape="rect" id="node3" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title=" " alt="" coords="753,34,981,105"/>
-<area shape="rect" id="node4" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="463,84,705,169"/>
-<area shape="rect" id="node5" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action_base.html" title="base class to have multiple actions performed in Callback::grp_action" alt="" coords="208,135,415,191"/>
+<area shape="rect" id="Node000001" title="implements the common case of storing a single group property for each group." alt="" coords="952,5,1135,61"/>
+<area shape="rect" id="Node000006" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="1183,20,1295,46"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="1151,39,1183,39,1183,44,1151,45"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="1151,22,1183,22,1183,28,1151,27"/>
+<area shape="rect" id="Node000002" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="5,63,145,89"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,57,192,52,392,30,547,20,703,18,904,23,951,25,951,30,904,28,703,23,547,25,392,35,193,57,157,62"/>
+<area shape="rect" id="Node000003" href="$class_callback_utils_1_1grp__action_1_1_store_grp_homogeneous.html" title="implements the common case of storing a data item of identical type for each group." alt="" coords="696,37,904,93"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="160,72,696,64,696,69,160,77"/>
+<area shape="rect" id="Node000004" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action.html" title=" " alt="" coords="428,89,648,159"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="161,82,428,110,427,115,160,87"/>
+<area shape="rect" id="Node000005" href="$class_callback_utils_1_1grp__action_1_1_multi_grp_action_base.html" title="base class to have multiple actions performed in Callback::grp_action" alt="" coords="193,139,380,194"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="122,93,221,136,219,141,120,98"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="919,47,951,43,952,48,920,52"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="663,93,695,86,696,91,664,98"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="395,145,427,140,428,145,396,151"/>
 </map>

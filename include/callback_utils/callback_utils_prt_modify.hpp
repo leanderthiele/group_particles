@@ -15,6 +15,12 @@ namespace CallbackUtils {
 namespace prt_modify {
 
 
+    /*! @brief Implement RSD shifting of particle positions along a coordinate.
+     *
+     *  @tparam VField      the type of the velocity field (must be present).
+     *  @tparam sqrta       for Gadget-descendent simulations, the velocities must be
+     *                      multiplied by sqrt(a) to get physical values.
+     */
     template<typename AFields, typename VField, bool sqrta>
     class PrtRSD :
         virtual public Callback<AFields>
@@ -26,6 +32,12 @@ namespace prt_modify {
     public :
         PrtRSD () = delete;
 
+        /*! @brief Constructor.
+         *
+         *  @param[in] rsd_direction    one of 'x', 'y', 'z'.
+         *  @param[in] Omega_m          matter density.
+         *  @param[in] z                redshift.
+         */
         PrtRSD (char rsd_direction_, double Omega_m, double z) {
             rsd_direction = rsd_direction_ - 'x';
             rsd_factor = (1.0+z)

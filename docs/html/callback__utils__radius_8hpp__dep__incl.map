@@ -1,5 +1,0 @@
-<map id="callback_utils_radius.hpp" name="callback_utils_radius.hpp">
-<area shape="rect" id="node1" title="Some common ways to override Callback::grp_radius." alt="" coords="5,5,192,32"/>
-<area shape="rect" id="node2" href="$callback__utils_8hpp.html" title="Collects some pre&#45;implemented functionality that makes it easier to construct a subclass of the Callb..." alt="" coords="29,80,168,107"/>
-<area shape="rect" id="node3" href="$halo__particles_8hpp.html" title="For convenience, the user can just include this single header file. It contains the single routine to..." alt="" coords="28,155,169,181"/>
-</map>

@@ -1,6 +1,9 @@
 <map id="CallbackUtils::chunk::MultiPrt&lt; AFields &gt;" name="CallbackUtils::chunk::MultiPrt&lt; AFields &gt;">
-<area shape="rect" id="node1" title="there are multiple particle chunks." alt="" coords="11,80,170,121"/>
-<area shape="rect" id="node3" href="$struct_callback_utils_1_1chunk_1_1_multi.html" title="wrapper for the common case that there are multiple group chunks and multiple particle chunks" alt="" coords="13,169,168,211"/>
-<area shape="rect" id="node2" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="13,5,168,32"/>
-<area shape="rect" id="node4" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="5,259,176,285"/>
+<area shape="rect" id="Node000001" title="there are multiple particle chunks." alt="" coords="10,79,153,120"/>
+<area shape="rect" id="Node000003" href="$struct_callback_utils_1_1chunk_1_1_multi.html" title="wrapper for the common case that there are multiple group chunks and multiple particle chunks" alt="" coords="10,168,153,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="84,135,84,167,79,167,79,135"/>
+<area shape="rect" id="Node000002" href="$struct_callback.html" title="The abstract base class the user should inherit from." alt="" coords="12,5,151,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,46,84,79,79,79,79,46"/>
+<area shape="rect" id="Node000004" href="$structy__prof__callback.html" title="implementation of the Callback base for our application" alt="" coords="5,256,158,282"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="84,224,84,256,79,256,79,224"/>
 </map>
