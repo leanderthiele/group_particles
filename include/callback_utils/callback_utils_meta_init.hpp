@@ -163,6 +163,34 @@ namespace meta_init
                Time; /*!< @brief scale factor */
     };// }}}
 
+    /*! @brief stores some cosmology-related meta-data from a Gadget-type header.
+     */
+    template<typename AFields>
+    class GadgetCosmology :
+        virtual public Callback<AFields>,
+        private MultiPrtMetaInit<AFields, GadgetCosmology<AFields>>
+    {// {{{
+        friend MultiPrtMetaInit<AFields, GadgetCosmology<AFields>>;
+        void this_prt_meta_init (std::shared_ptr<H5::H5File> fptr) override final
+        {
+            #define READ(x) x = hdf5Utils::read_scalar_attr<double,double>(header, #x)
+            auto header = fptr->openGroup("/Header");
+            READ(HubbleParam);
+            READ(Omega0);
+            READ(OmegaLambda);
+            READ(Redshift);
+            READ(Time);
+            header.close();
+            #undef READ
+        }
+    protected :
+        double HubbleParam, /*!< @brief Hubble parameter */
+               Omega0, /*!< @brief matter density */
+               OmegaLambda, /*!< @brief dark energy density */
+               Redshift, /*!< @brief redshift */
+               Time; /*!< @brief scale factor */
+    };// }}}
+
     /*! @brief stores some cosmology-related meta-data from a SIMBA-type header.
      */
     template<typename AFields>
