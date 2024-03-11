@@ -10,6 +10,7 @@
 
 #include <initializer_list>
 #include <type_traits>
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
 
@@ -179,7 +180,7 @@ public :
     // converts coords to global coordinate type if necessary
     // this function takes care of the necessary buffer reallocs
     static void
-    convert_coords (size_t Nitems, void * &coords)
+    convert_coords (size_t Nitems, void * &coords, coord_t rescale=1)
     {
         if constexpr (!std::is_same_v<sim_coord_t, coord_t>)
         {
@@ -216,6 +217,13 @@ public :
                 for (size_t ii=0; ii != Nitems * dims[0]; ++ii)
                     coords_global_type[ii] = (coord_t)(coords_sim_type[ii]);
             }
+        }
+
+        // do the rescaling if necessary
+        if (std::fabs(std::log(rescale)) > 1e-8) {
+            auto *x = (coord_t *)coords;
+            for (size_t ii=0; ii != Nitems * dims[0]; ++ii)
+                x[ii] *= rescale;
         }
     }
 };//}}}

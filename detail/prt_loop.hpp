@@ -47,6 +47,8 @@ Workspace<AFields>::prt_loop ()
         coord_t Bsize_this_file;
         callback.read_prt_meta(chunk_idx, fptr, Bsize_this_file, Nprt_this_file);
 
+        Bsize_this_file *= callback.prt_coord_rescale();
+
         if (chunk_idx==0)
             Bsize = Bsize_this_file;
         else
@@ -68,7 +70,7 @@ Workspace<AFields>::prt_loop ()
         TIME_PT(t3);
         #endif // NDEBUG
         hdf5Utils::read_fields<AFields, typename AFields::ParticleFields>(callback, fptr, Nprt_this_file,
-                                                               tmp_prt_properties);
+                                                                          tmp_prt_properties);
         #ifndef NDEBUG
         TIME_MSG(t3, "prt_loop read_fields for particle chunk data");
         #endif // NDEBUG
@@ -80,7 +82,8 @@ Workspace<AFields>::prt_loop ()
         #ifndef NDEBUG
         TIME_PT(t4);
         #endif // NDEBUG
-        AFields::ParticleFields::convert_coords(Nprt_this_file, tmp_prt_properties[0]);
+        AFields::ParticleFields::convert_coords(Nprt_this_file, tmp_prt_properties[0],
+                                                callback.prt_coord_rescale());
         #ifndef NDEBUG
         TIME_MSG(t4, "prt_loop convert coords");
         #endif // NDEBUG

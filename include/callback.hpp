@@ -260,6 +260,17 @@ struct Callback
      */
     virtual void prt_action (size_t grp_idx, const GrpProperties &grp,
                              const PrtProperties &prt, coord_t Rsq) = 0;
+
+    /*! @brief Rescaling of particle coordinates.
+     *
+     *  @return the factor by which the particle coordinates will be rescaled
+     *
+     *  @note this is also applied to the box size.
+     *  @note only applied to the zeroth particle field (the primary coordinate),
+     *        regardless of whether there are other coordinate-like fields
+     *  @note primary purpose is to resolve units mismatch between particle and group catalogs. 
+     */
+    virtual coord_t prt_coord_rescale ( ) const { return 1.0; }
 };
 
 
