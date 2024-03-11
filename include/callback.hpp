@@ -91,11 +91,10 @@ struct Callback
     };
 
     /*! @brief Specialization of the #Callback::BaseProperties type to particles. */
-    class PrtProperties : public BaseProperties<typename AFields::ParticleFields>
+    struct PrtProperties : public BaseProperties<typename AFields::ParticleFields>
     {
         coord_t Bsize;
 
-    public :
         PrtProperties (coord_t Bsize_, void **data_in_memory, size_t offset=0UL);
 
         // get around the name hiding issue

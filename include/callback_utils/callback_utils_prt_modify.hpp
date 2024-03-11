@@ -34,7 +34,7 @@ namespace prt_modify {
         }
 
         void prt_modify (PrtProperties &prt) override final {
-            const auto v = prt.template get<VField>[rsd_direction];
+            const auto v = prt.template get<VField>()[rsd_direction];
             auto x = prt.coord()[rsd_direction];
             x += rsd_factor * v;
             // make sure periodicity still respected

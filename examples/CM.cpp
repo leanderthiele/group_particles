@@ -131,11 +131,11 @@ private :
 
     static constexpr const IllustrisFields::Group_M_Crit200::value_type Mmin = 1e3F;
     
-    #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output"
+    #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output/"
     static constexpr const char fgrp[] = ROOT"groups_099/fof_subhalo_tab_099.%d.hdf5";
     static constexpr const char fprt[] = ROOT"snapdir_099/snap_099.%d.hdf5";
-    static constexpr const size_t grp_max_idx = 599;
-    static constexpr const size_t prt_max_idx = 599;
+    static constexpr const size_t grp_max_idx = 5; //FIXME 599;
+    static constexpr const size_t prt_max_idx = 5; //FIXME 599;
     #undef ROOT
 };
 
