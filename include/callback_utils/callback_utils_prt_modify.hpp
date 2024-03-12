@@ -26,6 +26,7 @@ namespace prt_modify {
         virtual public Callback<AFields>
     {
         using typename Callback<AFields>::PrtProperties;
+        bool do_it;
         coord_t rsd_factor;
         size_t rsd_direction;
     
@@ -35,10 +36,17 @@ namespace prt_modify {
         /*! @brief Constructor.
          *
          *  @param[in] rsd_direction    one of 'x', 'y', 'z'.
+         *                              Can also be 'n', in which case no modification applied.
          *  @param[in] Omega_m          matter density.
          *  @param[in] z                redshift.
          */
         PrtRSD (char rsd_direction_, double Omega_m, double z) {
+            if (rsd_direction_ == 'n') {
+                do_it = false;
+                return;
+            }
+            else
+                do_it = true;
             rsd_direction = rsd_direction_ - 'x';
             rsd_factor = (1.0+z)
                          / ( 100.0 * std::sqrt( Omega_m*std::pow(1+z, 3) + (1.0-Omega_m) ) );
@@ -46,6 +54,7 @@ namespace prt_modify {
         }
 
         void prt_modify (PrtProperties &prt) override final {
+            if (!do_it) return;
             const auto v = prt.template get<VField>()[rsd_direction];
             auto x = prt.coord()[rsd_direction];
             x += rsd_factor * v;
