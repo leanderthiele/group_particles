@@ -70,6 +70,7 @@ namespace chunk {
          *                      This should be a complete path with a placeholder (e.g. `"%lu"`)
          *                      that is replaced by the chunk_idx argument to #Callback::grp_chunk.
          *  @param max_idx      the last possible group chunk index (so there are max_idx+1 group chunks to read)
+         *  @param min_idx      the frst possible group chunk index (zero by default)
          */
         MultiGrp (const std::string &grp_fname_, size_t max_idx_, size_t min_idx_=0UL) :
             grp_fname(grp_fname_), min_idx(min_idx_), max_idx(max_idx_)
@@ -97,6 +98,7 @@ namespace chunk {
          *                      This should be a complete path with a placeholder (e.g. `"%lu"`)
          *                      that is replaced by the chunk_idx argument to #Callback::prt_chunk.
          *  @param max_idx      the last possible particle chunk index (so there are max_idx+1 particle chunks to read)
+         *  @param min_idx      the first possible particle chunk index (zero by default)
          */
         MultiPrt (const std::string &prt_fname_, size_t max_idx_, size_t min_idx_=0UL) :
             prt_fname(prt_fname_), min_idx(min_idx_), max_idx(max_idx_)
