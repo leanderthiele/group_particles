@@ -7,9 +7,6 @@
  * in the compilation script.
  */
 
-// FIXME
-#define DM
-
 #include <string>
 
 #include "group_particles.hpp"
@@ -165,9 +162,9 @@ private :
     using Callback<dens_prof::AF>::GrpProperties;
     using Callback<dens_prof::AF>::PrtProperties;
 
-    #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/output/"
+    #define ROOT "/tigress/lthiele/Illustris_300-1_TNG/"
     static constexpr char fgrp[] = ROOT "rockstar/out_99.hdf5";
-    static constexpr char fprt[] = ROOT "snapdir_99/snap_99.%d.hdf5";
+    static constexpr char fprt[] = ROOT "output/snapdir_099/snap_099.%d.hdf5";
     static constexpr size_t prt_max_idx = 599;
     #undef ROOT
 };

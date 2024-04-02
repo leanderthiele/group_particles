@@ -64,23 +64,23 @@ namespace chunk {
         virtual public Callback<AFields>
     {// {{{
         const std::string grp_fname;
-        const size_t max_idx;
+        const size_t min_idx, max_idx;
     public :
         /*! @param grp_fname    pattern to construct the group file names.
          *                      This should be a complete path with a placeholder (e.g. `"%lu"`)
          *                      that is replaced by the chunk_idx argument to #Callback::grp_chunk.
          *  @param max_idx      the last possible group chunk index (so there are max_idx+1 group chunks to read)
          */
-        MultiGrp (const std::string &grp_fname_, size_t max_idx_) :
-            grp_fname(grp_fname_), max_idx(max_idx_)
+        MultiGrp (const std::string &grp_fname_, size_t max_idx_, size_t min_idx_=0UL) :
+            grp_fname(grp_fname_), min_idx(min_idx_), max_idx(max_idx_)
         { }
 
         bool grp_chunk (size_t chunk_idx, std::string &fname) const override final
         {
             char buf[grp_fname.size()+10];
-            std::sprintf(buf, grp_fname.c_str(), chunk_idx);
+            std::sprintf(buf, grp_fname.c_str(), min_idx+chunk_idx);
             fname = std::string(buf);
-            return chunk_idx <= max_idx;
+            return min_idx+chunk_idx <= max_idx;
         }
     };// }}}
 
@@ -91,23 +91,23 @@ namespace chunk {
         virtual public Callback<AFields>
     {// {{{
         const std::string prt_fname;
-        const size_t max_idx;
+        const size_t min_idx, max_idx;
     public :
         /*! @param prt_fname    pattern to construct the particle file names.
          *                      This should be a complete path with a placeholder (e.g. `"%lu"`)
          *                      that is replaced by the chunk_idx argument to #Callback::prt_chunk.
          *  @param max_idx      the last possible particle chunk index (so there are max_idx+1 particle chunks to read)
          */
-        MultiPrt (const std::string &prt_fname_, size_t max_idx_) :
-            prt_fname(prt_fname_), max_idx(max_idx_)
+        MultiPrt (const std::string &prt_fname_, size_t max_idx_, size_t min_idx_=0UL) :
+            prt_fname(prt_fname_), min_idx(min_idx_), max_idx(max_idx_)
         { }
 
         bool prt_chunk (size_t chunk_idx, std::string &fname) const override final
         {
             char buf[prt_fname.size()+10];
-            std::sprintf(buf, prt_fname.c_str(), chunk_idx);
+            std::sprintf(buf, prt_fname.c_str(), min_idx+chunk_idx);
             fname = std::string(buf);
-            return chunk_idx <= max_idx;
+            return min_idx+chunk_idx <= max_idx;
         }
     };// }}}
 
