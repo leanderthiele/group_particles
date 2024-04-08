@@ -29,6 +29,8 @@ namespace IllustrisFields
     FIELD(InternalEnergy, 1, float, FieldTypes::PrtFld, false);
     FIELD(Potential, 1, float, FieldTypes::PrtFld, false);
     FIELD(StarFormationRate, 1, float, FieldTypes::PrtFld, false);
+    FIELD(BH_CumEgyInjection_QM, 1, float, FieldTypes::PrtFld, false);
+    FIELD(BH_CumEgyInjection_RM, 1, float, FieldTypes::PrtFld, false);
     // TODO
 
     // Group fields
