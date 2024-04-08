@@ -241,7 +241,11 @@ Workspace<AFields>::prt_loop_inner
     }
     #else // EARLY_RETURN
     #ifndef NAIVE
-    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
+    // FIXME
+    // the following line has a bug!!!
+    // [The speed-up from the periodic_to_add optimization is not super significant]
+    // coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize, periodic_to_add);
+    coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize);
     #else // NAIVE
     coord_t Rsq = GeomUtils::periodic_hypotsq(rgrp, rprt, Bsize);
     #endif // NAIVE
