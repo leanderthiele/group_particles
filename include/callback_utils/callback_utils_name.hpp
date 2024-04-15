@@ -34,6 +34,24 @@ namespace name
             return "PartType" + std::to_string(PartType)+"/";
         }
     };// }}}
+    
+    /*! @brief Illustris-type hdf5 format with custom rockstar.
+     *
+     * @tparam PartType     the particle type
+     */
+    template<typename AFields, uint8_t PartType>
+    struct IllustrisRockstar :
+        virtual public Callback<AFields>
+    {// {{{
+        std::string grp_name () const override final
+        {
+            return "";
+        }
+        std::string prt_name () const override final
+        {
+            return "PartType" + std::to_string(PartType)+"/";
+        }
+    };// }}}
 
     /*! @brief Gadget-type hdf5 format
      *

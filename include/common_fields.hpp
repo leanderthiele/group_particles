@@ -75,6 +75,37 @@ namespace RockstarFields
     FIELD(c_to_a, 1, float, FieldTypes::GrpFld, false);
 } // namespace RockstarFields
 
+/*! @brief Fields contained in my hacky Rockstar data products -- not for public use.
+ */
+namespace CustomRockstarFields
+{
+    FIELD(Pos, 3, float, FieldTypes::GrpFld, true);
+    FIELD(Mvir, 1, float, FieldTypes::GrpFld, false);
+    FIELD(ID, 1, int64_t, FieldTypes::GrpFld, false);
+    FIELD(M_all, 1, float, FieldTypes::GrpFld, false);
+    FIELD(ALT_M_0, 1, float, FieldTypes::GrpFld, false);
+    FIELD(ALT_M_1, 1, float, FieldTypes::GrpFld, false);
+    FIELD(ALT_M_2, 1, float, FieldTypes::GrpFld, false);
+    FIELD(ALT_M_3, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Rvir, 1, float, FieldTypes::GrpFld, false);
+    FIELD(J, 3, float, FieldTypes::GrpFld, false);
+    FIELD(A, 3, float, FieldTypes::GrpFld, false);
+    FIELD(A2, 3, float, FieldTypes::GrpFld, false);
+    FIELD(X_off, 1, float, FieldTypes::GrpFld, false);
+    FIELD(V_off, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Vmax, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Vrms, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Rs, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Vel, 3, float, FieldTypes::GrpFld, false);
+    FIELD(Spin, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Bullock_Spin, 1, float, FieldTypes::GrpFld, false);
+    FIELD(Klypin_Rs, 1, float, FieldTypes::GrpFld, false);
+    FIELD(b_to_a, 1, float, FieldTypes::GrpFld, false);
+    FIELD(c_to_a, 1, float, FieldTypes::GrpFld, false);
+    FIELD(b_to_a2, 1, float, FieldTypes::GrpFld, false);
+    FIELD(c_to_a2, 1, float, FieldTypes::GrpFld, false);
+} // namespace CustomRockstarFields
+
 /*! @brief Some fields contained in the SIMBA simulation data products.
  *
  * These are basically the same as the IllustrisFields with the difference
