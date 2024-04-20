@@ -105,6 +105,38 @@ namespace CustomRockstarFields
     FIELD(b_to_a2, 1, float, FieldTypes::GrpFld, false);
     FIELD(c_to_a2, 1, float, FieldTypes::GrpFld, false);
 } // namespace CustomRockstarFields
+  //
+/*! @brief Fields contained in my Uchuu rockstar catalog
+ */
+namespace UchuuRockstarFields
+{
+    FIELD(Pos, 3, double, FieldTypes::GrpFld, true);
+    FIELD(Mvir, 1, double, FieldTypes::GrpFld, false);
+    FIELD(id, 1, int64_t, FieldTypes::GrpFld, false);
+    FIELD(pid, 1, int64_t, FieldTypes::GrpFld, false);
+    FIELD(M_vir_all, 1, double, FieldTypes::GrpFld, false);
+    FIELD(M200b, 1, double, FieldTypes::GrpFld, false);
+    FIELD(M200c, 1, double, FieldTypes::GrpFld, false);
+    FIELD(M2500c, 1, double, FieldTypes::GrpFld, false);
+    FIELD(M500c, 1, double, FieldTypes::GrpFld, false);
+    FIELD(Rvir, 1, double, FieldTypes::GrpFld, false);
+    // FIELD(J, 3, float, FieldTypes::GrpFld, false);
+    // FIELD(A, 3, float, FieldTypes::GrpFld, false);
+    // FIELD(A2, 3, float, FieldTypes::GrpFld, false);
+    FIELD(X_off, 1, double, FieldTypes::GrpFld, false);
+    FIELD(V_off, 1, double, FieldTypes::GrpFld, false);
+    FIELD(vmax, 1, double, FieldTypes::GrpFld, false);
+    FIELD(vrms, 1, double, FieldTypes::GrpFld, false);
+    FIELD(rs, 1, double, FieldTypes::GrpFld, false);
+    FIELD(Vel, 3, double, FieldTypes::GrpFld, false);
+    FIELD(Spin, 1, double, FieldTypes::GrpFld, false);
+    FIELD(Spin_Bullock, 1, double, FieldTypes::GrpFld, false);
+    FIELD(Rs_Klypin, 1, double, FieldTypes::GrpFld, false);
+    FIELD(b_to_a, 1, double, FieldTypes::GrpFld, false);
+    FIELD(c_to_a, 1, double, FieldTypes::GrpFld, false);
+    FIELD(b_to_a2, 1, double, FieldTypes::GrpFld, false);
+    FIELD(c_to_a2, 1, double, FieldTypes::GrpFld, false);
+} // namespace UchuuRockstarFields
 
 /*! @brief Some fields contained in the SIMBA simulation data products.
  *

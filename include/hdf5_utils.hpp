@@ -26,9 +26,9 @@ namespace hdf5Utils {
  *
  * @return the attribute
  */
-template<typename TH5, typename Trequ>
+template<typename TH5, typename Trequ, typename Tobj=H5::Group>
 static Trequ
-read_scalar_attr (H5::Group &header, const std::string &name)
+read_scalar_attr (Tobj &header, const std::string &name)
 {// {{{
     TH5 out;
     auto attr = header.openAttribute(name);

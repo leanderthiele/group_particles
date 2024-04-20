@@ -82,6 +82,34 @@ namespace select
         }
     };// }}}
 
+    /*! @brief select only groups that have some discrete property equal a certain value
+     *
+     * @tparam Field    the group property that should be checked
+     */
+    template<typename AFields, typename Field>
+    class Equals :
+        virtual public Callback<AFields>,
+        private MultiSelect<AFields, Equals<AFields, Field>>
+    {
+        friend MultiSelect<AFields, Equals<AFields, Field>>;
+        using typename Callback<AFields>::GrpProperties;
+        static_assert(Field::dim == 1);
+        static_assert(Field::type == FieldTypes::GrpFld);
+        static_assert(std::is_integral_v<typename Field::value_type>);
+
+        typename Field::value_type check_val;
+
+        bool this_grp_select (const GrpProperties &grp) const override final
+        {
+            auto x = grp.template get<Field>();
+            return x == check_val;
+        }
+    public :
+        Equals (typename Field::value_type check_val_) :
+            check_val { check_val_ }
+        { }
+    };
+
     /*! @brief select only groups that have some 1-dimensional property fall into an interval.
      *
      * @tparam Field    the group property that should be checked.
